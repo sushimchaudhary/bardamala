@@ -1,14 +1,10 @@
-import { Facebook, Twitter, Youtube, ChevronUp } from "lucide-react";
+import { Facebook, Twitter, Youtube } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Footer() {
   const dateStr = new Date().getFullYear();
 
-  // Scroll to top function
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
+ 
   return (
     <footer className="w-full font-sans border-t border-teal-800">
       {/* Main Footer Section */}
