@@ -193,7 +193,7 @@ export default function Blog() {
   );
 
   return (
-    <div className="bg-gray-50 py-16 px-4 ">
+    <div className="bg-gray-50 lg:py-5 px-4 ">
       <div className="max-w-7xl mx-auto relative">
        
         <button

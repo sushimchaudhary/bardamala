@@ -30,10 +30,10 @@ export default function AloPaloBlog() {
   ];
 
   return (
-<div className="bg-gray-50 p-4 md:p-4 ">
-  <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+<div className="bg-gray-50  p-4 md:p-4 ">
+  <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
     {categories.map((cat, index) => (
-      <div key={index} className="relative flex flex-col w-full mt-12">
+      <div key={index} className="relative flex flex-col w-full mt-7">
         
         <div className="absolute -top-[45px] left-0 bg-[#1e695e] text-white px-5 py-2 text-lg font-bold border-l-[10px] border-[#e44d26] z-20 whitespace-nowrap">
           {cat.title}
