@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
-import { Facebook, Twitter, Youtube, Instagram, Linkedin } from "lucide-react";
+import { Facebook, Twitter,  Instagram,  } from "lucide-react";
 import { Link } from "react-router-dom";
-import { companyService } from "../services/companyServices"; // सही path मिलाउनुहोला
+import api from "../api/axiosInstance";
 
 export default function Footer() {
   const dateStr = new Date().getFullYear();
   const [company, setCompany] = useState<any>(null);
 
   useEffect(() => {
-    const fetchFooterData = async () => {
-      try {
-        const data = await companyService.getDetails();
-        if (data && data.length > 0) {
-          setCompany(data[0]);
-        }
-      } catch (err) {
-        console.error("Footer data load failed", err);
-      }
-    };
+   const fetchFooterData = async () => {
+  try {
+    const res = await api.get("/api/company/company-details/"); 
+    
+    if (res.data && res.data.length > 0) {
+      setCompany(res.data[0]);
+    }
+  } catch (err) {
+    console.error("Footer data load failed", err);
+  }
+};
     fetchFooterData();
   }, []);
 

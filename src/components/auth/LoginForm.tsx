@@ -37,7 +37,6 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   try {
     await loginUser(credentials);
-    // Dashboard ma janu vanda agadi token save hune samaya dinu parne huna sakxa
     setTimeout(() => {
       navigate("/dashboard");
     }, 100); 

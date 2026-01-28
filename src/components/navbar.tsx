@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import NepaliDate from "nepali-date-converter";
-import api from "../api/axiosInstance"; // Axios instance import gareko
+import api from "../api/axiosInstance";
 
 export default function Navbar() {
   const [dateStr, setDateStr] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [logo, setLogo] = useState(""); // Logo state
+  const [logo, setLogo] = useState("");
 
   useEffect(() => {
     const today = new NepaliDate();

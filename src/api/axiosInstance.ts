@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -19,39 +20,37 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    const isPublicRoute = originalRequest.url.includes("company-details");
 
     if (error.response?.status === 401 && !originalRequest._retry) {
-      if (isPublicRoute) return Promise.reject(error);
+      const refreshToken = Cookies.get("refreshToken");
+
+
+      if (!refreshToken) {
+        if (window.location.pathname.startsWith("/dashboard")) {
+          window.location.href = "/login";
+        }
+        return Promise.reject(error);
+      }
 
       originalRequest._retry = true;
 
       try {
-        const refreshToken = Cookies.get("refreshToken");
-        if (!refreshToken) throw new Error("No refresh token");
-
         const res = await axios.post(`${baseURL}/api/auth/refresh/`, {
           refresh: refreshToken,
         });
 
         const newAccessToken = res.data.access;
+        Cookies.set("accessToken", newAccessToken, { expires: 1, path: '/' });
         
-        Cookies.set("accessToken", newAccessToken, { expires: 30, path: '/' });
-
         originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-
         return api(originalRequest);
       } catch (refreshError) {
         Cookies.remove("accessToken", { path: '/' });
         Cookies.remove("refreshToken", { path: '/' });
 
+        // Refresh fail huda pani dashboard ma vaye matra login pathaune
         if (window.location.pathname.startsWith("/dashboard")) {
-          window.dispatchEvent(new Event("unauthorized-access"));
-          setTimeout(() => {
-            if (window.location.pathname !== "/login") {
-              window.location.href = "/login";
-            }
-          }, 1000);
+          window.location.href = "/login";
         }
         return Promise.reject(refreshError);
       }
