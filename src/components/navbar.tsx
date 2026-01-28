@@ -1,58 +1,74 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import NepaliDate from "nepali-date-converter";
+import api from "../api/axiosInstance"; // Axios instance import gareko
 
 export default function Navbar() {
   const [dateStr, setDateStr] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [logo, setLogo] = useState(""); // Logo state
 
   useEffect(() => {
     const today = new NepaliDate();
     setDateStr(today.format("DD MMMM YYYY", "np"));
+
+    const fetchLogo = async () => {
+      try {
+        const res = await api.get("/api/company/company-details/");
+        if (res.data && res.data.length > 0) {
+          setLogo(res.data[0].logo);
+        }
+      } catch (err) {
+        console.error("Logo fetch error:", err);
+      }
+    };
+    fetchLogo();
   }, []);
 
   return (
     <>
       <nav className="w-full bg-white shadow-sm">
-  <div className="max-w-7xl mx-auto px-4 py-3">
-    <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-      
-      <div className="flex items-center gap-3 flex-shrink-0">
-        <img
-          src="/logo.png"
-          alt="Logo"
-          className="h-9 sm:h-12 md:h-14 lg:h-20 w-auto object-contain flex-shrink-0"
-        />
-        <Link to="/" className="flex-shrink-0">
-          <img
-            src="/ads.jpg"
-            alt="Advertisement"
-            className="h-7 md:h-14 lg:h-20 w-auto object-contain flex-shrink-0"
-          />
-        </Link>
-      </div>
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-3 flex-shrink-0">
+              <img
+                src={logo || "/logo.png"} // Logo bhaye load hunchha, natra fallback
+                alt="Logo"
+                className="h-9 sm:h-12 md:h-14 lg:h-20 w-auto object-contain flex-shrink-0"
+              />
+              <Link to="/" className="flex-shrink-0">
+                <img
+                  src="/ads.jpg"
+                  alt="Advertisement"
+                  className="h-7 md:h-14 lg:h-20 w-auto object-contain flex-shrink-0"
+                />
+              </Link>
+            </div>
 
-      <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center w-full md:w-auto gap-2">
-        
-        {/* Buttons */}
-        <div className="flex gap-2">
-          <button className="border border-teal-700 px-3 py-1 md:px-4 md:py-2 rounded text-teal-700 font-bold hover:bg-teal-700 hover:text-white transition-all text-[11px] md:text-xs lg:text-sm">
-            Sign In
-          </button>
-          <button className="bg-teal-700 border border-teal-700 px-3 py-1 md:px-4 md:py-2 rounded text-white font-bold hover:bg-teal-800 transition-all text-[11px] md:text-xs lg:text-sm">
-            Sign Up
-          </button>
+            <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center w-full md:w-auto gap-2">
+              {/* Buttons */}
+              <div className="flex gap-2">
+                <Link to={"/login"}>
+                  <button className="border border-teal-700 px-3 py-1 md:px-4 md:py-2 rounded text-teal-700 font-bold hover:bg-teal-700 hover:text-white transition-all text-[11px] md:text-xs lg:text-sm">
+                    Sign In
+                  </button>
+                </Link>
+
+                <Link to={"/register"}>
+                  <button className="bg-teal-700 border border-teal-700 px-3 py-1 md:px-4 md:py-2 rounded text-white font-bold hover:bg-teal-800 transition-all text-[11px] md:text-xs lg:text-sm">
+                    Sign Up
+                  </button>
+                </Link>
+              </div>
+
+              <div className="text-teal-900 font-bold text-[11px] md:text-sm whitespace-nowrap">
+                मिति: {dateStr}
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div className="text-teal-900 font-bold text-[11px] md:text-sm whitespace-nowrap">
-          मिति: {dateStr}
-        </div>
-      </div>
-
-    </div>
-  </div>
-</nav>
+      </nav>
 
       <div className="sticky top-0 z-50 bg-[#1e695e] text-white py-3 lg:px-2 px-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between text-[15px] font-medium">
@@ -137,10 +153,9 @@ export default function Navbar() {
               />
             </div>
 
-            {/* Search Icon */}
             <button
               className="hover:text-gray-300 transition-colors pr-2"
-              onClick={() => setIsSearchOpen(!isSearchOpen)} // mobile tap
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
