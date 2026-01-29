@@ -10,14 +10,16 @@ import {
   X,
   Loader2,
 } from "lucide-react";
-import { companyService } from "../../services/companyServices";
-import { showError, showSuccess } from "../../utils/toastUtils";
+
+import { companyService } from "../../../services/companyServices";
+import { showError, showSuccess } from "../../../utils/toastUtils";
 
 interface CompanyFormProps {
   isOpen: boolean;
   onClose: () => void;
   data: any;
   refreshData: () => void;
+  existingCount: number;
 }
 
 export default function CompanyForm({
@@ -25,6 +27,7 @@ export default function CompanyForm({
   onClose,
   data,
   refreshData,
+  existingCount,
 }: CompanyFormProps) {
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
@@ -66,6 +69,13 @@ export default function CompanyForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!formData.id && existingCount > 0) {
+      return showError(
+        "Company profile already exists. You can only edit the existing one.",
+      );
+    }
+   
     setLoading(true);
 
     const dataToSend = new FormData();
@@ -91,7 +101,7 @@ export default function CompanyForm({
       refreshData();
       onClose();
     } catch (err: any) {
-      console.error(err.response?.data);
+      console.error("Error response:", err.response?.data);
       showError(err.response?.data?.logo?.[0] || "Failed to save data.");
     } finally {
       setLoading(false);
@@ -119,7 +129,7 @@ export default function CompanyForm({
 
         <form
           onSubmit={handleSubmit}
-          className="flex-1 p-3 space-y-1 overflow-y-auto max-h-[65vh] sm:max-h-none custom-scrollbar"
+          className="flex-1 p-3 space-y-1 overflow-y-auto custom-scrollbar"
         >
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-5">
             <div className="sm:col-span-4 space-y-1.5">
@@ -166,16 +176,17 @@ export default function CompanyForm({
             </div>
           </div>
 
-          {/* Contact & Map */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <InputField
               label="Phone Number"
               value={formData.contact_no}
               maxLength={10}
-              onChange={(v: any) => {
-                const onlyNums = v.replace(/[^0-9]/g, "");
-                setFormData({ ...formData, contact_no: onlyNums });
-              }}
+              onChange={(v: any) =>
+                setFormData({
+                  ...formData,
+                  contact_no: v.replace(/[^0-9]/g, ""),
+                })
+              }
               icon={<Phone size={14} />}
             />
             <InputField
@@ -186,19 +197,15 @@ export default function CompanyForm({
             />
           </div>
 
-          {/* Address */}
-          <div className="grid grid-cols-1">
-            <InputField
-              label="Office Address"
-              value={formData.address}
-              onChange={(v: any) => setFormData({ ...formData, address: v })}
-              icon={<MapPin size={14} />}
-            />
-          </div>
+          <InputField
+            label="Office Address"
+            value={formData.address}
+            onChange={(v: any) => setFormData({ ...formData, address: v })}
+            icon={<MapPin size={14} />}
+          />
 
-          {/* Social Links */}
           <div className="pt-3 border-t border-gray-50">
-            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 block text-gray-400">
+            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 block">
               Social Media Links
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -234,7 +241,6 @@ export default function CompanyForm({
           </div>
         </form>
 
-        {/* Footer */}
         <div className="flex-shrink-0 flex justify-end gap-2 px-5 py-3 border-t border-gray-50 bg-gray-50/50">
           <button
             type="button"
@@ -250,10 +256,7 @@ export default function CompanyForm({
             className="bg-[#1e695e] hover:bg-[#164e46] text-white px-5 py-1.5 rounded-md font-bold text-[11px] uppercase shadow-sm cursor-pointer transition-all flex items-center gap-2"
           >
             {loading ? (
-              <>
-                <Loader2 size={14} className="animate-spin" />
-                
-              </>
+              <Loader2 size={14} className="animate-spin" />
             ) : (
               <>
                 <Save size={14} /> {formData.id ? "Update" : "Save"}

@@ -1,11 +1,11 @@
 import LoginForm from "../../components/auth/LoginForm";
+import Footer from "../../components/footer";
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 ">
-      <div className="w-full max-w-md">
-        <LoginForm />
-      </div>
-    </div>
+    <>
+      <LoginForm />
+      <Footer />
+    </>
   );
 }

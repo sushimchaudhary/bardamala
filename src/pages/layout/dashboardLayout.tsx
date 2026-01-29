@@ -192,15 +192,15 @@ export default function DashboardLayout() {
     { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
     { icon: Building2, label: "Company", href: "/dashboard/company" },
     { icon: Info, label: "About", href: "/dashboard/about-us" },
-    {
-      icon: Briefcase,
-      label: "Services",
-      submenu: [
-        { icon: Settings2, label: "Manage Service", href: "/dashboard/service" },
-        { icon: Sparkles, label: "Speciality", href: "/dashboard/service-speciality" },
-      ],
-    },
-    { icon: FolderKanban, label: "Portfolio", href: "/dashboard/portfolio" },
+    // {
+    //   icon: Briefcase,
+    //   label: "Services",
+    //   submenu: [
+    //     { icon: Settings2, label: "Manage Service", href: "/dashboard/service" },
+    //     { icon: Sparkles, label: "Speciality", href: "/dashboard/service-speciality" },
+    //   ],
+    // },
+    { icon: FolderKanban, label: "Category", href: "/dashboard/category" },
     { icon: Newspaper, label: "Blog", href: "/dashboard/blog" },
     { icon: Star, label: "Review", href: "/dashboard/review" },
     { icon: Mail, label: "Contact", href: "/dashboard/contact" },
@@ -225,6 +225,7 @@ export default function DashboardLayout() {
         } bg-white border-r border-gray-200 transition-all duration-300 flex flex-col z-50 shadow-sm`}
       >
         <div className="p-1 flex flex-col items-center justify-center border-b border-gray-100">
+          <Link to={"/"}>
           <div className="flex items-center justify-center overflow-hidden shrink-0">
             {company?.logo ? (
               <img
@@ -238,6 +239,7 @@ export default function DashboardLayout() {
               </div>
             )}
           </div>
+          </Link>
         </div>
 
         <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto custom-scrollbar">

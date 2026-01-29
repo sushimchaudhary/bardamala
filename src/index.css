@@ -69,3 +69,27 @@ button:focus-visible {
 
 
 
+
+
+
+
+
+/* Table bhitra ko preview styling miluna */
+.quill-content-preview p {
+  margin: 0;
+  display: inline;
+}
+.quill-content-preview strong {
+  font-weight: bold;
+  color: #9ca3af; /* Gray color maintain garna */
+}
+.quill-content-preview em {
+  font-style: italic;
+}
+
+
+/* Styling to ensure HTML content follows line-clamp */
+.blog-description-preview p {
+  display: inline;
+  margin: 0;
+}

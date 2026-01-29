@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import NepaliDate from "nepali-date-converter";
 import api from "../api/axiosInstance";
 
@@ -109,7 +109,7 @@ export default function Navbar() {
           >
             {[
               ["गृह पृष्ठ", "/"],
-              ["हाम्रा बारे", "/about"],
+              ["हाम्रा बारे", "/about-us"],
               ["स्तम्भ", "/columns"],
               ["शिक्षकका पुराना अंक", "/archives"],
               ["शिक्षक-किताब ", "/books"],
@@ -118,14 +118,18 @@ export default function Navbar() {
               ["ग्राहक बन्ने", "/subscribe"],
               ["सम्पर्क", "/contact"],
             ].map(([label, path]) => (
-              <Link
+             <NavLink
                 key={path}
                 to={path}
                 onClick={() => setIsMenuOpen(false)}
-                className="hover:text-gray-300"
+                className={({ isActive }) => 
+                  `relative py-1 transition-colors hover:text-gray-300 ${
+                    isActive ? "text-white font-[12px] after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full after:bg-white" : "text-white/80"
+                  }`
+                }
               >
                 {label}
-              </Link>
+              </NavLink>
             ))}
           </div>
 

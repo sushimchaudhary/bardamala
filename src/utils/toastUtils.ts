@@ -15,3 +15,7 @@ export const showInfo = (message: string): void => {
 export const showWarning = (message: string): void => {
   toast.warning(message);
 };
+
+export const showConfirm = (message: string): boolean => {
+  return window.confirm(message);
+};

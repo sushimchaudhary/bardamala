@@ -20,6 +20,9 @@ import DashboardPage from "../pages/dashboard/page";
 import FrontendLayout from "../pages/layout/frontendLayout";
 import DashboardLayout from "../pages/layout/dashboardLayout";
 import ErrorLayout from "../pages/errors/ErrorLayout";
+import AboutUsPage from "../pages/about-us/page";
+import CategoryManage from "../pages/dashboard/category/page";
+import AboutManage from "../pages/dashboard/about-us/page";
 
 // --- Protected Route Wrapper ---
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -71,9 +74,15 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <DashboardPage /> },
       { path: "company", element: <CompanyPage /> },
-    ],
-  },
+      { path: "about-us", element: <AboutManage /> },
+      {path: "category", element: <CategoryManage/>},
 
+    ],
+  }, 
+
+
+  {path: "/about-us", element: <AboutUsPage/>},
+ 
   { path: "*", element: <ErrorLayout /> },
 ]);
 
