@@ -9,7 +9,6 @@ export default function Footer() {
   const [company, setCompany] = useState<any>(null);
   const [categories, setCategories] = useState<any[]>([]);
 
-  // Subscribe States
   const [subscribeEmail, setSubscribeEmail] = useState("");
   const [subscribeLoading, setSubscribeLoading] = useState(false);
   const [subscribeStatus, setSubscribeStatus] = useState<{
@@ -40,17 +39,12 @@ export default function Footer() {
     fetchFooterData();
   }, []);
 
-  // १. नेभिगेसनका लागि सामान्य क्याटेगोरी
   const navigationCats = categories
     .filter((c) => c.name.trim() !== "रिपोर्ट" && c.name.trim() !== "मनका कुरा")
     .slice(0, 5);
 
-  // २. थप जानकारीका लागि रिपोर्ट र मनका कुरा
-  const specialCats = categories.filter(
-    (c) => c.name.trim() === "रिपोर्ट" || c.name.trim() === "मनका कुरा",
-  );
+  
 
-  // ३. Subscribe Handle Function
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubscribeLoading(true);

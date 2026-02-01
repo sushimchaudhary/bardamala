@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { Loader2, Calendar, User, Search, ArrowRight } from "lucide-react";
 import { contentService } from "../../services/contentServices";

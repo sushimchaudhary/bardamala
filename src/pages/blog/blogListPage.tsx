@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, BookOpen, AlertCircle } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { contentService } from "../../services/contentServices";
 import FrontendLayout from "../layout/frontendLayout";
 

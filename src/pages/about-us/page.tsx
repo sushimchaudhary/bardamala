@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Loader2, MessageSquare, Users } from "lucide-react";
+import { Loader2,  Users } from "lucide-react";
 import { contentService } from "../../services/contentServices";
 import FrontendLayout from "../layout/frontendLayout";
 import DynamicAdsProvider from "../../components/adds/dynamicAdsProvider";
