@@ -1,4 +1,4 @@
-import { Edit2, Trash2, Image as ImageIcon, Loader2 } from "lucide-react";
+import { Edit2, Trash2, Image as ImageIcon, Loader2, Info } from "lucide-react";
 
 interface AboutTableProps {
   data: any[];
@@ -14,99 +14,104 @@ export default function AboutTable({
   loading,
 }: AboutTableProps) {
   return (
-    <div className="bg-white rounded shadow-sm border border-gray-100 overflow-x-auto">
-      <table className="w-full text-left text-sm table-fixed min-w-[700px]">
-        <thead className="bg-gray-100 border-b border-gray-100">
-          <tr>
-            <th className="px-6 py-2 font-bold text-gray-600 uppercase text-[10px] w-16">
-              S.N.
-            </th>
-            <th className="px-6 py-2 font-bold text-gray-600 uppercase text-[10px] w-32">
-              Image
-            </th>
-            <th className="px-6 py-2 font-bold text-gray-600 uppercase text-[10px]">
-              Description
-            </th>
-            <th className="px-6 py-2 font-bold text-gray-600 uppercase text-[10px] w-20 text-right">
-              Actions
-            </th>
-          </tr>
-        </thead>
+    <div className="bg-white rounded shadow-sm border border-gray-200 overflow-hidden">
+  <div className="overflow-x-auto">
+    <table className="w-full text-left border-collapse">
+      {/* Header: अलि सफा र हल्का फन्ट */}
+      <thead className="bg-gray-50/80 border-b border-gray-200">
+        <tr>
+          <th className="px-4 py-2 font-semibold text-gray-700 uppercase text-[11px] tracking-wider w-16">
+            S.N.
+          </th>
+          <th className="px-4 py-2 font-semibold text-gray-700 uppercase text-[11px] tracking-wider w-24">
+            Image
+          </th>
+          <th className="px-4 py-2 font-semibold text-gray-700 uppercase text-[11px] tracking-wider">
+            Description
+          </th>
+          <th className="px-4 py-2 font-semibold text-gray-700 uppercase text-[11px] tracking-wider text-right w-28">
+            Action
+          </th>
+        </tr>
+      </thead>
 
-        <tbody className="divide-y divide-gray-50">
-          {loading ? (
-            <tr>
-              <td colSpan={4} className="px-6 py-12 text-center">
-                <div className="flex flex-col items-center justify-center gap-3">
-                  <Loader2 className="animate-spin text-[#1e695e]" size={30} />
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
-                    Loading data...
-                  </span>
+      <tbody className="divide-y divide-gray-100">
+        {loading ? (
+          <tr>
+            <td colSpan={4} className="py-20 text-center">
+              <div className="flex flex-col items-center justify-center gap-2">
+                <Loader2 className="animate-spin text-[#1e695e]" size={28} />
+                <p className="text-xs font-medium text-gray-500 animate-pulse">Fetching records...</p>
+              </div>
+            </td>
+          </tr>
+        ) : data.length > 0 ? (
+          data.map((item, index) => (
+            <tr key={item.id} className="hover:bg-gray-50/80 transition-all duration-200 group">
+            
+              <td className="px-4 py-2 text-gray-400 font-medium text-xs">
+                {String(index + 1)}
+              </td>
+              
+              <td className="px-4 py-2">
+                <div className="h-12 w-12 rounded-lg bg-gray-100 overflow-hidden border border-gray-200 shadow-sm group-hover:scale-105 transition-transform">
+                  {item.photo ? (
+                    <img
+                      src={item.photo}
+                      alt="Thumbnail"
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full text-gray-300">
+                      <ImageIcon size={18} />
+                    </div>
+                  )}
+                </div>
+              </td>
+
+              <td className="px-4 py-2">
+                <div
+                  className="line-clamp-2 text-gray-600 text-xs leading-relaxed max-w-md group-hover:text-gray-900 transition-colors"
+                  dangerouslySetInnerHTML={{ __html: item.description }}
+                />
+              </td>
+
+              <td className="px-4 py-2 text-end">
+                <div className="flex justify-end items-center gap-1">
+                  <button
+                    onClick={() => onEdit(item)}
+                    className="p-2 text-blue-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition-all active:scale-90"
+                    title="Edit"
+                  >
+                    <Edit2 size={15} />
+                  </button>
+                  <button
+                    onClick={() => onDelete(item.id)}
+                    className="p-2 text-red-500 hover:bg-red-50 hover:text-red-600 rounded-lg transition-all active:scale-90"
+                    title="Delete"
+                  >
+                    <Trash2 size={15} />
+                  </button>
                 </div>
               </td>
             </tr>
-          ) : data.length > 0 ? (
-            data.map((item, index) => (
-              <tr
-                key={item.id}
-                className="hover:bg-gray-50/50 transition-colors"
-              >
-                <td className="px-6 py-2 text-gray-500 text-xs w-16">
-                  {index + 1}
-                </td>
-                <td className="px-6 py-2 w-32">
-                  <div className="h-10 w-10 rounded bg-gray-100 overflow-hidden border border-gray-100">
-                    {item.photo ? (
-                      <img
-                        src={item.photo}
-                        alt="About"
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex items-center justify-center h-full text-gray-300">
-                        <ImageIcon size={16} />
-                      </div>
-                    )}
-                  </div>
-                </td>
-                <td className="px-6 py-2 ">
-                  <div
-                    className="max-h-12 overflow-y-auto pr-2  text-gray-600 text-xs "
-                    dangerouslySetInnerHTML={{ __html: item.description }}
-                  />
-                </td>
-                <td className="px-6 py-2 w-28 text-right">
-                  <div className="flex justify-end gap-1">
-                    <button
-                      onClick={() => onEdit(item)}
-                      className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors cursor-pointer"
-                      title="Edit"
-                    >
-                      <Edit2 size={16} />
-                    </button>
-                    <button
-                      onClick={() => onDelete(item.id)}
-                      className="p-1.5 text-red-500 hover:bg-red-50 rounded-md transition-colors cursor-pointer"
-                      title="Delete"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td
-                colSpan={4}
-                className="px-6 py-10 text-center text-gray-400 text-xs"
-              >
-                No records found.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={4} className="py-16 text-center">
+              <div className="flex flex-col items-center text-gray-400">
+                <div className="p-3 bg-gray-50 rounded-full mb-2">
+                   <Info size={24} />
+                </div>
+                <p className="text-sm font-medium">No records found</p>
+                <p className="text-[10px] uppercase tracking-widest mt-1">Try adding some data</p>
+              </div>
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </div>
+</div>
   );
 }

@@ -11,8 +11,9 @@ interface AboutFormProps {
   onClose: () => void;
   data: any;
   refreshData: () => void;
-  existingCount: number; // यो नयाँ थप्नुहोस्
+  existingCount: number;
 }
+
 export default function AboutForm({
   isOpen,
   onClose,
@@ -27,46 +28,66 @@ export default function AboutForm({
     photo: null as File | string | null,
   });
 
- useEffect(() => {
-  if (data) {
-    setFormData({ 
-      id: data.id, 
-      description: data.description || "", // यो खाली हुनु भएन
-      photo: data.photo 
-    });
-    setPreview(data.photo);
-  }
-}, [data, isOpen]);
-
+  // BlogForm जस्तै useEffect लजिक
+  useEffect(() => {
+    if (isOpen) {
+      if (data?.id) {
+        setFormData({
+          id: data.id,
+          description: data.description || "",
+          photo: data.photo || null, // यहाँ string URL बस्छ
+        });
+        setPreview(data.photo || null);
+      } else {
+        // नयाँ थप्नको लागि Reset गर्ने
+        setFormData({
+          id: null,
+          description: "",
+          photo: null,
+        });
+        setPreview(null);
+      }
+    }
+  }, [isOpen, data]);
 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
-
   if (!formData.description || formData.description === "<p><br></p>") {
     return showError("Description is required");
   }
 
-
   setLoading(true);
   const dataToSend = new FormData();
   dataToSend.append("description", formData.description);
-  
+
+  // यदि फोटो File object हो भने मात्र पठाउने
   if (formData.photo instanceof File) {
     dataToSend.append("photo", formData.photo);
   }
 
   try {
     if (formData.id) {
+      // धेरै ब्याकइन्डमा FormData + PUT ले काम नगर्ने हुनाले POST पठाएर 
+      // _method थप्नुपर्ने हुन सक्छ (यदि तपाईँको ब्याकइन्डले यो सपोर्ट गर्छ भने)
+      // dataToSend.append("_method", "PUT"); 
+      
       await contentService.updateAbout(formData.id, dataToSend);
-      showSuccess("About content updated!");
+      showSuccess("About content updated successfully!");
     } else {
+      if (!(formData.photo instanceof File)) {
+        setLoading(false);
+        return showError("Please upload a feature image.");
+      }
       await contentService.createAbout(dataToSend);
-      showSuccess("About content created!");
+      showSuccess("About content created successfully!");
     }
-    refreshData(); 
+    refreshData();
     onClose();
   } catch (err: any) {
-    showError("Failed to save data.");
+    console.error("Submit Error:", err.response?.data);
+    // एरर डिटेल देखाउनुहोस्
+    const errorMsg = err.response?.data?.message || "Failed to save data.";
+    showError(errorMsg);
   } finally {
     setLoading(false);
   }
@@ -74,44 +95,46 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   if (!isOpen) return null;
 
-  
-
   return (
-    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-[2px] p-4">
+    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-[2px] p-4 font-sans text-gray-800">
       <div className="bg-white rounded shadow-xl w-full max-w-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
-        {/* Header */}
-        <div className="flex-shrink-0 bg-[#1e695e] px-4 py-2 text-white flex justify-between items-center">
+        
+        {/* Header - BlogForm स्टाइलमा */}
+        <div className="bg-[#1e695e] px-4 py-3 text-white flex justify-between items-center shadow-md">
           <h2 className="text-sm font-bold flex items-center gap-2">
-            <Info size={18} /> {formData.id ? "Edit About Us" : "Add About Us"}
+            <Info size={18} /> {formData.id ? "Update About Us" : "Add New About Content"}
           </h2>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-white/10 rounded transition-colors cursor-pointer"
+            className="text-white/80 hover:text-white cursor-pointer transition-colors"
           >
             <X size={20} />
           </button>
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="p-4 space-y-4 overflow-y-auto max-h-[70vh]"
-        >
-          {/* Photo Upload */}
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+        <form onSubmit={handleSubmit} className="p-4 space-y-3 overflow-y-auto max-h-[70vh]">
+          
+          {/* Photo Upload Section - Clean Style */}
+          <div className="space-y-2">
+            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">
               Feature Image
             </label>
-            <div className="relative h-40 w-full border-2 border-dashed border-gray-200 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100/50 transition-all cursor-pointer overflow-hidden">
+            <div className="relative h-40 w-full border-2 border-dashed border-gray-200 rounded bg-gray-50 flex items-center justify-center overflow-hidden hover:border-[#1e695e] transition-all cursor-pointer group">
               {preview ? (
-                <img
-                  src={preview}
-                  className="w-full h-full object-cover"
-                  alt="Preview"
-                />
+                <>
+                  <img
+                    src={preview}
+                    className="w-full h-full object-cover"
+                    alt="Preview"
+                  />
+                  <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
+                    <ImageIcon className="text-white" size={30} />
+                  </div>
+                </>
               ) : (
                 <div className="flex flex-col items-center gap-2 text-gray-400">
-                  <ImageIcon size={30} strokeWidth={1.5} />
-                  <span className="text-xs">Click to upload photo</span>
+                  <ImageIcon size={40} strokeWidth={1} className="opacity-40" />
+                  <span className="text-xs font-medium">Click to upload photo</span>
                 </div>
               )}
               <input
@@ -129,27 +152,26 @@ const handleSubmit = async (e: React.FormEvent) => {
             </div>
           </div>
 
-          {/* Description with ReactQuill */}
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-              Description
+          {/* Description Section */}
+          <div className="space-y-2">
+            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">
+              Organization Description
             </label>
-            <div className="bg-white border border-gray-200 rounded overflow-hidden">
+            <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
               <ReactQuill
                 theme="snow"
                 value={formData.description}
                 onChange={(content) =>
                   setFormData({ ...formData, description: content })
                 }
-                className="text-black h-48 mb-10"
-                placeholder="Write article details..."
+                className="text-black h-56 mb-12"
+                placeholder="Write organization details here..."
                 modules={{
                   toolbar: [
-                    [{ header: [1, 2, false] }],
-                    ["bold", "italic", "underline", "strike", "blockquote"],
+                    [{ header: [1, 2, 3, false] }],
+                    ["bold", "italic", "underline", "strike"],
                     [{ list: "ordered" }, { list: "bullet" }],
-                    ["link", "image", "code-block"],
-                    ["clean"],
+                    ["link", "blockquote", "clean"],
                   ],
                 }}
               />
@@ -157,12 +179,11 @@ const handleSubmit = async (e: React.FormEvent) => {
           </div>
         </form>
 
-        {/* Footer */}
-        <div className="flex justify-end gap-2 px-4 py-3 border-t border-gray-50 bg-gray-50/50">
+        <div className="flex justify-end gap-3 px-6 py-2 border-t border-gray-300 bg-gray-50/80">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-1.5 rounded text-gray-500 text-[11px] font-bold uppercase hover:bg-gray-100 transition-all cursor-pointer"
+            className="px-5 py-1.5 rounded text-red-500 text-[11px] border border-red-500 hover:bg-red-500 hover:text-white font-bold cursor-pointer uppercase transition-all"
           >
             Cancel
           </button>
@@ -170,7 +191,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             type="submit"
             onClick={handleSubmit}
             disabled={loading}
-            className="bg-[#1e695e] hover:bg-[#164e46] text-white px-6 py-1.5 rounded-md font-bold text-[11px] uppercase shadow-sm transition-all flex items-center gap-2 cursor-pointer disabled:bg-gray-400"
+            className="bg-[#1e695e] hover:bg-[#164e46] text-white px-8 py-1.5 rounded shadow-md shadow-[#1e695e]/20 font-bold text-[11px] uppercase flex items-center gap-2 cursor-pointer disabled:bg-gray-400 transition-all active:scale-95"
           >
             {loading ? (
               <Loader2 size={14} className="animate-spin" />

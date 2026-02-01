@@ -20,34 +20,39 @@ export default function CategoryTable({
         className="overflow-x-auto overflow-y-auto max-h-[450px] hide-scroll"
         style={{ msOverflowStyle: "none", scrollbarWidth: "none" }}
       >
-        <table className="w-full text-left text-sm min-w-[600px] border-separate border-spacing-0">
+        <table className="w-full text-left text-sm min-w-[600px] ">
           <thead className="sticky top-0 z-10">
             <tr className="bg-gray-100">
-              <th className="px-4 py-2 font-bold text-gray-600 uppercase text-[10px] w-12 text-center  bg-gray-100">
+              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
                 S.N.
               </th>
-              <th className="px-4 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
+              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
                 Name
               </th>
-              <th className="px-4 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
+              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
                 Slug
               </th>
-              <th className="px-4 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
+              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
                 Status
               </th>
-              <th className="px-4 py-2 font-bold text-gray-600 uppercase text-[10px] text-right  bg-gray-100">
-                Actions
+              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px] text-end  bg-gray-100">
+                Action
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
             {loading ? (
               <tr>
-                <td colSpan={5} className="px-4 py-10 text-center border-b">
-                  <Loader2
-                    className="animate-spin mx-auto text-gray-400"
-                    size={24}
-                  />
+                <td colSpan={5} className="px-2 py-10 text-center ">
+                  <div className="flex flex-col items-center justify-center gap-3">
+                    <Loader2
+                      className="animate-spin text-[#1e695e]"
+                      size={30}
+                    />
+                    <span className="text-[10px] font-bold  tracking-widest text-gray-400">
+                      Loading data...
+                    </span>
+                  </div>
                 </td>
               </tr>
             ) : categories.length > 0 ? (
@@ -56,16 +61,16 @@ export default function CategoryTable({
                   key={cat.id}
                   className="hover:bg-gray-50/50 transition-colors"
                 >
-                  <td className="px-4 py-2 text-gray-500 text-center border-b border-gray-100">
+                  <td className="p-1 text-gray-500 text-center border-b border-gray-100">
                     {index + 1}.
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-800 whitespace-nowrap border-b border-gray-100">
+                  <td className="p-1 font-medium text-gray-800 whitespace-nowrap border-b border-gray-100">
                     {cat.name}
                   </td>
-                  <td className="px-4 py-2 text-gray-500 whitespace-nowrap border-b border-gray-100">
+                  <td className="p-1 text-gray-500 whitespace-nowrap border-b border-gray-100">
                     {cat.slug}
                   </td>
-                  <td className="px-4 py-2 border-b border-gray-100">
+                  <td className="p-1 border-b border-gray-100">
                     {cat.is_active ? (
                       <span className="inline-flex items-center gap-1 text-green-600 text-[11px] font-bold bg-green-50 px-2 py-0.5 rounded-full">
                         <CheckCircle2 size={12} /> ACTIVE
@@ -76,7 +81,7 @@ export default function CategoryTable({
                       </span>
                     )}
                   </td>
-                  <td className="px-4 py-2 text-end border-b border-gray-100">
+                  <td className="p-1 text-end border-b border-gray-100">
                     <div className="flex justify-end ">
                       <button
                         onClick={() => onEdit(cat)}
@@ -98,9 +103,9 @@ export default function CategoryTable({
               <tr>
                 <td
                   colSpan={5}
-                  className="px-4 py-10 text-center text-gray-500 italic border-b"
+                  className="px-6 py-10 text-center text-gray-500 italic  "
                 >
-                  No categories found.
+                  data not found.
                 </td>
               </tr>
             )}

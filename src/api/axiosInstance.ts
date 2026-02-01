@@ -2,10 +2,11 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const baseURL = "https://api.edifynepal.com";
+const baseURL = import.meta.env.VITE_API_URL;
 
 const api = axios.create({
   baseURL: baseURL,
+  withCredentials: true,
 });
 
 api.interceptors.request.use((config) => {
@@ -48,7 +49,6 @@ api.interceptors.response.use(
         Cookies.remove("accessToken", { path: '/' });
         Cookies.remove("refreshToken", { path: '/' });
 
-        // Refresh fail huda pani dashboard ma vaye matra login pathaune
         if (window.location.pathname.startsWith("/dashboard")) {
           window.location.href = "/login";
         }

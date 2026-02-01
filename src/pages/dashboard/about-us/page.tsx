@@ -1,16 +1,22 @@
 import { useState, useEffect } from "react";
 import { Info, Plus } from "lucide-react";
 import { contentService } from "../../../services/contentServices";
-import { showConfirm, showError } from "../../../utils/toastUtils";
+import { showError, showSuccess } from "../../../utils/toastUtils";
 import AboutTable from "../../../components/dashboard/about-us/AboutTable";
 import AboutForm from "../../../components/dashboard/about-us/AboutForm";
+import ConfirmModal from "../../../components/delete/ConfirmModel"; // ConfirmModal थप्नुहोस्
 
 export default function AboutManage() {
   const [aboutData, setAboutData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<any>(null);
-  // 1. Fetch About Data
+
+ 
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
   const fetchAboutData = async () => {
     setLoading(true);
     try {
@@ -28,18 +34,24 @@ export default function AboutManage() {
     fetchAboutData();
   }, []);
 
-  // 2. Handle Delete
-  const handleDelete = async (id: number) => {
-    const confirmed = await showConfirm(
-      "Are you sure you want to delete this information?",
-    ); // English Message
-    if (confirmed) {
-      try {
-        await contentService.deleteAbout(id);
-        fetchAboutData();
-      } catch (err) {
-        showError("Failed to delete the information.");
-      }
+  const handleDeleteClick = (id: number) => {
+    setDeleteId(id);
+    setIsConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (deleteId === null) return;
+    setDeleteLoading(true);
+    try {
+      await contentService.deleteAbout(deleteId);
+      showSuccess("Information deleted successfully!");
+      fetchAboutData();
+      setIsConfirmOpen(false);
+    } catch (err) {
+      showError("Failed to delete the information.");
+    } finally {
+      setDeleteLoading(false);
+      setDeleteId(null);
     }
   };
 
@@ -48,10 +60,8 @@ export default function AboutManage() {
     setIsModalOpen(true);
   };
 
- 
-
   return (
-    <div className="bg-gray-50/50 min-h-screen">
+    <div className="bg-gray-50/50 min-h-[80vh]">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
@@ -67,10 +77,13 @@ export default function AboutManage() {
         <div className="flex gap-2">
           {aboutData.length === 0 && (
             <button
-              onClick={() => setIsModalOpen(true)}
-              className="bg-[#1e695e] text-white px-4 py-2 rounded-md font-bold text-xs flex items-center gap-2"
+              onClick={() => {
+                setSelectedItem(null); // नयाँ बनाउँदा पुरानो डेटा सफा गर्ने
+                setIsModalOpen(true);
+              }}
+              className="bg-[#1e695e] hover:bg-[#164e46] text-white px-2.5  py-1 cursor-pointer rounded text-xs font-bold  flex items-center gap-2 transition-all shadow-sm"
             >
-              <Plus size={16} />Create
+              <Plus size={14} />Create
             </button>
           )}
         </div>
@@ -81,17 +94,31 @@ export default function AboutManage() {
         <AboutTable
           data={aboutData}
           onEdit={handleEdit}
-          onDelete={handleDelete}
+          onDelete={handleDeleteClick} // यहाँ नयाँ फङ्सन राख्नुहोस्
           loading={loading}
         />
       </div>
 
+      {/* About Form Modal */}
       <AboutForm
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedItem(null);
+        }}
         data={selectedItem}
         refreshData={fetchAboutData}
         existingCount={aboutData.length}
+      />
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmModal
+        isOpen={isConfirmOpen}
+        title="Delete Information"
+        message="Are you sure you want to delete this about information? This action cannot be undone."
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setIsConfirmOpen(false)}
+        loading={deleteLoading}
       />
     </div>
   );

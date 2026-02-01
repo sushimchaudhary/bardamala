@@ -1,35 +1,53 @@
-import axios from "axios"; // Direct axios use garne login ko lagi
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
+// import api from "../api/axiosInstance";
 
-const baseURL = "https://api.edifynepal.com";
+
+// export const loginUser = async (credentials: any) => {
+//   try {
+//     const res = await api.post("/api/auth/login/", credentials);
+//     const { access, refresh } = res.data;
+
+//    Cookies.set("accessToken", access, { 
+//         expires: 30, 
+//         path: '/',
+//         secure: true, 
+//         sameSite: 'strict'
+//     });
+
+//     Cookies.set("refreshToken", refresh, { 
+//         expires: 30, 
+//         path: '/',
+//         secure: true,
+//         sameSite: 'strict'
+//     });
+
+//     return res.data;
+//   } catch (error: any) {
+//     const errorMsg = error.response?.data?.detail || "Invalid username or password";
+//     throw new Error(errorMsg);
+//   }
+// };
+
+import Cookies from "js-cookie";
+import api from "../api/axiosInstance";
 
 export const loginUser = async (credentials: any) => {
   try {
-    // Interceptor navayeko direct axios call
-    const res = await axios.post(`${baseURL}/api/auth/login/`, credentials);
-    const { access, refresh } = res.data;
+    const res = await api.post("/api/auth/login/", credentials);
+    const { access, refresh, is_staff, is_superuser, first_name } = res.data;
 
-    // Cookie set garda 'path' thapne
-    // Access Token: Backend ko expiry sanga match gara (e.g., 1 day)
-    Cookies.set("accessToken", access, { 
-        expires: 30, 
-        path: '/',
-        secure: true, // HTTPS ma xau vane
-        sameSite: 'strict'
-    });
+    // टोकनहरू
+    Cookies.set("accessToken", access, { expires: 30 });
+    Cookies.set("refreshToken", refresh, { expires: 30 });
 
-    // Refresh Token: Yeslai 30 days rakha
-    Cookies.set("refreshToken", refresh, { 
-        expires: 30, 
-        path: '/',
-        secure: true,
-        sameSite: 'strict'
-    });
+    // रोलहरू (Dashboard मेनु फिल्टर गर्नको लागि)
+    Cookies.set("is_staff", String(is_staff), { expires: 30 });
+    Cookies.set("is_superuser", String(is_superuser), { expires: 30 });
+    Cookies.set("userName", first_name || "Admin", { expires: 30 });
 
+    console.log("Login Success! Roles:", { is_staff, is_superuser });
     return res.data;
   } catch (error: any) {
-    // Exact error message pathaune
-    const errorMsg = error.response?.data?.detail || "Invalid username or password";
-    throw new Error(errorMsg);
+    throw new Error(error.response?.data?.detail || "Login failed");
   }
 };

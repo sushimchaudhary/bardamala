@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Plus, Building2 } from "lucide-react";
 import { companyService } from "../../../services/companyServices";
-import { showConfirm, showError } from "../../../utils/toastUtils";
+import { showError, showSuccess } from "../../../utils/toastUtils";
 import CompanyTable from "../../../components/dashboard/company/companyTable";
 import CompanyForm from "../../../components/dashboard/company/companyForm";
+import ConfirmModal from "../../../components/delete/ConfirmModel"; // Modal थप्नुहोस्
 
 export default function CompanyPage() {
   const [companies, setCompanies] = useState<any[]>([]);
@@ -11,11 +12,14 @@ export default function CompanyPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState<any>(null);
 
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
   const fetchCompanies = async () => {
     setLoading(true);
     try {
       const response = await companyService.getDetails();
-     
       const data = response?.data?.data || response?.data || response;
       setCompanies(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -29,18 +33,24 @@ export default function CompanyPage() {
     fetchCompanies();
   }, []);
 
-  // २. डिलिट गर्ने फङ्सन
-  const handleDelete = async (id: number) => {
-    const confirmed = await showConfirm(
-      "Are you sure you want to delete this company profile?"
-    );
-    if (confirmed) {
-      try {
-        await companyService.deleteDetails(id);
-        fetchCompanies();
-      } catch (err) {
-        showError("Failed to delete company.");
-      }
+  const handleDeleteClick = (id: number) => {
+    setDeleteId(id);
+    setIsConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (deleteId === null) return;
+    setDeleteLoading(true);
+    try {
+      await companyService.deleteDetails(deleteId);
+      showSuccess("Company profile deleted successfully!");
+      fetchCompanies();
+      setIsConfirmOpen(false);
+    } catch (err) {
+      showError("Failed to delete company.");
+    } finally {
+      setDeleteLoading(false);
+      setDeleteId(null);
     }
   };
 
@@ -49,7 +59,6 @@ export default function CompanyPage() {
     setIsModalOpen(true);
   };
 
- 
   const handleAddNew = () => {
     setSelectedCompany(null);
     setIsModalOpen(true);
@@ -73,9 +82,9 @@ export default function CompanyPage() {
           {companies.length === 0 && (
             <button
               onClick={handleAddNew}
-              className="bg-[#1e695e] hover:bg-[#164e46] text-white px-4 py-2 rounded-md text-xs font-bold uppercase flex items-center gap-2 transition-all shadow-sm"
+              className="bg-[#1e695e] hover:bg-[#164e46] text-white px-2.5  py-1 cursor-pointer rounded text-xs font-bold  flex items-center gap-2 transition-all shadow-sm"
             >
-              <Plus size={16} /> Create
+              <Plus size={14} /> Create
             </button>
           )}
         </div>
@@ -86,7 +95,7 @@ export default function CompanyPage() {
         <CompanyTable
           companies={companies}
           onEdit={handleEdit}
-          onDelete={handleDelete}
+          onDelete={handleDeleteClick} // यहाँ नयाँ फङ्सन
           loading={loading} 
         />
       </div>
@@ -94,10 +103,23 @@ export default function CompanyPage() {
       {/* Form Modal */}
       <CompanyForm
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedCompany(null);
+        }}
         data={selectedCompany}
         refreshData={fetchCompanies}
         existingCount={companies.length} 
+      />
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmModal
+        isOpen={isConfirmOpen}
+        title="Delete Company Profile"
+        message="Are you sure you want to delete this company profile? This will remove all contact details and social links."
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setIsConfirmOpen(false)}
+        loading={deleteLoading}
       />
     </div>
   );

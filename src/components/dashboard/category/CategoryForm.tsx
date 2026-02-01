@@ -47,7 +47,7 @@ export default function CategoryForm({
 
     const generatedSlug = name
       .toLowerCase()
-      .replace(/[^a-z0-9\u0900-\u097F]+/g, "-") // नेपाली Unicode range थपिएको छ
+      .replace(/[^a-z0-9\u0900-\u097F]+/g, "-") 
       .replace(/(^-|-$)/g, "");
 
     setFormData({ ...formData, name, slug: generatedSlug });
@@ -89,21 +89,21 @@ export default function CategoryForm({
         <div className="bg-[#1e695e] px-4 py-2  flex justify-between items-center">
           <h2 className="text-sm font-bold text-white flex items-center gap-2">
             <Tag size={18} className="text-white" />
-            {data ? "Edit Category" : "Add New Category"}
+            {data ? "Edit Category" : "Add Category"}
           </h2>
           <button
             onClick={onClose}
-            className="text-red-500 hover:text-red-600"
+            className="text-red-500 hover:text-red-600 cursor-pointer"
           >
             <X size={20} />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+        <form onSubmit={handleSubmit} className="p-3 space-y-3">
           {/* Category Name */}
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+            <label className="block text-xs font-bold text-gray-400 uppercase mb-1">
               Category Name
             </label>
             <div className="relative">
@@ -112,7 +112,7 @@ export default function CategoryForm({
                 required
                 value={formData.name}
                 onChange={handleNameChange}
-                className="w-full pl-10 pr-4 py-1.5 border border-gray-200 rounded focus:ring-2 focus:ring-[#1e695e]/20 focus:border-[#1e695e] outline-none text-sm transition-all"
+                className="w-full pl-10 pr-4 py-1.5 shadow-sm border border-gray-200 rounded focus:ring-[#1e695e]/20 focus:border-[#1e695e] outline-none text-sm transition-all"
                 placeholder="e.g. Politics"
               />
               <Tag
@@ -123,7 +123,7 @@ export default function CategoryForm({
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+            <label className="block text-xs font-bold text-gray-400 uppercase mb-1">
               Slug
             </label>
             <div className="relative">
@@ -137,7 +137,7 @@ export default function CategoryForm({
                     .replace(/[^a-z0-9-]/g, "");
                   setFormData({ ...formData, slug: val });
                 }}
-                className="w-full pl-10 pr-4 py-1.5 border border-gray-200 rounded focus:ring-2 focus:ring-[#1e695e]/20 focus:border-[#1e695e] outline-none text-sm transition-all"
+                className="w-full pl-10 pr-4 py-1.5 shadow-sm border border-gray-200 rounded focus:ring-[#1e695e]/20 focus:border-[#1e695e] outline-none text-sm transition-all"
                 placeholder="e.g. politics-news"
               />
               <LinkIcon
@@ -148,7 +148,7 @@ export default function CategoryForm({
           </div>
 
           {/* Active Status */}
-          <div className="flex items-center justify-between p-1.5 border border-gray-100 rounded-lg bg-gray-50/50">
+          <div className="flex items-center justify-between p-1.5 border border-gray-100 rounded shadow-sm bg-gray-50/50">
             <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
               <ToggleLeft size={18} className="text-[#1e695e]" />
               Active Status

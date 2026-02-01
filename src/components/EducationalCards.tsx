@@ -1,96 +1,214 @@
+// import { useEffect, useState } from "react";
+// import { Link } from "react-router-dom";
+// import { contentService } from "../services/contentServices";
+// import { Loader2, ChevronRight } from "lucide-react";
+
+// export default function ShikshakLayout() {
+//   const [posts, setPosts] = useState<any[]>([]);
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     const fetchPosts = async () => {
+//       try {
+//         const res = await contentService.getPosts();
+//         const allPosts = Array.isArray(res) ? res : res?.data?.data || [];
+
+//         // पुराना ३ वटा पोस्ट
+//         const oldestThree = [...allPosts].reverse().slice(0, 3);
+//         setPosts(oldestThree);
+//       } catch (err) {
+//         console.error("Error fetching posts:", err);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchPosts();
+//   }, []);
+
+//   if (loading) {
+//     return (
+//       <div className="flex justify-center py-20">
+//         <Loader2 className="animate-spin text-[#1e695e]" size={32} />
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="bg-gray-50 pb-15">
+//       <div className="max-w-7xl mx-auto px-3 md:px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-12 lg:gap-7">
+//         {posts.map((item) => (
+//           <div
+//             key={item.id}
+//             className="bg-white mt-12 shadow-md border border-gray-200 border-t-[4px] border-t-[#e44d26] relative flex flex-col h-full"
+//           >
+//             {/* Category */}
+//             <div className="absolute -top-[42px] left-0 bg-[#1e695e] text-white px-4 py-2 text-xs md:text-sm font-bold border-l-[8px] border-[#e44d26] z-10">
+//               {item.category_name}
+//             </div>
+
+//             {/* Image */}
+//             <div className="relative w-full h-48 sm:h-52 md:h-56 overflow-hidden bg-gray-100">
+//               <Link to={`/blog/${item.slug}`}>
+//                 <img
+//                   src={item.photo || "/placeholder.jpg"}
+//                   alt={item.title}
+//                   className="w-full h-full object-cover"
+//                 />
+//               </Link>
+//             </div>
+
+//             {/* Content */}
+//             <div className="px-3 py-3 flex flex-col flex-1">
+//               {/* Title */}
+//               <Link to={`/blog/${item.slug}`}>
+//                 <h3 className="text-[15px] sm:text-[16px] md:text-[17px] font-bold text-gray-900 mb-2 leading-tight hover:text-[#e44d26] transition-colors line-clamp-2">
+//                   {item.title}
+//                 </h3>
+//               </Link>
+
+//               {/* Description (NO GAP BELOW) */}
+//               <div
+//                 className="text-[13px] sm:text-[14px] text-gray-600 leading-relaxed italic overflow-hidden line-clamp-4"
+//                 dangerouslySetInnerHTML={{
+//                   __html: item.description,
+//                 }}
+//               />
+
+//               {/* Read More */}
+//               <div className="mt-auto border-t border-gray-100 pt-2">
+//                 <Link
+//                   to={`/blog/${item.slug}`}
+//                   className="flex items-center gap-1 text-[#e44d26] font-bold text-[11px] sm:text-xs hover:gap-2 transition-all uppercase"
+//                 >
+//                   पुरा पढ्नुहोस् <ChevronRight size={14} />
+//                 </Link>
+//               </div>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// }
+
+
+
+
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { contentService } from "../services/contentServices";
+import { Loader2, ChevronRight } from "lucide-react";
 
 export default function ShikshakLayout() {
-  const educationalData = [
-    {
-      id: 1,
-      category: "शैक्षिक व्यक्तित्व",
-      image: "/e1.jpg",
-      title: "स्कूललाई उत्कृष्ट बनाउने खुबी",
-      link: "/educational-personality/sher-bahadur",
-      description:
-        "विद्यार्थीको अनुशासन, व्यवहार र लगनशीलताप्रति झम्सी चनाखो रहन्छन्। कुनै विद्यार्थीले पढाइमा ध्यान नदिएमा उनी अभिभावकलाई बोलाएर सम्झाउँछन्।",
-      isQuote: true,
-    },
-    {
-      id: 2,
-      category: "शैक्षिक डाटा",
-      image: "/e2.jpg",
-      title: "सामुदायिक विद्यालय: पुस्तकालयका नाउँमा बजेट लूट !",
-      link: "/educational-data/budget-loot",
-      description:
-        "अधिकांश विद्यालयले चाहिँ पुस्तक बिक्रेतासँगको मिलेमतोमा कामै नलाग्ने केही 'देखाउने' किताब किनेर बाँकी पैसा हिनामिना गरेका छन्।",
-      isQuote: false,
-    },
-    {
-      id: 3,
-      category: "फुर्सद",
-      image: null,
-      title: "सामान्य ज्ञान",
-      link: "/quiz/general-knowledge",
-      description: "हाम्रो प्रश्नोत्तरी खेल्नुहोस्।",
-      isQuiz: true,
-    },
-  ];
+  const [posts, setPosts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await contentService.getPosts();
+        let allPosts = Array.isArray(res) ? res : res?.data?.data || [];
+
+       
+        const filteredPosts = allPosts.filter(
+          (post: any) => post.category_name !== "मनका कुरा" && post.category_name !== "रिपोर्ट"
+        );
+
+       
+        const categoryMap: { [key: string]: any[] } = {};
+        filteredPosts.forEach((post: any) => {
+          const catName = post.category_name;
+          if (!categoryMap[catName]) {
+            categoryMap[catName] = [];
+          }
+          categoryMap[catName].push(post);
+        });
+
+        const uniqueCategoryOldPosts = Object.values(categoryMap).map((categoryPosts) => {
+          const sortedByOldest = categoryPosts.sort((a, b) => 
+            new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+          );
+          return sortedByOldest[0];
+        });
+
+        setPosts(uniqueCategoryOldPosts.slice(0, 3));
+      } catch (err) {
+        console.error("Error fetching posts:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-20">
+        <Loader2 className="animate-spin text-[#1e695e]" size={32} />
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-gray-50">
-      <div className="max-w-7xl mx-auto p-3 md:p-4 grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-7 md:gap-3">
-        {educationalData.map((item) => (
+    <div className="bg-gray-50 pb-15">
+      <div className="max-w-7xl mx-auto px-3 md:px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-7">
+        {posts.map((item) => (
           <div
             key={item.id}
-            className="bg-white mt-10 shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-gray-200 border-t-[4px] border-t-[#e44d26] relative flex flex-col"
+            className="bg-white mt-12 shadow-md border border-gray-200 border-t-[4px] border-t-[#e44d26] relative flex flex-col h-full"
           >
-            <div className="absolute -top-[45px] left-0 bg-[#1e695e] text-white px-3 py-2 text-md font-bold border-l-10 border-[#e44d26]">
-              {item.category}
+            {/* Category Label */}
+            <div className="absolute -top-[42px] left-0 bg-[#1e695e] text-white px-4 py-2 text-xs md:text-sm font-bold border-l-[8px] border-[#e44d26] z-10">
+              {item.category_name}
             </div>
 
-            <div className="p-2 pt-3  h-auto flex flex-col">
-              {!item.isQuiz ? (
-                <>
-                  <div className="flex mb-4">
-                    {item.image && (
-                      <Link to={item.link} className="w-full">
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className={`object-cover ${item.isQuote ? "w-auto h-auto" : "w-full h-auto"} hover:opacity-90 transition-opacity`}
-                        />
-                      </Link>
-                    )}
-                  </div>
+            <div className="relative w-full h-48 sm:h-52 md:h-56 overflow-hidden bg-gray-100">
+              <Link to={`/blog/${item.slug}`}>
+                <img
+                  src={item.photo || "/placeholder.jpg"}
+                  alt={item.title}
+                  className="w-full h-full object-cover"/>
+              </Link>
+            </div>
 
-                  {/* Title with dynamic link */}
-                  <Link to={item.link}>
-                    <h3 className="text-lg font-bold text-black mb-3 leading-tight hover:text-[#1e695e] transition-colors">
-                      {item.title}
-                    </h3>
-                  </Link>
+            {/* Content Section */}
+            <div className="px-4 py-4 flex flex-col flex-1">
+              <Link to={`/blog/${item.slug}`}>
+                <h3 className="text-[16px] font-bold text-gray-900 mb-2 leading-tight hover:text-[#e44d26] transition-colors line-clamp-2">
+                  {item.title}
+                </h3>
+              </Link>
 
-                  <p className="text-[14px] text-gray-800 leading-normal">
-                    {item.description}
-                  </p>
-                </>
-              ) : (
-                <div className="p-2 pt-2">
-                  <Link to={item.link}>
-                    <h3 className="text-2xl font-bold text-black mb-10 hover:text-[#1e695e] transition-colors">
-                      {item.title}
-                    </h3>
-                  </Link>
+              {/* Description - Line clamp for uniform cards */}
+              <div
+                className="text-[13px] text-gray-600 leading-relaxed italic mb-4 line-clamp-3 quill-content"
+                dangerouslySetInnerHTML={{ __html: item.description }}
+              />
 
-                  {/* Quiz Button Link */}
-                  <Link to={item.link}>
-                    <div className="bg-[#e44d26] text-white text-center py-2 px-4 cursor-pointer hover:bg-[#c93a1d] transition-colors font-medium text-lg">
-                      {item.description}
-                    </div>
-                  </Link>
-                </div>
-              )}
+              {/* Read More Button at Bottom */}
+              <div className="mt-auto border-t border-gray-100 pt-3">
+                <Link
+                  to={`/blog/${item.slug}`}
+                  className="flex items-center gap-1 text-[#e44d26] font-bold text-xs hover:gap-2 transition-all uppercase tracking-wider"
+                >
+                  पुरा पढ्नुहोस् <ChevronRight size={14} />
+                </Link>
+              </div>
             </div>
           </div>
         ))}
       </div>
+
+      <style>{`
+        .quill-content * {
+          display: inline !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          font-size: inherit !important;
+        }
+      `}</style>
     </div>
   );
 }

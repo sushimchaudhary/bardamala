@@ -33,26 +33,26 @@ export default function CompanyTable({
         className="overflow-x-auto overflow-y-auto max-h-[500px] hide-scroll"
         style={{ msOverflowStyle: "none", scrollbarWidth: "none" }}
       >
-        <table className="w-full text-left text-sm min-w-[900px] border-separate border-spacing-0">
+        <table className="w-full text-left text-sm min-w-[600px] border-separate border-spacing-0">
           <thead className="sticky top-0 z-10">
             <tr className="bg-gray-100">
-              <th className="px-6 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
+              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
                 Logo & Name
               </th>
-              <th className="px-6 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
+              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
                 Contact Info
               </th>
-              <th className="px-6 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
-                Office Address
+              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
+                Office Addres
               </th>
-              <th className="px-6 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100 text-center">
+              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100 ">
                 Map
               </th>
-              <th className="px-6 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
-                Socials
+              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
+                Social
               </th>
-              <th className="px-6 py-2 font-bold text-gray-600 uppercase text-[10px] text-right  bg-gray-100">
-                Actions
+              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px] text-end  bg-gray-100">
+                Action
               </th>
             </tr>
           </thead>
@@ -60,17 +60,19 @@ export default function CompanyTable({
           <tbody className="divide-y divide-gray-50">
             {loading ? (
               <tr>
-                <td colSpan={6} className="px-6 py-10 text-center ">
-                  <div className="flex flex-col items-center gap-2 text-gray-400">
-                    <Loader2 className="animate-spin" size={24} />
-                    <span>Loading data...</span>
-                  </div>
+                <td colSpan={6} className="px-2 py-10 text-center ">
+                  <div className="flex flex-col items-center justify-center gap-3">
+                  <Loader2 className="animate-spin text-[#1e695e]" size={30} />
+                  <span className="text-[10px] font-bold  tracking-widest text-gray-400">
+                    Loading data...
+                  </span>
+                </div>
                 </td>
               </tr>
             ) : companies && companies.length > 0 ? (
               companies.map((company: any) => (
                 <tr key={company.id} className="hover:bg-gray-50/50 transition-colors">
-                  <td className="px-4 py-2 ">
+                  <td className="p-1 ">
                     <div className="flex items-center gap-3">
                       <img
                         src={company.logo || "https://via.placeholder.com/40"}
@@ -80,7 +82,7 @@ export default function CompanyTable({
                       <span className="font-bold text-gray-800 whitespace-nowrap">{company.name}</span>
                     </div>
                   </td>
-                  <td className="px-4 py-2 ">
+                  <td className="p-1 ">
                     <div className="flex flex-col gap-1 text-[11px] text-gray-500 whitespace-nowrap">
                       <span className="flex items-center gap-1 font-medium">
                         <Mail size={12} className="text-[#1e695e]" /> {company.email}
@@ -90,18 +92,18 @@ export default function CompanyTable({
                       </span>
                     </div>
                   </td>
-                  <td className="px-4 py-2 max-w-[200px] ">
+                  <td className="p-1 max-w-[200px] ">
                     <p className="text-[11px] text-gray-500 line-clamp-2 leading-relaxed">
                       {company.address || "No address set"}
                     </p>
                   </td>
-                  <td className="px-4 py-2 text-center ">
+                  <td className="p-1 text-center ">
                     {company.google_map ? (
                       <a
                         href={company.google_map}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex p-2 bg-teal-50 text-[#1e695e] rounded-full hover:bg-teal-100 transition-colors"
+                        className="inline-flex p-1 bg-teal-50 text-[#1e695e] rounded-full hover:bg-teal-100 transition-colors"
                       >
                         <MapPin size={16} />
                       </a>
@@ -109,7 +111,7 @@ export default function CompanyTable({
                       <span className="text-gray-300">-</span>
                     )}
                   </td>
-                  <td className="px-4 py-2 ">
+                  <td className="p-1 ">
                     <div className="flex gap-2.5 text-gray-400">
                       {company.fb_link && (
                         <a href={company.fb_link} target="_blank" className="hover:text-blue-600 transition-colors">
@@ -136,19 +138,19 @@ export default function CompanyTable({
                       )}
                     </div>
                   </td>
-                  <td className="px-4 py-2 text-end ">
-                    <div className="flex justify-end gap-1">
+                  <td className="p-1 text-end ">
+                    <div className="flex justify-end">
                       <button
                         onClick={() => onEdit(company)}
                         className="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-all"
                       >
-                        <Edit2 size={15} />
+                        <Edit2 size={14} />
                       </button>
                       <button
                         onClick={() => onDelete(company.id)}
                         className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-all"
                       >
-                        <Trash2 size={15} />
+                        <Trash2 size={14} />
                       </button>
                     </div>
                   </td>
@@ -156,8 +158,8 @@ export default function CompanyTable({
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="px-6 py-10 text-center text-gray-500 italic ">
-                  No company data found.
+                <td colSpan={6} className="px-2 py-10 text-center text-gray-500 italic ">
+                   data not found.
                 </td>
               </tr>
             )}

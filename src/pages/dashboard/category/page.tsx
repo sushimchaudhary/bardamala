@@ -1,16 +1,19 @@
 import { useState, useEffect } from "react";
 import { Plus, Tag } from "lucide-react";
 import { categoryService } from "../../../services/categoryServices";
-import { showConfirm, showError } from "../../../utils/toastUtils";
+import {  showError, showSuccess } from "../../../utils/toastUtils";
 import CategoryTable from "../../../components/dashboard/category/CategoryTable";
 import CategoryForm from "../../../components/dashboard/category/CategoryForm"; // फर्म इम्पोर्ट गरियो
+import ConfirmModal from "../../../components/delete/ConfirmModel";
 
 export default function CategoryManage() {
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
-
+const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   
   const fetchCategories = async () => {
     setLoading(true);
@@ -38,17 +41,25 @@ export default function CategoryManage() {
     fetchCategories();
   }, []);
 
-  const handleDelete = async (id: number) => {
-    const confirmed = await showConfirm(
-      "Are you sure you want to delete this category?",
-    );
-    if (confirmed) {
-      try {
-        await categoryService.deleteDetails(id);
-        fetchCategories(); 
-      } catch (err) {
-        showError("Failed to delete category.");
-      }
+  const handleDeleteClick = (id: number) => {
+    setDeleteId(id);
+    setIsConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (deleteId === null) return;
+    
+    setDeleteLoading(true);
+    try {
+      await categoryService.deleteDetails(deleteId);
+      showSuccess("Category deleted successfully!"); 
+      fetchCategories();
+      setIsConfirmOpen(false);
+    } catch (err) {
+      showError("Failed to delete category.");
+    } finally {
+      setDeleteLoading(false);
+      setDeleteId(null);
     }
   };
 
@@ -63,7 +74,7 @@ export default function CategoryManage() {
   };
 
   return (
-     <div className="bg-gray-50/50 min-h-screen">
+     <div className="bg-gray-50/50 min-h-[80vh]">
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
@@ -78,9 +89,9 @@ export default function CategoryManage() {
 
         <button
           onClick={handleAddNew}
-          className="bg-[#1e695e] hover:bg-[#164e46] text-white px-4 py-2 rounded-md text-xs font-bold uppercase flex items-center gap-2 transition-all shadow-sm"
+              className="bg-[#1e695e] hover:bg-[#164e46] text-white px-2.5  py-1 cursor-pointer rounded text-xs font-bold  flex items-center gap-2 transition-all shadow-sm"
         >
-          <Plus size={16} /> Create
+          <Plus size={14} /> Create
         </button>
       </div>
 
@@ -89,10 +100,18 @@ export default function CategoryManage() {
         <CategoryTable
           categories={categories}
           onEdit={handleEdit}
-          onDelete={handleDelete}
+          onDelete={handleDeleteClick}
           loading={loading}
         />
       </div>
+
+      <ConfirmModal
+        isOpen={isConfirmOpen}
+        message="के तपाईं यो क्याटगोरी मेटाउन निश्चित हुनुहुन्छ? यो प्रक्रिया फिर्ता गर्न सकिने छैन।"
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setIsConfirmOpen(false)}
+        loading={deleteLoading}
+      />
 
       <CategoryForm
         isOpen={isModalOpen}
