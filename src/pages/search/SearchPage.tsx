@@ -9,7 +9,6 @@ export default function SearchPage() {
   const [loading, setLoading] = useState(true);
   const location = useLocation();
 
-  // ब्राउजरको URL बाट 'q' प्यारामिटर तान्ने
   const query = new URLSearchParams(location.search).get("q") || "";
 
   useEffect(() => {
@@ -19,7 +18,6 @@ export default function SearchPage() {
         const res = await contentService.getPosts();
         const allPosts = Array.isArray(res) ? res : res?.data?.data || [];
 
-        // टाइटिल र डिस्क्रिप्सन दुवैमा सर्च गर्ने logic
         const filtered = allPosts.filter((post: any) =>
           post.title.toLowerCase().includes(query.toLowerCase()) ||
           (post.description && post.description.toLowerCase().includes(query.toLowerCase()))

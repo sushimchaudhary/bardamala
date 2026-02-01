@@ -225,7 +225,6 @@ export default function Navbar() {
               </button>
             </form>
 
-            {/* लाइव सर्च नतिजा लिष्ट - SAME UI STYLE */}
             {filteredResults.length > 0 && (
               <div className="absolute top-full right-0 mt-3 w-64 md:w-80 bg-white shadow-2xl rounded overflow-hidden z-[60] border border-gray-200">
                 <div className="py-2">
