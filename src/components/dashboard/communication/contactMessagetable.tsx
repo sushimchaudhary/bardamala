@@ -23,14 +23,14 @@ export default function ContactMessageTable({
       
       <div className="overflow-auto scrollbar-hide flex-grow relative">
         <table className="w-full text-left text-sm min-w-[900px] border-separate border-spacing-0">
-          <thead className="sticky top-0 z-10">
-            <tr className="bg-gray-100">
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100 border-b border-gray-200 w-16">S.N.</th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100 border-b border-gray-200">Full Name</th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100 border-b border-gray-200">Email</th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100 border-b border-gray-200 w-1/3">Message (Click to read)</th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100 border-b border-gray-200 w-32">Date</th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] text-end bg-gray-100 border-b border-gray-200 w-24">Action</th>
+          <thead className="bg-[#213a59]/90 text-white sticky top-0 z-10">
+            <tr className="">
+              <th className="p-2 font-bold  uppercase text-[10px]  border-b border-gray-200 w-16">S.N.</th>
+              <th className="p-2 font-bold  uppercase text-[10px]  border-b border-gray-200">Full Name</th>
+              <th className="p-2 font-bold  uppercase text-[10px]  border-b border-gray-200">Email</th>
+              <th className="p-2 font-bold  uppercase text-[10px]  border-b border-gray-200 w-1/3">Message (Click to read)</th>
+              <th className="p-2 font-bold  uppercase text-[10px]  border-b border-gray-200 w-32">Date</th>
+              <th className="p-2 font-bold  uppercase text-[10px] text-end  border-b border-gray-200 w-24">Action</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
@@ -45,7 +45,7 @@ export default function ContactMessageTable({
               </tr>
             ) : messages.length > 0 ? (
               [...messages].reverse().map((msg, index) => (
-                <tr key={msg.id} className="hover:bg-gray-50/80 transition-colors text-xs text-gray-600">
+                <tr key={msg.id} className="hover:bg-gray-50/80 transition-colors text-xs ">
                   <td className="p-2 text-gray-500 border-b border-gray-50">{index + 1}.</td>
                   <td className="p-2 font-bold text-[#213a59] whitespace-nowrap border-b border-gray-50">
                     <div className="flex items-center gap-2">
@@ -60,7 +60,7 @@ export default function ContactMessageTable({
                     </div>
                   </td>
                   <td 
-                    className="p-2 text-gray-600 border-b border-gray-50 cursor-pointer group"
+                    className="p-2  border-b border-gray-50 cursor-pointer group"
                     onClick={() => setSelectedMessage(msg)}
                   >
                     <p className="line-clamp-1 text-[11px] leading-relaxed italic group-hover:text-[#33b9d2] transition-colors">
@@ -73,7 +73,7 @@ export default function ContactMessageTable({
                       {msg.created_at ? new Date(msg.created_at).toLocaleDateString() : 'N/A'}
                     </div>
                   </td>
-                  <td className="p-2 text-end border-b border-gray-50">
+                  <td className="p-1 text-end border-b border-gray-50">
                     <button 
                       onClick={() => onDelete(msg.id)} 
                         className="px-1 text-red-500 hover:bg-red-50 rounded-md transition-colors"
@@ -147,13 +147,13 @@ export default function ContactMessageTable({
   //     >
   //       <table className="w-full text-left text-sm min-w-[800px]">
   //         <thead className="sticky top-0 z-10">
-  //           <tr className="bg-gray-100">
-  //             <th className="px-3 py-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100">S.N.</th>
-  //             <th className="px-3 py-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100">Full Name</th>
-  //             <th className="px-3 py-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100">Email</th>
-  //             <th className="px-3 py-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100 w-1/3">Message (Click to read)</th>
-  //             <th className="px-3 py-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100">Date</th>
-  //             <th className="px-3 py-2 font-bold text-gray-600 uppercase text-[10px] text-end bg-gray-100">Action</th>
+  //           <tr className="">
+  //             <th className="px-3 py-2 font-bold  uppercase text-[10px] ">S.N.</th>
+  //             <th className="px-3 py-2 font-bold  uppercase text-[10px] ">Full Name</th>
+  //             <th className="px-3 py-2 font-bold  uppercase text-[10px] ">Email</th>
+  //             <th className="px-3 py-2 font-bold  uppercase text-[10px]  w-1/3">Message (Click to read)</th>
+  //             <th className="px-3 py-2 font-bold text-gray-600 uppercase text-[10px] ">Date</th>
+  //             <th className="px-3 py-2 font-bold text-gray-600 uppercase text-[10px] text-end ">Action</th>
   //           </tr>
   //         </thead>
   //         <tbody className="divide-y divide-gray-50">

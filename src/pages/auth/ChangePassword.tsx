@@ -56,7 +56,7 @@ export default function ChangePasswordModal({ isOpen, onClose }: Props) {
       <div className="bg-white rounded shadow-2xl w-full max-w-md relative z-10 overflow-hidden transform transition-all animate-in zoom-in duration-300">
         
        
-        <div className="h-1.5 bg-[#d4482f] w-full"></div>
+        <div className="h-1.5 bg-[#2db7d1] w-full"></div>
 
         <button onClick={onClose} className="absolute top-5 right-5 text-red-500 hover:text-red-600">
           <X size={22} />
@@ -64,8 +64,8 @@ export default function ChangePasswordModal({ isOpen, onClose }: Props) {
 
         <div className="p-4">
           <div className="flex flex-col items-center text-center mb-8">
-            <div className="p-3 bg-teal-50 rounded-2xl mb-3 shadow-inner">
-              <ShieldCheck className="text-[#1e695e]" size={32} />
+            <div className="p-3 bg-[#2db7d1]/10 rounded-2xl mb-3 shadow-inner">
+              <ShieldCheck className="text-[#213a59]" size={32} />
             </div>
             <h2 className="text-2xl font-bold text-gray-800">Security Update</h2>
             <p className="text-[12px] text-gray-500 mt-1">Please enter your details to change password</p>
@@ -91,13 +91,13 @@ export default function ChangePasswordModal({ isOpen, onClose }: Props) {
                   {field.label}
                 </label>
                 <div className="relative group">
-                  <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#1e695e] transition-colors">
+                  <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#213a59] transition-colors">
                     <Lock size={14} />
                   </div>
                   <input 
                     type={showPasswords ? "text" : "password"}
                     required 
-                    className="w-full pl-10 pr-12 py-1.5 bg-gray-50 border border-gray-200 rounded outline-none focus:bg-white focus:border-[#1e695e] focus:ring-4 focus:ring-[#1e695e]/10 text-sm transition-all" 
+                    className="w-full pl-10 pr-12 py-1.5 bg-gray-50 border border-gray-200 rounded outline-none focus:bg-white focus:border-[#213a59] focus:ring-1 focus:ring-[#213a59]/10 text-sm transition-all" 
                     placeholder={`Enter ${field.label.toLowerCase()}`}
                     onChange={(e) => setFormData({...formData, [field.name]: e.target.value})}
                     value={(formData as any)[field.name]}
@@ -126,7 +126,7 @@ export default function ChangePasswordModal({ isOpen, onClose }: Props) {
             <button 
               type="submit"
               disabled={loading || !!success} 
-              className="w-full mt-4 bg-[#1e695e] hover:bg-[#164e46] text-white font-bold py-1.5 rounded shadow-lg shadow-teal-900/20 hover:shadow-teal-900/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:bg-gray-300 disabled:shadow-none disabled:scale-100"
+              className="w-full mt-4 bg-[#213a59] hover:bg-[#1c3e67]  text-white font-bold py-1.5 rounded shadow-lg shadow-teal-900/20 hover:shadow-teal-900/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:bg-gray-300 disabled:shadow-none disabled:scale-100"
             >
               {loading ? (
                 <>

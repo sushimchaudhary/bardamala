@@ -6,7 +6,7 @@ import {
   Eye,
   Facebook,
   MessageCircle,
-  Send,
+  
   Layers,
 } from "lucide-react";
 import { contentService } from "../../services/contentServices";
@@ -73,6 +73,41 @@ export default function CategoryPage() {
       }
     };
   }, [slug]);
+
+  useEffect(() => {
+  
+  if (!document.getElementById("fb-root")) {
+    const fbRoot = document.createElement("div");
+    fbRoot.id = "fb-root";
+    document.body.appendChild(fbRoot);
+  }
+
+ 
+  const loadFacebookSDK = () => {
+    if (document.getElementById("facebook-jssdk")) {
+     
+      if ((window as any).FB) {
+        (window as any).FB.XFBML.parse();
+      }
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.id = "facebook-jssdk";
+    script.src = "https://connect.facebook.net/ne_NP/sdk.js#xfbml=1&version=v21.0"; // पछिल्लो भर्सन
+    script.async = true;
+    script.defer = true;
+    script.crossOrigin = "anonymous";
+    script.onload = () => {
+      if ((window as any).FB) {
+        (window as any).FB.XFBML.parse();
+      }
+    };
+    document.body.appendChild(script);
+  };
+
+  loadFacebookSDK();
+}, [slug, blogs]); 
 
   const XIcon = ({ className }: { className?: string }) => (
     <svg
@@ -260,7 +295,7 @@ export default function CategoryPage() {
                         }}
                       />
 
-                      <div className="mt-12 pt-8 border-t border-gray-100">
+                      {/* <div className="mt-12 pt-8 border-t border-gray-100">
                         <div className="flex items-center justify-between mb-8">
                           <h3 className="text-lg font-bold text-gray-800">
                             प्रतिक्रिया दिनुहोस्
@@ -274,6 +309,29 @@ export default function CategoryPage() {
                         <button className="bg-[#213a59] text-white px-6 py-1.5 font-bold text-xs flex items-center gap-2 cursor-pointer ">
                           <Send size={14} /> टिप्पणी पठाउनुहोस्
                         </button>
+                      </div> */}
+
+                      {/* फेसबुक कमेन्ट सेक्सन */}
+                      <div className="mt-12 pt-8 border-t border-gray-100 px-3">
+                        <div className="flex items-center gap-2 mb-6">
+                          <Facebook size={20} className="text-[#1877F2]" />
+                          <h3 className="text-xl font-bold text-gray-800">
+                            प्रतिक्रिया दिनुहोस्
+                          </h3>
+                        </div>
+
+                        {/* फेसबुक कमेन्ट प्लगइन */}
+                        <div
+                          className="fb-comments"
+                          data-href={`${window.location.origin}/category/${slug}`}
+                          data-width="100%"
+                          data-numposts="5"
+                        ></div>
+
+                        <p className="mt-4 text-[11px] text-gray-400 italic">
+                          * टिप्पणी गर्नका लागि तपाईँको फेसबुक अकाउन्ट लगइन
+                          हुनुपर्नेछ।
+                        </p>
                       </div>
                     </div>
                   </article>
@@ -298,7 +356,7 @@ export default function CategoryPage() {
                     </div>
                     <DynamicAdsProvider
                       position="post_sidebar_1"
-                      className="w-full h-[250px] "
+                      className="w-full h-[210px] "
                     />
                   </section>
                   <div className="p-6 bg-[#49c0d7] text-white shadow-lg relative overflow-hidden group">
@@ -321,14 +379,14 @@ export default function CategoryPage() {
                   <section>
                     <DynamicAdsProvider
                       position="post_sidebar_2"
-                      className="w-full h-[250px]"
+                      className="w-full h-[210px]"
                     />
                   </section>
 
                   <section>
                     <DynamicAdsProvider
                       position="post_sidebar_3"
-                      className="w-full h-[250px] "
+                      className="w-full h-[210px] "
                     />
                   </section>
                 </div>

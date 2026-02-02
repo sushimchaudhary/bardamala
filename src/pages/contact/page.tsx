@@ -9,15 +9,13 @@ import {
 } from "lucide-react";
 import api from "../../api/axiosInstance";
 import FrontendLayout from "../layout/frontendLayout";
+import { showSuccess, showError } from "../../utils/toastUtils";
 
 export default function ContactSection() {
   const [company, setCompany] = useState<any>(null);
   const [loading, setLoading] = useState(false);
  
-  const [statusMessage, setStatusMessage] = useState<{
-    type: "success" | "error";
-    text: string;
-  } | null>(null);
+
 
  
 
@@ -66,22 +64,14 @@ const XIcon = ({ className }: { className?: string }) => (
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setStatusMessage(null);
     try {
       await api.post("/api/communication/contacts/", formData);
-      setStatusMessage({
-        type: "success",
-        text: "तपाईंको सन्देश सफलपूर्वक पठाइयो!",
-      });
+      showSuccess("तपाईंको सन्देश सफलपूर्वक पठाइयो!");
       setFormData({ fullname: "", email: "", message: "" });
     } catch (err) {
-      setStatusMessage({
-        type: "error",
-        text: "सन्देश पठाउन असफल भयो। फेरि प्रयास गर्नुहोस्।",
-      });
+      showError("सन्देश पठाउन असफल भयो। फेरि प्रयास गर्नुहोस्।");
     } finally {
       setLoading(false);
-      setTimeout(() => setStatusMessage(null), 5000);
     }
   };
 
@@ -127,13 +117,7 @@ const XIcon = ({ className }: { className?: string }) => (
                 }
               ></textarea>
 
-              {statusMessage && (
-                <div
-                  className={`text-xs font-bold p-3 rounded ${statusMessage.type === "success" ? "text-green-700 bg-green-50" : "text-red-700 bg-red-50"}`}
-                >
-                  {statusMessage.text}
-                </div>
-              )}
+
 
               <button
                 type="submit"

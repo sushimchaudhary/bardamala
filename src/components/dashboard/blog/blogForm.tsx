@@ -154,7 +154,7 @@ useEffect(() => {
     <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-[2px] p-4 font-sans text-gray-800">
       <div className="bg-white rounded shadow-xl w-full max-w-5xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
         {/* Header */}
-        <div className="bg-[#1e695e] px-4 py-3 text-white flex justify-between items-center shadow-md">
+        <div className="bg-[#213a59] px-4 py-3 text-white flex justify-between items-center shadow-md">
           <h2 className="text-sm font-bold flex items-center gap-2">
             <FileText size={18} />{" "}
             {formData.id ? "Update Post Content" : "Create New Post"}
@@ -196,7 +196,7 @@ useEffect(() => {
                     slug: generatedSlug, 
                   });
                 }}
-                className="w-full p-1.5 border border-gray-200 rounded text-sm focus:border-[#1e695e] outline-none shadow-sm transition-all"
+                className="w-full p-1.5 border border-gray-200 rounded text-sm focus:border-[#213a59] outline-none shadow-sm transition-all"
                 placeholder="Enter a catchy title..."
                 required
               />
@@ -219,7 +219,7 @@ useEffect(() => {
                        
                       });
                     }}
-                    className="w-full p-1.5 border border-gray-200 rounded text-sm focus:border-[#1e695e] outline-none shadow-sm"
+                    className="w-full p-1.5 border border-gray-200 rounded text-sm focus:border-[#213a59] outline-none shadow-sm"
                   >
                     <option value="">Choose Category</option>
                     {categories.map((cat) => (
@@ -274,10 +274,10 @@ useEffect(() => {
 
           <div className="space-y-2">
             <div className="bg-gray-50 p-2 rounded border border-gray-100">
-              <label className="text-[10px] font-bold text-[#1e695e] uppercase tracking-widest block mb-3">
+              <label className="text-[10px] font-bold text-[#213a59] uppercase tracking-widest block mb-3">
                 Featured Image
               </label>
-              <div className="relative h-48 w-full border-2 border-dashed border-gray-200 rounded bg-white flex items-center justify-center overflow-hidden hover:border-[#1e695e] transition-all cursor-pointer group">
+              <div className="relative h-48 w-full border-2 border-dashed border-gray-200 rounded bg-white flex items-center justify-center overflow-hidden hover:border-[#213a59] transition-all cursor-pointer group">
                 {preview ? (
                   <>
                     <img
@@ -299,7 +299,7 @@ useEffect(() => {
                 )}
                 <input
                   type="file"
-                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  className="absolute inset-0 opacity-0 cursor-pointer "
                   accept="image/*"
                   onChange={(e) => {
                     const file = e.target.files?.[0];
@@ -318,11 +318,11 @@ useEffect(() => {
               </label>
 
               <div className="flex items-center gap-3">
-                <div className="relative h-14 w-14 flex-shrink-0 border-2 border-dashed border-gray-200 rounded-full bg-gray-50 flex items-center justify-center overflow-hidden cursor-pointer group">
+                <div className="relative h-14 w-14 flex-shrink-0 border-2 border-dashed hover:border-[#213a59] border-gray-200 rounded-full bg-gray-50 flex items-center justify-center overflow-hidden cursor-pointer group">
                   {authorPreview ? (
                     <img
                       src={authorPreview}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-cover "
                       alt="Author"
                     />
                   ) : (
@@ -347,7 +347,7 @@ useEffect(() => {
                     onChange={(e) =>
                       setFormData({ ...formData, author_name: e.target.value })
                     }
-                    className="w-full p-2 border-b border-gray-200 text-xs outline-none focus:border-[#1e695e]"
+                    className="w-full p-2 border-b border-gray-200 text-xs outline-none focus:border-[#213a59]"
                     placeholder="Author Full Name"
                   />
                 </div>
@@ -362,7 +362,7 @@ useEffect(() => {
                     author_description: e.target.value,
                   })
                 }
-                className="w-full p-2 border border-gray-100 rounded text-xs outline-none bg-gray-50 focus:bg-white focus:border-[#1e695e] transition-all"
+                className="w-full p-2 border border-gray-100 rounded text-xs outline-none bg-gray-50 focus:bg-white focus:border-[#213a59] transition-all"
                 placeholder="Brief bio about the author..."
               ></textarea>
             </div>
@@ -382,7 +382,7 @@ useEffect(() => {
             type="submit"
             onClick={handleSubmit}
             disabled={loading}
-            className="bg-[#1e695e] hover:bg-[#164e46] text-white px-6 py-1.5 rounded shadow-sm shadow-[#1e695e]/20 font-bold text-[11px] uppercase flex items-center gap-2 cursor-pointer disabled:bg-gray-400 disabled:shadow-none transition-all active:scale-95"
+            className="bg-[#213a59] text-white px-6 py-1.5 rounded shadow-sm shadow-[#213a59]/20 font-bold text-[11px] uppercase flex items-center gap-2 cursor-pointer disabled:bg-gray-400 disabled:shadow-none transition-all active:scale-95"
           >
             {loading ? (
               <Loader2 size={14} className="animate-spin" />

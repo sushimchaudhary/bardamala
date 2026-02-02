@@ -76,7 +76,7 @@ const handleEdit = (item: any) => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
           <h1 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-            <FileText className="text-[#1e695e]" size={24} />
+            <FileText className="text-[#2db7d1]" size={24} />
             Post Management
           </h1>
           <p className="text-xs text-gray-500 mt-1">
@@ -87,7 +87,7 @@ const handleEdit = (item: any) => {
         <div className="flex gap-2">
           <button
             onClick={handleAddNew}
-            className="bg-[#1e695e] hover:bg-[#164e46] text-white px-2.5  py-1 cursor-pointer rounded text-xs font-bold  flex items-center gap-2 transition-all shadow-sm"
+            className="bg-[#213a59] text-white px-2.5  py-1 cursor-pointer rounded text-xs font-bold  flex items-center gap-2 transition-all shadow-sm"
           >
             <Plus size={14} /> Create
           </button>
@@ -116,7 +116,6 @@ const handleEdit = (item: any) => {
         refreshData={fetchPosts}
       />
 
-      {/* Delete Confirmation Modal */}
       <ConfirmModal
         isOpen={isConfirmOpen}
         title="Delete Post"

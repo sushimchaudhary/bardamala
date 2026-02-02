@@ -10,6 +10,7 @@ import React, {
 import Cookies from "js-cookie";
 import { useLocation, useNavigate, Link, Outlet } from "react-router-dom";
 import { companyService } from "../../services/companyServices";
+import { communicationService } from "../../services/communicationServices";
 
 import {
   Menu,
@@ -80,20 +81,20 @@ const NavItem: React.FC<NavItemProps> = ({
         }}
         className={`flex items-center justify-between px-3 py-2 rounded-md transition-all ${
           isActive && !hasSubmenu
-            ? "bg-[#1e695e]/10 text-[#1e695e]"
+            ? "bg-[#2db7d1]/10 text-[#2db7d1]"
             : isSubActive
-              ? "text-[#1e695e] bg-gray-100"
-              : "text-gray-600 hover:bg-gray-50 hover:text-[#1e695e] group"
+              ? "text-[#2db7d1] bg-gray-100"
+              : "text-gray-600 hover:bg-gray-50 hover:text-[#2db7d1] group"
         }`}
       >
         <div className="flex items-center gap-2">
           <item.icon
             size={16}
-            className={`${isActive || isSubActive ? "text-[#1e695e]" : "text-gray-400 group-hover:text-[#1e695e]"} transition-colors`}
+            className={`${isActive || isSubActive ? "text-[#2db7d1]" : "text-gray-400 group-hover:text-[#2db7d1]"} transition-colors`}
           />
           {sidebarOpen && (
             <span
-              className={`text-[10px] font-bold uppercase tracking-wide ${isActive || isSubActive ? "text-[#1e695e]" : ""}`}
+              className={`text-[10px] font-bold uppercase tracking-wide ${isActive || isSubActive ? "text-[#2db7d1]" : ""}`}
             >
               {item.label}
             </span>
@@ -102,7 +103,7 @@ const NavItem: React.FC<NavItemProps> = ({
         {sidebarOpen && hasSubmenu && (
           <ChevronDown
             size={14}
-            className={`transition-transform duration-300 ${isActive || isSubActive ? "text-[#1e695e]" : "text-gray-400"} ${isOpen ? "rotate-180" : ""}`}
+            className={`transition-transform duration-300 ${isActive || isSubActive ? "text-[#2db7d1]" : "text-gray-400"} ${isOpen ? "rotate-180" : ""}`}
           />
         )}
       </Link>
@@ -115,11 +116,11 @@ const NavItem: React.FC<NavItemProps> = ({
                 key={sub.label}
                 to={sub.href}
                 onClick={onItemClick}
-                className={`flex items-center gap-2 px-3 py-1.5 text-[9px] font-bold uppercase tracking-wider rounded-md ${isChildActive ? "bg-[#1e695e]/10 text-[#1e695e]" : "text-gray-500 hover:text-[#1e695e]"}`}
+                className={`flex items-center gap-2 px-3 py-1.5 text-[9px] font-bold uppercase tracking-wider rounded-md ${isChildActive ? "bg-[#2db7d1]/10 text-[#2db7d1]" : "text-gray-500 hover:text-[#2db7d1]"}`}
               >
                 <sub.icon
                   size={14}
-                  className={isChildActive ? "text-[#1e695e]" : "text-gray-400"}
+                  className={isChildActive ? "text-[#2db7d1]" : "text-gray-400"}
                 />
                 {sub.label}
               </Link>
@@ -139,6 +140,8 @@ export default function DashboardLayout() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const [isCPModalOpen, setIsCPModalOpen] = useState(false);
+  const [notifCount, setNotifCount] = useState<number>(0);
+  const location = useLocation();
 
   const isSuperuser = Cookies.get("is_superuser") === "true";
   const isStaff = Cookies.get("is_staff") === "true";
@@ -176,6 +179,42 @@ export default function DashboardLayout() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Poll messages count and update notification badge
+  useEffect(() => {
+    let mounted = true;
+    const fetchCount = async () => {
+      try {
+        const msgs = await communicationService.getMessages();
+        if (!mounted) return;
+        let count = 0;
+        if (Array.isArray(msgs)) {
+          if (msgs.length > 0 && Object.prototype.hasOwnProperty.call(msgs[0], "is_read")) {
+            count = msgs.filter((m: any) => !m.is_read).length;
+          } else {
+            count = msgs.length;
+          }
+        }
+        setNotifCount(count);
+      } catch (err) {
+        console.error("Failed to fetch messages for notification count", err);
+      }
+    };
+
+    fetchCount();
+    const interval = setInterval(fetchCount, 30000);
+    return () => {
+      mounted = false;
+      clearInterval(interval);
+    };
+  }, []);
+
+  // Clear badge when visiting the contact management page
+  useEffect(() => {
+    if (location.pathname === "/dashboard/contact") {
+      setNotifCount(0);
+    }
+  }, [location.pathname]);
+
   const handleLogout = () => {
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
@@ -183,7 +222,7 @@ export default function DashboardLayout() {
     Cookies.remove("is_staff");
     Cookies.remove("userName");
     window.location.href = "/login";
-  };
+  }; 
 
   const fullMenu: MenuItem[] = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
@@ -219,7 +258,7 @@ export default function DashboardLayout() {
   if (isAuthLoading) {
     return (
       <div className="h-screen bg-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-[#1e695e]" />
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-[#2db7d1]" />
       </div>
     );
   }
@@ -241,18 +280,18 @@ export default function DashboardLayout() {
       <aside
         className={`${sidebarOpen ? "w-45" : "w-14"} bg-white border-r border-gray-200 transition-all duration-300 flex flex-col z-50 shadow-sm`}
       >
-        <div className="p-1 flex flex-col items-center justify-center border-b border-gray-100">
+        <div className="p-1 flex flex-col  border-b border-gray-100">
           <Link to={"/"}>
-            <div className="flex items-center justify-center overflow-hidden shrink-0">
+            <div className="flex  overflow-hidden shrink-0">
               {company?.logo ? (
                 <img
                   src={company.logo}
                   alt="Logo"
-                  className={`${sidebarOpen ? "h-12" : "h-8"} w-auto object-contain transition-all duration-300`}
+                  className={`${sidebarOpen ? "h-12" : "h-8"} w-full object-contain transition-all duration-300`}
                 />
               ) : (
                 <div className="w-8 h-8 bg-gray-50 border border-gray-200 rounded flex items-center justify-center">
-                  <span className="text-[#1e695e] font-black text-[10px]">
+                  <span className="text-[#2db7d1] font-black text-[10px]">
                     L
                   </span>
                 </div>
@@ -277,15 +316,15 @@ export default function DashboardLayout() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 rounded-md bg-gray-50 text-gray-500 hover:text-[#1e695e] hover:bg-[#1e695e]/10 transition-all border border-gray-100"
+              className="p-2 rounded-md bg-gray-50 text-gray-500 hover:text-[#2db7d1] hover:bg-[#2db7d1]/10 transition-all border border-gray-100"
             >
               <Menu size={20} />
             </button>
             <div className="text-center animate-in fade-in duration-500">
-              <p className="font-extrabold uppercase text-[10px] text-gray-800 truncate tracking-tight px-2">
+              <p className="font-extrabold uppercase text-[10px] text-gray-800 truncate tracking-tight text-start">
                 {company?.name}
               </p>
-              <p className="text-[#1e695e]  font-bold text-[7px] uppercase tracking-widest pr-2">
+              <p className="text-[#2db7d1]  font-bold text-[7px] uppercase tracking-widest pr-2">
                 {isSuperuser ? "Super Access" : "Staff Access"}
               </p>
             </div>
@@ -294,17 +333,22 @@ export default function DashboardLayout() {
           <div className="flex items-center gap-1 lg:gap-4">
             <Link
               to="/dashboard/contact"
-              className="p-2 rounded-full text-gray-400 hover:text-[#1e695e] hover:bg-gray-100 transition-all"
+              className="relative p-2 rounded-full text-gray-400 hover:text-[#2db7d1] hover:bg-gray-100 transition-all"
             >
               <Bell size={20} />
+              {notifCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {notifCount > 99 ? "99+" : notifCount}
+                </span>
+              )}
             </Link>
-            <div className="h-8 w-[1px] bg-gray-200 mx-2" />
+            <div className="h-8 w-px bg-gray-200 mx-2" />
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="flex items-center gap-2 p-1 rounded-full cursor-pointer hover:bg-gray-50 transition-all"
               >
-                <div className="w-8 h-8 rounded-full bg-[#1e695e] flex items-center justify-center text-white text-xs font-bold shadow-md">
+                <div className="w-8 h-8 rounded-full bg-[#2db7d1] flex items-center justify-center text-white text-xs font-bold shadow-md">
                   {userName[0].toUpperCase()}
                 </div>
                 <ChevronDown

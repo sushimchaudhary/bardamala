@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Tag } from "lucide-react";
 import { categoryService } from "../../../services/categoryServices";
-import {  showError, showSuccess } from "../../../utils/toastUtils";
+import { showError, showSuccess } from "../../../utils/toastUtils";
 import CategoryTable from "../../../components/dashboard/category/CategoryTable";
 import CategoryForm from "../../../components/dashboard/category/CategoryForm"; // फर्म इम्पोर्ट गरियो
 import ConfirmModal from "../../../components/delete/ConfirmModel";
@@ -11,10 +11,10 @@ export default function CategoryManage() {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
-const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
-  
+
   const fetchCategories = async () => {
     setLoading(true);
     try {
@@ -22,7 +22,7 @@ const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
       console.log("Category API Response:", response);
 
-       const actualData = response?.data || response;
+      const actualData = response?.data || response;
 
       if (Array.isArray(actualData)) {
         setCategories(actualData);
@@ -48,11 +48,11 @@ const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const handleConfirmDelete = async () => {
     if (deleteId === null) return;
-    
+
     setDeleteLoading(true);
     try {
       await categoryService.deleteDetails(deleteId);
-      showSuccess("Category deleted successfully!"); 
+      showSuccess("Category deleted successfully!");
       fetchCategories();
       setIsConfirmOpen(false);
     } catch (err) {
@@ -74,12 +74,12 @@ const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   };
 
   return (
-     <div className="bg-gray-50/50 min-h-[80vh]">
+    <div className="bg-gray-50/50 min-h-[80vh]">
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
           <h1 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-            <Tag className="text-[#1e695e]" size={24} />
+            <Tag className="text-[#2db7d1]" size={24} />
             Category Management
           </h1>
           <p className="text-xs text-gray-500 mt-1">
@@ -89,7 +89,7 @@ const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
         <button
           onClick={handleAddNew}
-              className="bg-[#1e695e] hover:bg-[#164e46] text-white px-2.5  py-1 cursor-pointer rounded text-xs font-bold  flex items-center gap-2 transition-all shadow-sm"
+          className="bg-[#213a59] text-white px-2.5  py-1 cursor-pointer rounded text-xs font-bold  flex items-center gap-2 transition-all shadow-sm"
         >
           <Plus size={14} /> Create
         </button>
@@ -107,7 +107,7 @@ const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
       <ConfirmModal
         isOpen={isConfirmOpen}
-        message="के तपाईं यो क्याटगोरी मेटाउन निश्चित हुनुहुन्छ? यो प्रक्रिया फिर्ता गर्न सकिने छैन।"
+        message="Are you sure you want to delete this category? This will remove all associated permanently."
         onConfirm={handleConfirmDelete}
         onCancel={() => setIsConfirmOpen(false)}
         loading={deleteLoading}

@@ -193,7 +193,7 @@ export default function MankaKura() {
                 </div>
                 <DynamicAdsProvider
                   position="post_sidebar_1"
-                  className="w-full h-[250px]"
+                  className="w-full h-[210px]"
                 />
               </section>
 
@@ -216,14 +216,14 @@ export default function MankaKura() {
               <section>
                 <DynamicAdsProvider
                   position="post_sidebar_2"
-                  className="w-full h-[250px]"
+                  className="w-full h-[210px]"
                 />
               </section>
 
               <section>
                 <DynamicAdsProvider
                   position="post_sidebar_3"
-                  className="w-full h-[250px]"
+                  className="w-full h-[210px]"
                 />
               </section>
             </aside>

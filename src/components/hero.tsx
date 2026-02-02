@@ -116,7 +116,7 @@ export default function Hero() {
             <section className="bg-white p-1 shadow-[4px_4px_10px_rgba(0,0,0,0.1)]">
               <DynamicAdsProvider
                 position="homepage_sidebar_1"
-                className="h-[250px]  w-full"
+                className="h-[210px]  w-full"
               />
             </section>
 
@@ -125,14 +125,14 @@ export default function Hero() {
             <section className="bg-white p-1 shadow-[4px_4px_10px_rgba(0,0,0,0.1)]">
               <DynamicAdsProvider
                 position="homepage_sidebar_2"
-                className="h-[250px] w-full"
+                className="h-[210px] w-full"
               />
             </section>
 
             <section className="bg-white p-1 shadow-[4px_4px_10px_rgba(0,0,0,0.1)]">
               <DynamicAdsProvider
                 position="homepage_sidebar_3"
-                className="h-[250px] w-full"
+                className="h-[210px] w-full"
               />
             </section>
           </div>

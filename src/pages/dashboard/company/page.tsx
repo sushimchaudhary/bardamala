@@ -70,7 +70,7 @@ export default function CompanyPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
           <h1 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-            <Building2 className="text-[#1e695e]" size={24} />
+            <Building2 className="text-[#2db7d1]" size={24} />
             Company Management
           </h1>
           <p className="text-xs text-gray-500 mt-1">
@@ -82,7 +82,7 @@ export default function CompanyPage() {
           {companies.length === 0 && (
             <button
               onClick={handleAddNew}
-              className="bg-[#1e695e] hover:bg-[#164e46] text-white px-2.5  py-1 cursor-pointer rounded text-xs font-bold  flex items-center gap-2 transition-all shadow-sm"
+              className="bg-[#213a59]  text-white px-2.5  py-1 cursor-pointer rounded text-xs font-bold  flex items-center gap-2 transition-all shadow-sm"
             >
               <Plus size={14} /> Create
             </button>

@@ -96,7 +96,7 @@ const handleSubmit = async (e: React.FormEvent) => {
       <main className={`flex-1 max-w-7xl mx-auto w-full grid grid-cols-1 ${!isModal ? "md:grid-cols-2" : ""} gap-6 md:gap-10 px-6 py-6 md:py-10 items-center`}>
         
         <div className="flex flex-col justify-start w-full">
-          <h1 className={`text-[#d4482f] font-bold mb-6 ${isModal ? "text-2xl border-b pb-2" : "text-3xl md:text-4xl"}`}>
+          <h1 className={`text-[#213a59] font-bold mb-6 ${isModal ? "text-2xl border-b pb-2" : "text-3xl md:text-4xl"}`}>
             साइन अप (दर्ता)
           </h1>
 
@@ -122,7 +122,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                   name="first_name"
                   required
                   placeholder="First Name"
-                  className="w-full px-3 py-2 border border-gray-300 rounded outline-none focus:border-teal-600 transition text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded outline-none focus:border-[#213a59] transition text-sm"
                   onChange={handleChange}
                 />
               </div>
@@ -133,7 +133,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                   name="last_name"
                   required
                   placeholder="Last Name"
-                  className="w-full px-3 py-2 border border-gray-300 rounded outline-none focus:border-teal-600 transition text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded outline-none focus:border-[#213a59] transition text-sm"
                   onChange={handleChange}
                 />
               </div>
@@ -145,7 +145,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 type="email"
                 name="email"
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded outline-none focus:border-teal-600 transition text-sm"
+                className="w-full px-3 py-2 border border-gray-300 rounded outline-none focus:border-[#213a59] transition text-sm"
                 onChange={handleChange}
               />
             </div>
@@ -156,7 +156,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 type="text"
                 name="username"
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded outline-none focus:border-teal-600 transition text-sm"
+                className="w-full px-3 py-2 border border-gray-300 rounded outline-none focus:border-[#213a59] transition text-sm"
                 onChange={handleChange}
               />
             </div>
@@ -167,7 +167,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 type="password"
                 name="password"
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded outline-none focus:border-teal-600 transition text-sm"
+                className="w-full px-3 py-2 border border-gray-300 rounded outline-none focus:border-[#213a59] transition text-sm"
                 onChange={handleChange}
               />
             </div>
@@ -175,7 +175,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             <button
               type="submit"
               disabled={loading || !!success}
-              className={`w-full bg-[#d4482f] hover:bg-[#c23d1d] text-white font-bold py-2.5 transition-colors shadow-sm disabled:bg-gray-400 flex items-center justify-center min-w-[160px] ${!isModal ? "md:w-auto px-12" : "rounded"}`}
+              className={`w-full bg-[#213a59] hover:bg-[#1b3c64] text-white font-bold py-2.5 transition-colors shadow-sm disabled:bg-gray-400 flex items-center justify-center min-w-[160px] ${!isModal ? "md:w-auto px-12" : "rounded"}`}
             >
               {loading ? "बनाउँदै..." : "साइन अप"}
             </button>

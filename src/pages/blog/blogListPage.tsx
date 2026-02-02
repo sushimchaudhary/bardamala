@@ -182,7 +182,7 @@ export default function BlogListPage() {
                   <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Sponsored</span>
                   <span className="h-px bg-gray-200 flex-1"></span>
                 </div>
-                <DynamicAdsProvider position="post_sidebar_1" className="w-full h-[250px]" />
+                <DynamicAdsProvider position="post_sidebar_1" className="w-full h-[210px]" />
               </section>
 
               <div className="p-6 bg-[#49c0d7] text-white shadow-lg relative overflow-hidden group">
@@ -200,11 +200,11 @@ export default function BlogListPage() {
               </div>
 
               <section>
-                <DynamicAdsProvider position="post_sidebar_2" className="w-full h-[250px]" />
+                <DynamicAdsProvider position="post_sidebar_2" className="w-full h-[210px]" />
               </section>
 
                 <section>
-                <DynamicAdsProvider position="post_sidebar_3" className="w-full h-[250px]" />
+                <DynamicAdsProvider position="post_sidebar_3" className="w-full h-[210px]" />
               </section>
             </aside>
           </div>

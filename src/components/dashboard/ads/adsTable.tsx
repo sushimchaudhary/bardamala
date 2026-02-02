@@ -14,24 +14,24 @@ export default function AdTable({ ads, onEdit, onDelete, loading }: AdTableProps
       {/* Scrollable Container with Hidden Scrollbar */}
       <div className="overflow-auto scrollbar-hide flex-grow relative">
         <table className="w-full text-left text-sm min-w-[850px] border-separate border-spacing-0">
-          <thead className="bg-gray-100 sticky top-0 z-10">
+          <thead className="bg-[#213a59]/90 text-white sticky top-0 z-10">
             <tr>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] border-b border-gray-200 bg-gray-100 w-24">
+              <th className="p-2 font-bold  uppercase text-[10px] border-b border-gray-200  w-24">
                 Preview
               </th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] border-b border-gray-200 bg-gray-100">
+              <th className="p-2 font-bold  uppercase text-[10px] border-b border-gray-200 ">
                 Ad Name
               </th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] border-b border-gray-200 bg-gray-100 w-40">
+              <th className="p-2 font-bold  uppercase text-[10px] border-b border-gray-200  w-40">
                 Position
               </th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] border-b border-gray-200 bg-gray-100 w-44">
+              <th className="p-2 font-bold  uppercase text-[10px] border-b border-gray-200  w-44">
                 Duration
               </th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] border-b border-gray-200 bg-gray-100 w-28 text-center">
+              <th className="p-2 font-bold  uppercase text-[10px] border-b border-gray-200  w-28 text-center">
                 Status
               </th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] text-end border-b border-gray-200 bg-gray-100 w-28">
+              <th className="p-2 font-bold  uppercase text-[10px] text-end border-b border-gray-200  w-28">
                 Action
               </th>
             </tr>
@@ -51,9 +51,9 @@ export default function AdTable({ ads, onEdit, onDelete, loading }: AdTableProps
               </tr>
             ) : ads.length > 0 ? (
               ads.map((ad: any) => (
-                <tr key={ad.id} className="hover:bg-gray-50/80 transition-colors text-xs text-gray-600">
+                <tr key={ad.id} className="hover:bg-gray-50/80 transition-colors text-xs ">
                   <td className="p-2 border-b border-gray-50">
-                    <div className="h-10 w-20 bg-gray-100 rounded overflow-hidden shadow-sm ring-1 ring-gray-200">
+                    <div className="h-10 w-20  rounded overflow-hidden shadow-sm ring-1 ring-gray-200">
                       {ad.file ? (
                         <img src={ad.file} className="h-full w-full object-cover" alt="ad" />
                       ) : (
@@ -92,11 +92,11 @@ export default function AdTable({ ads, onEdit, onDelete, loading }: AdTableProps
                       </span>
                     )}
                   </td>
-                  <td className="p-2 text-end border-b border-gray-50">
+                  <td className="p-1 text-end border-b border-gray-50">
                     <div className="flex justify-end gap-1">
                       <button
                         onClick={() => onEdit(ad)}
-                        className="px-1 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                        className="px-1 text-blue-500 hover:bg-blue-50 rounded-md transition-colors"
                         title="Edit Ad"
                       >
                         <Edit2 size={15} />

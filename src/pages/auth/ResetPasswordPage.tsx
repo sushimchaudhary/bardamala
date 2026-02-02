@@ -52,12 +52,12 @@ export default function ResetPassword() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 font-sans">
       <div className="max-w-md w-full bg-white rounded shadow-2xl relative overflow-hidden transform transition-all animate-in zoom-in duration-300">
         
-        <div className="h-1.5 bg-[#d4482f] w-full"></div>
+        <div className="h-1.5 bg-[#2db7d1] w-full"></div>
 
         <div className="p-4">
           <div className="flex flex-col items-center text-center mb-8">
-            <div className="p-3 bg-teal-50 rounded-2xl mb-3 shadow-inner">
-              <ShieldCheck className="text-[#1e695e]" size={32} />
+            <div className="p-3 bg-[#2db7d1]/10 rounded-2xl mb-3 shadow-inner">
+              <ShieldCheck className="text-[#213a59]" size={32} />
             </div>
             <h2 className="text-2xl font-bold text-gray-800">Set New Password</h2>
             <p className="text-[12px] text-gray-500 mt-1">
@@ -85,7 +85,7 @@ export default function ResetPassword() {
                   type={showPassword ? "text" : "password"}
                   required
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-12 py-1.5 bg-gray-50 border border-gray-200 rounded outline-none focus:bg-white focus:border-[#1e695e]  focus:ring-[#1e695e]/10 text-sm transition-all"
+                  className="w-full pl-10 pr-12 py-1.5 bg-gray-50 border border-gray-200 rounded outline-none focus:bg-white focus:border-[#213a59]  focus:ring-[#213a59]/10 text-sm transition-all"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -105,14 +105,14 @@ export default function ResetPassword() {
                 Confirm Password
               </label>
               <div className="relative group">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#1e695e] transition-colors">
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#213a59] transition-colors">
                   <Lock size={14} />
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
                   required
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-4 py-1.5 bg-gray-50 border border-gray-200 rounded outline-none focus:bg-white focus:border-[#1e695e]  focus:ring-[#1e695e]/10 text-sm transition-all"
+                  className="w-full pl-10 pr-4 py-1.5 bg-gray-50 border border-gray-200 rounded outline-none focus:bg-white focus:border-[#213a59]  focus:ring-[#213a59]/10 text-sm transition-all"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
@@ -130,7 +130,7 @@ export default function ResetPassword() {
             <button
               type="submit"
               disabled={loading || status?.type === "success"}
-              className="w-full mt-3 bg-[#1e695e] hover:bg-[#164e46] text-white font-bold py-1.5 rounded shadow-md hover:shadow-teal-900/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:bg-gray-300 disabled:shadow-none"
+              className="w-full mt-3 bg-[#213a59] hover:bg-[#164e46] text-white font-bold py-1.5 rounded shadow-md hover:shadow-teal-900/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:bg-gray-300 disabled:shadow-none"
             >
               {loading ? (
                 <>
@@ -144,7 +144,7 @@ export default function ResetPassword() {
           </form>
 
           <div className="mt-3 text-center border-t border-gray-100 pt-2">
-            <Link to="/login" className="text-[10px] font-bold text-gray-400 hover:text-[#1e695e] transition-colors uppercase tracking-widest">
+            <Link to="/login" className="text-[10px] font-bold text-gray-400 hover:text-[#213a59] transition-colors uppercase tracking-widest">
                 Cancel & Return to Login
             </Link>
           </div>

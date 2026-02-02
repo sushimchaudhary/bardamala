@@ -86,7 +86,7 @@ export default function CategoryForm({
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="bg-white rounded shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
         {/* Header */}
-        <div className="bg-[#1e695e] px-4 py-2  flex justify-between items-center">
+        <div className="bg-[#213a59] px-4 py-2  flex justify-between items-center">
           <h2 className="text-sm font-bold text-white flex items-center gap-2">
             <Tag size={18} className="text-white" />
             {data ? "Edit Category" : "Add Category"}
@@ -112,7 +112,7 @@ export default function CategoryForm({
                 required
                 value={formData.name}
                 onChange={handleNameChange}
-                className="w-full pl-10 pr-4 py-1.5 shadow-sm border border-gray-200 rounded focus:ring-[#1e695e]/20 focus:border-[#1e695e] outline-none text-sm transition-all"
+                className="w-full pl-10 pr-4 py-1.5 shadow-sm border border-gray-200 rounded focus:ring-[#213a59]/20 focus:border-[#213a59] outline-none text-sm transition-all"
                 placeholder="e.g. Politics"
               />
               <Tag
@@ -137,7 +137,7 @@ export default function CategoryForm({
                     .replace(/[^a-z0-9-]/g, "");
                   setFormData({ ...formData, slug: val });
                 }}
-                className="w-full pl-10 pr-4 py-1.5 shadow-sm border border-gray-200 rounded focus:ring-[#1e695e]/20 focus:border-[#1e695e] outline-none text-sm transition-all"
+                className="w-full pl-10 pr-4 py-1.5 shadow-sm border border-gray-200 rounded focus:ring-[#213a59]/20 focus:border-[#213a59] outline-none text-sm transition-all"
                 placeholder="e.g. politics-news"
               />
               <LinkIcon
@@ -150,7 +150,7 @@ export default function CategoryForm({
           {/* Active Status */}
           <div className="flex items-center justify-between p-1.5 border border-gray-100 rounded shadow-sm bg-gray-50/50">
             <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
-              <ToggleLeft size={18} className="text-[#1e695e]" />
+              <ToggleLeft size={18} className="text-[#213a59]" />
               Active Status
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
@@ -162,7 +162,7 @@ export default function CategoryForm({
                   setFormData({ ...formData, is_active: e.target.checked })
                 }
               />
-              <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:-top-[0px] after:-left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1e695e]"></div>
+              <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:-top-[0px] after:-left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#213a59]"></div>
             </label>
           </div>
 
@@ -178,7 +178,7 @@ export default function CategoryForm({
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-[#1e695e] hover:bg-[#164e46] text-white px-4 py-1.5 cursor-pointer rounded text-sm font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-70 shadow-lg shadow-teal-900/10"
+              className="flex-1 bg-[#213a59]  text-white px-4 py-1.5 cursor-pointer rounded text-sm font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-70 shadow-lg shadow-teal-900/10"
             >
               {loading ? (
                 <Loader2 className="animate-spin" size={18} />

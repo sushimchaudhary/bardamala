@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import NepaliDate from "nepali-date-converter";
+import { Calendar, Facebook, Instagram, Linkedin } from "lucide-react";
 import api from "../api/axiosInstance";
 import { categoryService } from "../services/categoryServices";
 import { contentService } from "../services/contentServices";
@@ -12,6 +13,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [logo, setLogo] = useState<string | null>(null);
   const [categories, setCategories] = useState<any[]>([]);
+  const [socialLinks, setSocialLinks] = useState<any>({});
 
   const [allPosts, setAllPosts] = useState<any[]>([]);
   const [filteredResults, setFilteredResults] = useState<any[]>([]);
@@ -21,7 +23,8 @@ export default function Navbar() {
 
   useEffect(() => {
     const today = new NepaliDate();
-    setDateStr(today.format("DD MMMM YYYY", "np"));
+ 
+    setDateStr(today.format("DD MMMM YYYY , ddd", "np"));
 
     const fetchData = async () => {
       try {
@@ -31,8 +34,15 @@ export default function Navbar() {
           contentService.getPosts(),
         ]);
 
-        if (logoRes.data && logoRes.data.length > 0)
+        if (logoRes.data && logoRes.data.length > 0) {
           setLogo(logoRes.data[0].logo);
+          setSocialLinks({
+            fb: logoRes.data[0].fb_link,
+            x: logoRes.data[0].x_link,
+            insta: logoRes.data[0].insta_link,
+            linkedin: logoRes.data[0].linkedin_link,
+          });
+        }
 
         const rawCats = catRes?.data || catRes;
         setCategories(
@@ -91,22 +101,40 @@ export default function Navbar() {
     }
   };
 
+
+   const XIcon = ({ className }: { className?: string }) => (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className={className}
+      fill="currentColor"
+      width="1em"
+      height="1em"
+    >
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+    </svg>
+  );
+
   const staticLinks = [
     { label: "गृह पृष्ठ", path: "/" },
     { label: "हाम्रा बारे", path: "/about-us" },
+    
   ];
-  const footerLinks = [{ label: "सम्पर्क", path: "/contact" }];
+  const footerLinks = [
+    { label: "विज्ञापन", path: "/advertisement" },
+    { label: "सम्पर्क", path: "/contact" }];
 
   return (
     <>
       <nav className="w-full bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-3">
           <div className="flex flex-row items-center justify-between gap-4">
-            <div className="flex-1 flex justify-start">
-              <div className="text-[#33b9d2] font-bold text-[10px] md:text-sm whitespace-nowrap">
+            <div className="flex-1 flex justify-start items-center gap-2">
+              <Calendar size={14} className="text-[#213a59]" />
+              <div className="text-[#213a59] font-bold text-[10px] md:text-sm whitespace-nowrap">
                 मिति: {dateStr}
               </div>
-            </div>
+            </div> 
 
             <div className="flex-shrink-0">
               <Link to={"/"}>
@@ -120,19 +148,34 @@ export default function Navbar() {
               </Link>
             </div>
 
-            <div className="flex-1 flex justify-end">
-              <div className="flex gap-2">
-                <Link to={"/login"}>
-                  <button className="border border-[#213a59] px-2 py-1 md:px-4 md:py-2 rounded text-[#213a59] font-bold hover:bg-[#213a59] hover:text-white transition-all text-[10px] md:text-xs lg:text-sm">
-                    साइन इन
-                  </button>
-                </Link>
-                {/* <Link to={"/register"}>
-                  <button className="border border-[#213a59] px-2 py-1 md:px-4 md:py-2 rounded text-[#213a59] font-bold hover:bg-[#213a59] hover:text-white transition-all text-[10px] md:text-xs lg:text-sm">
-                    साइन अप
-                  </button>
-                </Link> */}
+            <div className="flex-1 flex justify-end items-center gap-3">
+              <div className="hidden sm:flex items-center gap-2 mr-2">
+                {socialLinks.fb && (
+                  <a href={socialLinks.fb} target="_blank" rel="noreferrer" title="Facebook" className="p-1 rounded-full bg-gray-100 text-[#213a59] hover:bg-[#e6f7fb] transition-colors">
+                    <Facebook size={16} />
+                  </a>
+                )}
+                {socialLinks.x && (
+                  <a href={socialLinks.x} target="_blank" rel="noreferrer" title="X" className="p-1 rounded-full bg-gray-100 text-[#213a59] hover:bg-[#e6f7fb] transition-colors">
+                    <XIcon className="h-4 w-4" />
+                  </a>
+                )}
+                {socialLinks.insta && (
+                  <a href={socialLinks.insta} target="_blank" rel="noreferrer" title="Instagram" className="p-1 rounded-full bg-gray-100 text-[#213a59] hover:bg-[#e6f7fb] transition-colors">
+                    <Instagram size={16} />
+                  </a>
+                )}
+                {socialLinks.linkedin && (
+                  <a href={socialLinks.linkedin} target="_blank" rel="noreferrer" title="LinkedIn" className="p-1 rounded-full bg-gray-100 text-[#213a59] hover:bg-[#e6f7fb] transition-colors">
+                    <Linkedin size={16} />
+                  </a>
+                )}
               </div>
+              <Link to={"/login"}>
+                <button className="border border-[#213a59] px-2 py-1 md:px-4 md:py-1.5 rounded text-[#213a59] font-bold hover:bg-[#213a59] hover:text-white transition-all text-[10px] md:text-xs lg:text-sm">
+                  साइन इन
+                </button>
+              </Link>
             </div>
           </div>
         </div>

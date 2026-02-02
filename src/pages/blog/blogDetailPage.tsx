@@ -302,7 +302,7 @@ export default function BlogDetailPage() {
                   </div>
                   <DynamicAdsProvider
                     position="post_sidebar_1"
-                    className="w-full h-[250px]"
+                    className="w-full h-[210px]"
                   />
                 </section>
 
@@ -327,7 +327,7 @@ export default function BlogDetailPage() {
                 <section>
                   <DynamicAdsProvider
                     position="post_sidebar_2"
-                    className="w-full h-[250px]"
+                    className="w-full h-[210px]"
                   />
                 </section>
 
@@ -335,7 +335,7 @@ export default function BlogDetailPage() {
                 <section>
                   <DynamicAdsProvider
                     position="post_sidebar_3"
-                    className="w-full h-[250px]"
+                    className="w-full h-[210px]"
                   />
                 </section>
               </div>

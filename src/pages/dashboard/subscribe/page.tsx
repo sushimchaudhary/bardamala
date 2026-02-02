@@ -12,7 +12,6 @@ export default function SubscriberManage() {
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  // Subscriber तान्ने फङ्सन
   const fetchSubscribers = async () => {
     setLoading(true);
     try {
@@ -58,7 +57,7 @@ export default function SubscriberManage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
           <h1 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-            <Send className="text-[#1e695e]" size={24} />
+            <Send className="text-[#2db7d1]" size={24} />
             Newsletter Subscribers
           </h1>
           <p className="text-xs text-gray-500 mt-1">
@@ -67,7 +66,7 @@ export default function SubscriberManage() {
         </div>
         
         <div className="bg-white px-3 py-1 rounded border border-gray-100 shadow-sm flex items-center gap-2">
-           <Users size={14} className="text-[#1e695e]" />
+           <Users size={14} className="text-[#2db7d1]" />
            <span className="text-xs font-bold text-gray-600">Total List: {subscribers.length}</span>
         </div>
       </div>

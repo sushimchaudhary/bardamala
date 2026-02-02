@@ -85,7 +85,7 @@ export default function LoginForm() {
 
       <main className="flex-1 max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 px-4 py-4 md:py-10 items-center">
         <div className="flex flex-col justify-start w-full">
-          <h1 className="text-[#d4482f] text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="text-[#213a59] text-3xl md:text-4xl font-bold mb-6">
             साइन इन
           </h1>
 
@@ -156,7 +156,7 @@ export default function LoginForm() {
             <div className="text-sm">
               <Link
                 to="/forgot-password"
-                className=" text-teal-700 font-bold hover:underline"
+                className=" text-[#2db7d1] font-bold hover:underline"
               >
                 पासवर्ड बिर्सनुभयो ?
               </Link>
@@ -165,7 +165,7 @@ export default function LoginForm() {
             <button
               type="submit"
               disabled={loading || !!success}
-              className="w-full md:w-auto bg-[#d4482f] hover:bg-[#c23d1d] text-white font-bold py-2.5 px-12 transition-colors shadow-sm disabled:bg-gray-400 flex items-center justify-center min-w-[140px]"
+              className="w-full md:w-auto bg-[#213a59] hover:bg-[#1c3e67] text-white font-bold py-2.5 px-12 transition-colors shadow-sm disabled:bg-gray-400 flex items-center justify-center min-w-[140px]"
             >
               {loading
                 ? "प्रक्रियामा..."

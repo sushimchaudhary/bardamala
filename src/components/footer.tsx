@@ -200,6 +200,14 @@ export default function Footer() {
                   हाम्रा बारे
                 </Link>
               </li>
+
+              <li className="group flex items-center gap-2">
+                <span className="h-[1px] w-0 bg-[#33b9d2] transition-all duration-300 group-hover:w-3"></span>
+                <Link to="/advertisement" className="group-hover:text-[#33b9d2]">
+                  विज्ञापन
+                </Link>
+              </li>
+
               <li className="group flex items-center gap-2">
                 <span className="h-[1px] w-0 bg-[#33b9d2] transition-all duration-300 group-hover:w-3"></span>
                 <Link to="/contact" className="group-hover:text-[#33b9d2]">

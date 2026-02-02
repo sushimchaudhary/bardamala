@@ -105,37 +105,35 @@ export default function AboutUsPage() {
                   </div>
                   <DynamicAdsProvider
                     position="post_sidebar_1"
-                    className="w-full h-[250px]"
+                    className="w-full h-[210px]"
                   />
                 </section>
 
-                <div className="p-6 bg-[#2db7d1]  text-white relative overflow-hidden group">
-                  <div className="relative z-10">
-                    <h3 className="font-bold text-lg mb-2">हाम्रो अभियान</h3>
-                    <p className="text-sm text-teal-50 mb-4 font-light leading-relaxed">
-                      गुणस्तरीय शिक्षा र सूचनाको पहुँच सबैमा पुर्‍याउन हामी सधैं
-                      तत्पर छौं। हामीसँग जोडिनुहोस्।
-                    </p>
-                    <Link to={"/register"}>
-                      <button className="w-full py-1.5 bg-white text-[#213a59] text-sm font-bold hover:bg-teal-50 transition-colors shadow-md">
-                        सदस्य बन्नुहोस्
-                      </button>
-                    </Link>
-                  </div>
-                  <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-white/10 rounded blur-2xl "></div>
+                  <div className="p-6 bg-[#49c0d7] text-white shadow-lg relative overflow-hidden group">
+                <div className="relative z-10">
+                  <h3 className="font-bold text-lg mb-2 text-white">हाम्रो अभियान</h3>
+                  <p className="text-sm text-gray-100 mb-4 font-light leading-relaxed">
+                    सही सूचना र निष्पक्ष समाचारका लागि हामी सधैं क्रियाशील छौं।
+                  </p>
+                  <Link to="/contact">
+                    <button className="w-full py-1.5 bg-white text-[#213a59] text-sm font-bold hover:bg-gray-100 transition-colors shadow-md">
+                      हामीलाई लेख्नुहोस्
+                    </button>
+                  </Link>
                 </div>
+              </div>
 
                 <section>
                   <DynamicAdsProvider
                     position="post_sidebar_2"
-                    className="w-full h-[250px]  shadow-sm"
+                    className="w-full h-[210px]  shadow-sm"
                   />
                 </section>
 
                 <section>
                   <DynamicAdsProvider
                     position="post_sidebar_3"
-                    className="w-full h-[250px]  shadow-sm"
+                    className="w-full h-[210px]  shadow-sm"
                   />
                 </section>
               </div>

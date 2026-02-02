@@ -12,8 +12,11 @@ export const contentService = {
   },
 
   updateAbout: async (id: number, data: FormData) => {
-    const res = await api.patch(`/api/content/about/${id}/`, data);
-    return res.data;
+ return await api.patch(`/api/content/about/${id}/`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
   },
 
   deleteAbout: async (id: number) => {

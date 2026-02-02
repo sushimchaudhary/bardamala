@@ -28,7 +28,6 @@ export default function AboutForm({
     photo: null as File | string | null,
   });
 
-  // BlogForm जस्तै useEffect लजिक
   useEffect(() => {
     if (isOpen) {
       if (data?.id) {
@@ -39,7 +38,6 @@ export default function AboutForm({
         });
         setPreview(data.photo || null);
       } else {
-        // नयाँ थप्नको लागि Reset गर्ने
         setFormData({
           id: null,
           description: "",
@@ -60,17 +58,13 @@ const handleSubmit = async (e: React.FormEvent) => {
   const dataToSend = new FormData();
   dataToSend.append("description", formData.description);
 
-  // यदि फोटो File object हो भने मात्र पठाउने
   if (formData.photo instanceof File) {
     dataToSend.append("photo", formData.photo);
   }
 
   try {
     if (formData.id) {
-      // धेरै ब्याकइन्डमा FormData + PUT ले काम नगर्ने हुनाले POST पठाएर 
-      // _method थप्नुपर्ने हुन सक्छ (यदि तपाईँको ब्याकइन्डले यो सपोर्ट गर्छ भने)
-      // dataToSend.append("_method", "PUT"); 
-      
+    
       await contentService.updateAbout(formData.id, dataToSend);
       showSuccess("About content updated successfully!");
     } else {
@@ -85,7 +79,6 @@ const handleSubmit = async (e: React.FormEvent) => {
     onClose();
   } catch (err: any) {
     console.error("Submit Error:", err.response?.data);
-    // एरर डिटेल देखाउनुहोस्
     const errorMsg = err.response?.data?.message || "Failed to save data.";
     showError(errorMsg);
   } finally {
@@ -99,14 +92,13 @@ const handleSubmit = async (e: React.FormEvent) => {
     <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-[2px] p-4 font-sans text-gray-800">
       <div className="bg-white rounded shadow-xl w-full max-w-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
         
-        {/* Header - BlogForm स्टाइलमा */}
-        <div className="bg-[#1e695e] px-4 py-3 text-white flex justify-between items-center shadow-md">
+        <div className="bg-[#213a59] px-4 py-3 text-white flex justify-between items-center shadow-md">
           <h2 className="text-sm font-bold flex items-center gap-2">
             <Info size={18} /> {formData.id ? "Update About Us" : "Add New About Content"}
           </h2>
           <button
             onClick={onClose}
-            className="text-white/80 hover:text-white cursor-pointer transition-colors"
+            className="text-red-500 hover:text-red-600 cursor-pointer transition-colors"
           >
             <X size={20} />
           </button>
@@ -119,7 +111,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">
               Feature Image
             </label>
-            <div className="relative h-40 w-full border-2 border-dashed border-gray-200 rounded bg-gray-50 flex items-center justify-center overflow-hidden hover:border-[#1e695e] transition-all cursor-pointer group">
+            <div className="relative h-40 w-full border-2 border-dashed border-gray-200 rounded bg-gray-50 flex items-center justify-center overflow-hidden hover:border-[#213a59] transition-all cursor-pointer group">
               {preview ? (
                 <>
                   <img
@@ -191,7 +183,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             type="submit"
             onClick={handleSubmit}
             disabled={loading}
-            className="bg-[#1e695e] hover:bg-[#164e46] text-white px-8 py-1.5 rounded shadow-md shadow-[#1e695e]/20 font-bold text-[11px] uppercase flex items-center gap-2 cursor-pointer disabled:bg-gray-400 transition-all active:scale-95"
+            className="bg-[#213a59]  text-white px-5 py-1.5 rounded font-bold text-[11px] uppercase shadow-sm cursor-pointer transition-all flex items-center gap-2"
           >
             {loading ? (
               <Loader2 size={14} className="animate-spin" />

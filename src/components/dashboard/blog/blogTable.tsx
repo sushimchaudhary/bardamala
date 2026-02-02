@@ -22,15 +22,15 @@ export default function BlogTable({ data, onEdit, onDelete, loading }: BlogTable
       
       <div className="overflow-auto scrollbar-hide flex-grow relative">
         <table className="w-full text-left text-sm table-fixed min-w-[1000px] border-separate border-spacing-0">
-          <thead className="bg-gray-100 sticky top-0 z-10">
+          <thead className="bg-[#213a59]/90 text-white sticky top-0 z-10">
             <tr>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] w-12 border-b border-gray-200 bg-gray-100">S.N.</th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] w-20 border-b border-gray-200 bg-gray-100">Image</th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] w-50 border-b border-gray-200 bg-gray-100">Title & Slug</th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] w-50 border-b border-gray-200 bg-gray-100">Category & Author</th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] w-32 border-b border-gray-200 bg-gray-100">Date</th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] w-24 text-center border-b border-gray-200 bg-gray-100">Stats</th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] text-end w-28 border-b border-gray-200 bg-gray-100">Action</th>
+              <th className="p-2 font-bold  uppercase text-[10px] w-12 border-b border-gray-200">S.N.</th>
+              <th className="p-2 font-bold  uppercase text-[10px] w-20 border-b border-gray-200">Image</th>
+              <th className="p-2 font-bold  uppercase text-[10px] w-50 border-b border-gray-200">Title & Slug</th>
+              <th className="p-2 font-bold  uppercase text-[10px] w-50 border-b border-gray-200">Category & Author</th>
+              <th className="p-2 font-bold  uppercase text-[10px] w-32 border-b border-gray-200">Date</th>
+              <th className="p-2 font-bold  uppercase text-[10px] w-24 text-center border-b border-gray-200">Stats</th>
+              <th className="p-2 font-bold  uppercase text-[10px] text-end w-28 border-b border-gray-200">Action</th>
             </tr>
           </thead>
 
@@ -78,7 +78,7 @@ export default function BlogTable({ data, onEdit, onDelete, loading }: BlogTable
                       <Eye size={12} /> {item.view_count || 0}
                     </span>
                   </td>
-                  <td className="px-3 py-2 text-end">
+                  <td className="px-1 py-2 text-end">
                     <div className="flex justify-end gap-1">
                       <button 
                         onClick={() => onEdit(item)} 

@@ -30,12 +30,13 @@ import CategoryPage from "../pages/category/page";
 import MankaKura from "../pages/maka-kura-list/page";
 import AllBlogs from "../pages/all-news/page";
 import SearchPage from "../pages/search/SearchPage";
+
 import RegisterPage from "../pages/auth/RegisterPage";
 import Users from "../pages/dashboard/user/page";
 import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage";
 import ResetPassword from "../pages/auth/ResetPasswordPage";
+import AdsListingPage from "../pages/advertisment/page";
 
-// import AllCategoriesPage from "../pages/category/AllCategoriesPage";
 
 // --- Protected Route Wrapper ---
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -95,9 +96,10 @@ const router = createBrowserRouter([
   { path: "/category/:slug", element: <CategoryPage /> },
   { path: "/about-us", element: <AboutUsPage /> },
   { path: "/contact", element: <ContactSection /> },
+  { path: "/advertisement", element: <AdsListingPage /> },
   { path: "/category-list/:id", element: <BlogListPage /> },
   { path: "/blog/:slug", element: <BlogDetailPage /> },
-  // { path: "/all-categories", element: <AllCategoriesPage /> },
+
   { path: "/all-news", element: <AllBlogs /> },
   { path: "/manka-kura-list", element: <MankaKura /> },
   { path: "/search", element: <SearchPage /> },

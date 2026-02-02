@@ -14,26 +14,26 @@ export default function CategoryTable({
   loading,
 }: CategoryTableProps) {
   return (
-    <div className="bg-white rounded shadow-sm border border-gray-100 overflow-hidden flex flex-col lg:h-[70vh] h-[65vh]">
+    <div className=" rounded shadow-sm border border-gray-100 overflow-hidden flex flex-col lg:h-[70vh] h-[65vh]">
       
       {/* Scrollable Container with Hidden Scrollbar */}
       <div className="overflow-auto scrollbar-hide flex-grow relative">
         <table className="w-full text-left text-sm min-w-[600px] border-separate border-spacing-0">
-          <thead className="bg-gray-100 sticky top-0 z-10">
+          <thead className="bg-[#213a59]/90 text-white sticky top-0 z-10">
             <tr>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] w-16 border-b border-gray-200 bg-gray-100">
+              <th className="p-2 font-bold uppercase text-[10px] w-16 border-b border-gray-200">
                 S.N.
               </th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] border-b border-gray-200 bg-gray-100">
+              <th className="p-2 font-bold uppercase text-[10px] border-b border-gray-200">
                 Category Name
               </th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] border-b border-gray-200 bg-gray-100">
+              <th className="p-2 font-bold uppercase text-[10px] border-b border-gray-200">
                 Slug
               </th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] border-b border-gray-200 bg-gray-100 w-32">
+              <th className="p-2 font-bold uppercase text-[10px] border-b border-gray-200 w-32">
                 Status
               </th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] text-end border-b border-gray-200 bg-gray-100 w-28">
+              <th className="p-2 font-bold uppercase text-[10px] text-end border-b border-gray-200 w-28">
                 Action
               </th>
             </tr>

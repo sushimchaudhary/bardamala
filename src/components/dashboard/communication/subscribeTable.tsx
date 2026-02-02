@@ -16,7 +16,6 @@ export default function SubscriberTable({
 
   return (
     <div className="bg-white rounded shadow-sm border border-gray-100 overflow-hidden flex flex-col lg:h-[70vh] h-[65vh]">
-      {/* Hidden Scrollbar Style */}
       <style>{`
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
@@ -24,18 +23,18 @@ export default function SubscriberTable({
 
       <div className="overflow-auto scrollbar-hide flex-grow relative">
         <table className="w-full text-left text-sm min-w-[600px] border-separate border-spacing-0">
-          <thead className="sticky top-0 z-10">
-            <tr className="bg-gray-100">
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100 border-b border-gray-200 w-16">
+          <thead className="bg-[#213a59]/90 text-white sticky top-0 z-10">
+            <tr>
+              <th className="p-2 font-bold  uppercase text-[10px] border-b border-gray-200 w-16">
                 S.N.
               </th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100 border-b border-gray-200">
+              <th className="p-2 font-bold  uppercase text-[10px] border-b border-gray-200">
                 Email Address
               </th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100 border-b border-gray-200 text-center w-40">
+              <th className="p-2 font-bold  uppercase text-[10px] border-b border-gray-200 text-center w-40">
                 Subscribed Date
               </th>
-              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] text-end bg-gray-100 border-b border-gray-200 w-24">
+              <th className="p-2 font-bold  uppercase text-[10px] text-end border-b border-gray-200 w-24">
                 Action
               </th>
             </tr>
@@ -54,7 +53,7 @@ export default function SubscriberTable({
               </tr>
             ) : subscribers.length > 0 ? (
               [...subscribers].reverse().map((sub, index) => (
-                <tr key={sub.id} className="hover:bg-gray-50/80 transition-colors text-xs text-gray-600">
+                <tr key={sub.id} className="hover:bg-gray-50/80 transition-colors text-xs ">
                   <td className="p-2 text-gray-500 border-b border-gray-50">
                     {index + 1}.
                   </td>
@@ -70,7 +69,7 @@ export default function SubscriberTable({
                       {sub.created_at ? new Date(sub.created_at).toLocaleDateString() : 'N/A'}
                     </div>
                   </td>
-                  <td className="p-2 text-end border-b border-gray-50">
+                  <td className="p-1 text-end border-b border-gray-50">
                     <button
                       onClick={() => onDelete(sub.id)}
                       className="px-1 text-red-500 hover:bg-red-50 rounded-lg transition-all cursor-pointer"
@@ -102,11 +101,11 @@ export default function SubscriberTable({
   //     >
   //       <table className="w-full text-left text-sm min-w-[600px]">
   //         <thead className="sticky top-0 z-10">
-  //           <tr className="bg-gray-100">
-  //             <th className="p-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100">S.N.</th>
-  //             <th className="p-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100">Email Address</th>
-  //             <th className="p-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100 text-center">Subscribed Date</th>
-  //             <th className="px-4 py-3 font-bold text-gray-600 uppercase text-[10px] text-end bg-gray-100">Action</th>
+  //           <tr className=">
+  //             <th className="p-2 font-bold  uppercase text-[10px]">S.N.</th>
+  //             <th className="p-2 font-bold  uppercase text-[10px]">Email Address</th>
+  //             <th className="p-2 font-bold  uppercase text-[10px] text-center">Subscribed Date</th>
+  //             <th className="px-4 py-3 font-bold  uppercase text-[10px] text-end">Action</th>
   //           </tr>
   //         </thead>
   //         <tbody className="divide-y divide-gray-50">

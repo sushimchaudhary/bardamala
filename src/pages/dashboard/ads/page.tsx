@@ -39,21 +39,21 @@ export default function AdManage() {
     setIsConfirmOpen(true);
   };
 
- const handleConfirmDelete = async () => {
-  if (!deleteId) return;
-  setDeleteLoading(true);
-  try {
-    await api.delete(`/api/ads/${deleteId}/`);
-    showSuccess("Advertisement deleted successfully.");
-    fetchAds();
-    setIsConfirmOpen(false);
-  } catch (err) {
-    showError("Failed to delete the advertisement.");
-  } finally {
-    setDeleteLoading(false);
-    setDeleteId(null);
-  }
-};
+  const handleConfirmDelete = async () => {
+    if (!deleteId) return;
+    setDeleteLoading(true);
+    try {
+      await api.delete(`/api/ads/${deleteId}/`);
+      showSuccess("Advertisement deleted successfully.");
+      fetchAds();
+      setIsConfirmOpen(false);
+    } catch (err) {
+      showError("Failed to delete the advertisement.");
+    } finally {
+      setDeleteLoading(false);
+      setDeleteId(null);
+    }
+  };
 
   useEffect(() => {
     fetchAds();
@@ -75,7 +75,7 @@ export default function AdManage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
           <h1 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-            <Megaphone className="text-[#1e695e]" size={24} />
+            <Megaphone className="text-[#2db7d1]" size={24} />
             Ads Management
           </h1>
           <p className="text-xs text-gray-500 mt-1">
@@ -85,7 +85,7 @@ export default function AdManage() {
 
         <button
           onClick={handleAddNew}
-              className="bg-[#1e695e] hover:bg-[#164e46] text-white px-2.5  py-1 cursor-pointer rounded text-xs font-bold  flex items-center gap-2 transition-all shadow-sm"
+          className="bg-[#213a59] text-white px-2.5  py-1 cursor-pointer rounded text-xs font-bold  flex items-center gap-2 transition-all shadow-sm"
         >
           <Plus size={14} /> Create
         </button>
@@ -113,7 +113,7 @@ export default function AdManage() {
       <ConfirmModal
         isOpen={isConfirmOpen}
         title="Delete Advertisement?"
-        message="के तपाईं यो विज्ञापन हटाउन निश्चित हुनुहुन्छ? यो डाटा सधैंका लागि हराउनेछ।"
+        message="Are you sure you want to delete this Ad? This will remove all associated Ad permanently."
         onConfirm={handleConfirmDelete}
         onCancel={() => setIsConfirmOpen(false)}
         loading={deleteLoading}

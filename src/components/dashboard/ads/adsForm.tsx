@@ -123,7 +123,7 @@ export default function AdForm({ isOpen, onClose, data, refreshData }: AdFormPro
       <div className="bg-white rounded shadow-xl w-full max-w-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
         
         {/* Header */}
-        <div className="flex-shrink-0 bg-[#1e695e] px-4 py-1.5 text-white flex justify-between items-center">
+        <div className="flex-shrink-0 bg-[#213a59] px-4 py-1.5 text-white flex justify-between items-center">
           <h2 className="text-sm font-bold flex items-center gap-2">
             <Megaphone size={18} /> {formData.id ? "Edit Ad" : "Add New Ad"}
           </h2>
@@ -139,7 +139,7 @@ export default function AdForm({ isOpen, onClose, data, refreshData }: AdFormPro
             <input
               type="text"
               required
-              className="w-full px-3 py-1.5 border shadow-sm border-gray-200 rounded outline-none focus:border-[#1e695e] text-sm"
+              className="w-full px-3 py-1.5 border shadow-sm border-gray-200 rounded outline-none focus:border-[#213a59] text-sm"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             />
@@ -149,7 +149,7 @@ export default function AdForm({ isOpen, onClose, data, refreshData }: AdFormPro
             <div className="space-y-1">
               <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Position</label>
               <select
-                className="w-full px-3 py-1.5 border shadow-sm border-gray-200 rounded outline-none focus:border-[#1e695e] text-sm bg-white"
+                className="w-full px-3 py-1.5 border shadow-sm border-gray-200 rounded outline-none focus:border-[#213a59] text-sm bg-white"
                 value={formData.position}
                 onChange={(e) => setFormData({ ...formData, position: e.target.value })}
                 required
@@ -169,7 +169,7 @@ export default function AdForm({ isOpen, onClose, data, refreshData }: AdFormPro
               <input
                 type="checkbox"
                 id="is_active"
-                className="w-4 h-4 accent-[#1e695e] shadow-sm"
+                className="w-4 h-4 accent-[#213a59] shadow-sm"
                 checked={formData.is_active}
                 onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
               />
@@ -203,7 +203,7 @@ export default function AdForm({ isOpen, onClose, data, refreshData }: AdFormPro
           {/* Image Preview */}
           <div className="space-y-1">
             <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Ad Creative</label>
-            <div className="relative h-40 w-full border-2 border-dashed border-gray-200 rounded  bg-white flex items-center justify-center overflow-hidden hover:border-[#1e695e] flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100/50 transition-all cursor-pointer overflow-hidden">
+            <div className="relative h-40 w-full border-2 border-dashed border-gray-200 rounded  bg-white flex items-center justify-center overflow-hidden hover:border-[#213a59] flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100/50 transition-all cursor-pointer overflow-hidden">
               {preview ? (
                 <img src={preview} className="w-full h-full object-contain" alt="Preview" />
               ) : (
@@ -232,14 +232,14 @@ export default function AdForm({ isOpen, onClose, data, refreshData }: AdFormPro
         <div className="flex justify-end gap-2 px-4 py-2 border-t border-gray-300 bg-gray-50/50">
           <button
             onClick={onClose}
-            className="px-4 py-1.5 rounded text-red-500 text-[11px] border border-red-500 hover:bg-red-500 hover:text-white font-bold uppercase transition-all"
+            className="px-4 py-1.5 rounded text-red-500 text-[11px] border border-red-500 hover:bg-red-500 hover:text-white cursor-pointer font-bold uppercase transition-all"
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="bg-[#1e695e] hover:bg-[#164e46] text-white px-6 py-1.5 rounded font-bold text-[11px] uppercase shadow-sm transition-all flex items-center gap-2 disabled:bg-gray-400"
+            className="bg-[#213a59] text-white px-6 py-1.5 rounded font-bold cursor-pointer text-[11px] uppercase shadow-sm transition-all flex items-center gap-2 disabled:bg-gray-400"
           >
             {loading ? <Loader2 size={14} className="animate-spin" /> : <><Save size={14} /> {formData.id ? "Update" : "Save"}</>}
           </button>

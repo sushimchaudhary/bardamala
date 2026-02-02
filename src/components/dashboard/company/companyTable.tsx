@@ -35,23 +35,23 @@ export default function CompanyTable({
       >
         <table className="w-full text-left text-sm min-w-[600px] border-separate border-spacing-0">
           <thead className="sticky top-0 z-10">
-            <tr className="bg-gray-100">
-              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
+            <tr className="bg-[#213a59]/90 text-white">
+              <th className="px-2 py-2 font-bold uppercase text-[10px] ">
                 Logo & Name
               </th>
-              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
+              <th className="px-2 py-2 font-bold uppercase text-[10px] ">
                 Contact Info
               </th>
-              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
+              <th className="px-2 py-2 font-bold uppercase text-[10px] ">
                 Office Addres
               </th>
-              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100 ">
+              <th className="px-2 py-2 font-bold uppercase text-[10px]  ">
                 Map
               </th>
-              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
+              <th className="px-2 py-2 font-bold uppercase text-[10px] ">
                 Social
               </th>
-              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px] text-end  bg-gray-100">
+              <th className="px-2 py-2 font-bold uppercase text-[10px] text-end ">
                 Action
               </th>
             </tr>
@@ -62,7 +62,7 @@ export default function CompanyTable({
               <tr>
                 <td colSpan={6} className="px-2 py-10 text-center ">
                   <div className="flex flex-col items-center justify-center gap-3">
-                  <Loader2 className="animate-spin text-[#1e695e]" size={30} />
+                  <Loader2 className="animate-spin text-[#2db7d1]" size={30} />
                   <span className="text-[10px] font-bold  tracking-widest text-gray-400">
                     Loading data...
                   </span>
@@ -85,10 +85,10 @@ export default function CompanyTable({
                   <td className="p-1 ">
                     <div className="flex flex-col gap-1 text-[11px] text-gray-500 whitespace-nowrap">
                       <span className="flex items-center gap-1 font-medium">
-                        <Mail size={12} className="text-[#1e695e]" /> {company.email}
+                        <Mail size={12} className="text-[#2db7d1]" /> {company.email}
                       </span>
                       <span className="flex items-center gap-1">
-                        <Phone size={12} className="text-[#1e695e]" /> {company.contact_no}
+                        <Phone size={12} className="text-[#2db7d1]" /> {company.contact_no}
                       </span>
                     </div>
                   </td>
@@ -103,7 +103,7 @@ export default function CompanyTable({
                         href={company.google_map}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex p-1 bg-teal-50 text-[#1e695e] rounded-full hover:bg-teal-100 transition-colors"
+                        className="inline-flex p-1 bg-teal-50 text-[#2db7d1] rounded-full hover:bg-teal-100 transition-colors"
                       >
                         <MapPin size={16} />
                       </a>
@@ -142,13 +142,13 @@ export default function CompanyTable({
                     <div className="flex justify-end">
                       <button
                         onClick={() => onEdit(company)}
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-all"
+                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-all"
                       >
                         <Edit2 size={14} />
                       </button>
                       <button
                         onClick={() => onDelete(company.id)}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-all"
+                        className="p-2 text-red-500 hover:bg-red-50 rounded-md transition-all"
                       >
                         <Trash2 size={14} />
                       </button>

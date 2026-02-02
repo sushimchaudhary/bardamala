@@ -114,7 +114,7 @@ export default function CompanyForm({
     <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-[2px] p-4">
       <div className="bg-white rounded shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="flex-shrink-0 bg-[#1e695e] px-2 py-1.5 text-white flex justify-between items-center z-10">
+        <div className="flex-shrink-0 bg-[#213a59] px-2 py-1.5 text-white flex justify-between items-center z-10">
           <h2 className="text-sm font-bold flex items-center gap-2">
             <Building2 size={18} />{" "}
             {formData.id ? "Edit Company" : "Add Company"}
@@ -253,7 +253,7 @@ export default function CompanyForm({
             type="submit"
             onClick={handleSubmit}
             disabled={loading}
-            className="bg-[#1e695e] hover:bg-[#164e46] text-white px-5 py-1.5 rounded-md font-bold text-[11px] uppercase shadow-sm cursor-pointer transition-all flex items-center gap-2"
+            className="bg-[#213a59]  text-white px-5 py-1.5 rounded font-bold text-[11px] uppercase shadow-sm cursor-pointer transition-all flex items-center gap-2"
           >
             {loading ? (
               <Loader2 size={14} className="animate-spin" />
@@ -284,7 +284,7 @@ const InputField = ({ label, icon, value, onChange, maxLength }: any) => (
           if (maxLength && val.length > maxLength) return;
           onChange(val);
         }}
-        className="w-full pl-10 pr-4 py-1 bg-gray-50 border border-gray-200 rounded focus:ring-2 focus:ring-[#1e695e]/10 focus:border-[#1e695e] outline-none text-sm"
+        className="w-full pl-10 pr-4 py-1 bg-gray-50 border border-gray-200 rounded focus:ring-2 focus:ring-[#213a59]/10 focus:border-[#213a59] outline-none text-sm"
       />
     </div>
   </div>
