@@ -1,8 +1,18 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { AlertCircle } from "lucide-react";
+import { 
+  Loader2, 
+  Calendar, 
+  User, 
+  ArrowRight, 
+  LayoutList, 
+  Eye, 
+  AlertCircle 
+} from "lucide-react";
 import { contentService } from "../../services/contentServices";
+import DynamicAdsProvider from "../../components/adds/dynamicAdsProvider";
 import FrontendLayout from "../layout/frontendLayout";
+import NepaliDate from "nepali-date-converter";
 
 export default function BlogListPage() {
   const { id } = useParams();
@@ -16,11 +26,18 @@ export default function BlogListPage() {
         const res = await contentService.getPosts();
         const allPosts = Array.isArray(res) ? res : res?.data?.data || [];
 
+        // फिल्टरिङ (Category ID सँग म्याच गरेको)
         const filtered = allPosts.filter((p: any) =>
           String(p.category) === String(id)
         );
 
-        setPosts(filtered);
+        // नयाँ मिति अनुसार सर्टिङ
+        const sorted = [...filtered].sort(
+          (a: any, b: any) =>
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+
+        setPosts(sorted);
       } catch (err) {
         console.error("Fetch Error:", err);
       } finally {
@@ -31,91 +48,168 @@ export default function BlogListPage() {
     if (id) fetchPosts();
   }, [id]);
 
-  if (loading) return <div className="text-center p-20 font-bold">लोडिङ...</div>;
+  const toNepaliNumber = (num: number | string) => {
+    const nepaliDigits = ["०", "१", "२", "३", "४", "५", "६", "७", "८", "९"];
+    return num
+      .toString()
+      .split("")
+      .map((d) => (/[0-9]/.test(d) ? nepaliDigits[parseInt(d)] : d))
+      .join("");
+  };
+
+  const formatNepaliDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      return new NepaliDate(date).format("MMMM DD, YYYY", "np");
+    } catch (e) {
+      return dateString;
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center gap-4">
+        <Loader2 className="animate-spin text-[#213a59]" size={48} />
+        <p className="text-gray-500 font-medium">लोड हुँदैछ...</p>
+      </div>
+    );
+  }
 
   return (
     <FrontendLayout>
-      <section className="bg-gray-50">
-      <div className="max-w-7xl mx-auto p-2 md:p-3  ">
-        {/* Header Section */}
-        <div className="flex justify-between items-center mb-10 border-b border-gray-200 pb-5">
-          <h1 className="text-2xl md:text-3xl font-bold text-[#1e695e] flex items-center gap-3">
-           
-            {posts.length > 0 ? posts[0].category_name : "सामग्री सूची"}
-          </h1>
-         
-        </div>
-
-        {/* Main Grid: 12 Columns */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
-          {/* LEFT SIDE: Blog List (8 Columns) */}
-          <div className="lg:col-span-8">
-            {posts.length > 0 ? (
-              <div className="flex flex-col gap-6">
-                {posts.map((post) => (
-                  <div key={post.id} className="bg-white rounded shadow-md overflow-hidden flex flex-col md:flex-row group hover:shadow-md transition-shadow">
-                    {/* Post Image */}
-                    <div className="md:w-1/3 h-48 md:h-auto overflow-hidden">
-                      <img 
-                        src={post.photo || "/placeholder.jpg"} 
-                        alt={post.title} 
-                        className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                      />
-                    </div>
-                    
-                    {/* Post Details */}
-                    <div className="p-5 md:w-2/3 flex flex-col justify-center">
-                      <h2 className="text-xl font-bold mb-2 group-hover:text-[#1e695e] transition-colors">
-                        <Link to={`/blog/${post.slug}`}>{post.title}</Link>
-                      </h2>
-                      <p className="text-gray-600 text-sm line-clamp-2 mb-4 italic">
-                        {post.description?.replace(/<[^>]*>/g, "").substring(0, 150)}...
-                      </p>
-                      <Link to={`/blog/${post.slug}`} className="text-[#e44d26] font-bold text-sm hover:underline">
-                        थप पढ्नुहोस् →
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-20 bg-white border rounded-xl">
-                <AlertCircle size={50} className="mx-auto text-gray-300 mb-4" />
-                <p className="text-xl text-gray-500 font-bold">यो क्याटेगोरीमा डाटाहरू भेटिएनन्।</p>
-              </div>
-            )}
-          </div>
-
-          {/* RIGHT SIDE: Sidebar / Ads (4 Columns) */}
-          <div className="lg:col-span-4 flex flex-col gap-6">
-            {/* Sticky Ad Box */}
-            <div className="sticky top-24 flex flex-col gap-6">
+      <div className="font-sans min-h-screen bg-gray-50/50">
+        <div className="max-w-7xl mx-auto p-4">
+          <div className="grid grid-cols-12 gap-8 items-start">
+            
+            {/* LEFT: Content Section */}
+            <div className="col-span-12 lg:col-span-9 space-y-6">
               
-              {/* Ad Unit 1 */}
-              <div className="bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl p-4 min-h-[250px] flex flex-center items-center justify-center text-center">
-                <div>
-                  <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Advertisement</span>
-                  <div className="mt-4 text-gray-500 italic">तपाईंको विज्ञापन यहाँ राख्न सकिन्छ</div>
+              {/* Header with AllNews Style */}
+              <div className="bg-white p-4 shadow-sm border-l-4 border-[#213a59] flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="bg-[#49c0d7]/10 p-2">
+                    <LayoutList size={22} className="text-[#213a59]" />
+                  </div>
+                  <div>
+                   
+                    <p className="text-lg font-bold text-gray-800">
+                      {posts.length > 0 ? posts[0].category_name : "सामग्रीहरू"} (
+                      <span className="text-[#49c0d7]">
+                        {toNepaliNumber(posts.length)}
+                      </span>)
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              {/* Ad Unit 2 */}
-              <div className="bg-[#1e695e]/5 border border-[#1e695e]/20 rounded-xl p-6">
-                <h3 className="font-bold text-[#1e695e] mb-4 border-b pb-2">ताजा अपडेट</h3>
-                <ul className="text-sm flex flex-col gap-3">
-                  <li className="hover:text-[#e44d26] cursor-pointer">• नयाँ सुविधाहरू सार्वजनिक</li>
-                  <li className="hover:text-[#e44d26] cursor-pointer">• आगामी कार्यक्रमको बारेमा</li>
-                  <li className="hover:text-[#e44d26] cursor-pointer">• हाम्रा उत्कृष्ट ब्लगहरू</li>
-                </ul>
+              <div className="space-y-4">
+                {posts.length > 0 ? (
+                  posts.map((item) => (
+                    <article
+                      key={item.id}
+                      className="bg-white overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col md:flex-row group min-h-[200px]"
+                    >
+                      <div className="md:w-72 w-full aspect-video md:aspect-auto md:h-52 overflow-hidden relative shrink-0 bg-gray-100">
+                        <Link to={`/blog/${item.slug}`} className="block w-full h-full">
+                          <img
+                            src={item.photo || "/placeholder.jpg"}
+                            alt={item.title}
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                          />
+                        </Link>
+                        <div className="absolute top-2 left-2 bg-[#213a59] text-white text-[10px] font-bold px-2 py-1 z-10">
+                          {item.category_name}
+                        </div>
+                      </div>
+
+                      <div className="p-5 pr-8 flex flex-col justify-between flex-1 overflow-hidden">
+
+                      <div>
+                        <div className="flex flex-wrap items-center gap-4 text-gray-400 text-[11px] mb-2 font-medium">
+                          <span className="flex items-center gap-1">
+                            <Calendar size={13} className="text-[#49c0d7]" />
+                            {formatNepaliDate(item.created_at)}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <User size={13} className="text-[#49c0d7]" />
+                            {item.author_name}
+                          </span>
+                          <span className="flex items-center gap-1 bg-gray-100 px-2 py-0.5 rounded text-[#213a59]">
+                            <Eye size={13} />{" "}
+                            {toNepaliNumber(item.view_count || 0)}
+                          </span>
+                        </div>
+
+                        <Link to={`/blog/${item.slug}`}>
+                          <h2 className="text-xl font-bold text-[#213a59] mb-2 group-hover:text-[#49c0d7] transition-colors line-clamp-2 leading-tight">
+                            {item.title}
+                          </h2>
+                        </Link>
+
+                        <div
+                          className="text-gray-500 text-sm line-clamp-3 leading-relaxed italic quill-content"
+                          dangerouslySetInnerHTML={{ __html: item.description }}
+                        />
+                      </div>
+
+                      <div className="mt-4">
+                        <Link
+                          to={`/blog/${item.slug}`}
+                          className="inline-flex items-center gap-1 text-[#49c0d7] font-bold text-xs hover:gap-2 transition-all uppercase tracking-wider"
+                        >
+                          थप पढ्नुहोस् <ArrowRight size={14} />
+                        </Link>
+                      </div>
+                    </div>
+
+
+                    </article>
+                  ))
+                ) : (
+                  <div className="text-center py-20 bg-white border border-gray-200 shadow-sm flex flex-col items-center">
+                    <AlertCircle size={48} className="text-gray-300 mb-3" />
+                    <p className="italic text-gray-400">यस विधामा कुनै सामग्री फेला परेन।</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* RIGHT: Sidebar */}
+            <aside className="col-span-12 lg:col-span-3 space-y-4">
+              <section>
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Sponsored</span>
+                  <span className="h-px bg-gray-200 flex-1"></span>
+                </div>
+                <DynamicAdsProvider position="post_sidebar_1" className="w-full h-[250px]" />
+              </section>
+
+              <div className="p-6 bg-[#49c0d7] text-white shadow-lg relative overflow-hidden group">
+                <div className="relative z-10">
+                  <h3 className="font-bold text-lg mb-2 text-white">हाम्रो अभियान</h3>
+                  <p className="text-sm text-gray-100 mb-4 font-light leading-relaxed">
+                    सही सूचना र निष्पक्ष समाचारका लागि हामी सधैं क्रियाशील छौं।
+                  </p>
+                  <Link to="/contact">
+                    <button className="w-full py-1.5 bg-white text-[#213a59] text-sm font-bold hover:bg-gray-100 transition-colors shadow-md">
+                      हामीलाई लेख्नुहोस्
+                    </button>
+                  </Link>
+                </div>
               </div>
 
-            </div>
-          </div>
+              <section>
+                <DynamicAdsProvider position="post_sidebar_2" className="w-full h-[250px]" />
+              </section>
 
+                <section>
+                <DynamicAdsProvider position="post_sidebar_3" className="w-full h-[250px]" />
+              </section>
+            </aside>
+          </div>
         </div>
       </div>
-      </section>
     </FrontendLayout>
   );
 }

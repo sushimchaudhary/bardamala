@@ -42,7 +42,7 @@ createPost: async (data: FormData) => {
   return res.data;
 },
 updatePost: async (id: number, data: FormData) => {
-  return await api.patch(`/about/${id}/`, data, {
+  return await api.patch(`/api/content/posts/${id}/`, data, {
     headers: {
       "Content-Type": "multipart/form-data",
     },

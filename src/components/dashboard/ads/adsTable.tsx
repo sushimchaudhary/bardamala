@@ -1,109 +1,112 @@
 import { Edit2, Trash2, Loader2, Calendar } from "lucide-react";
 
-export default function AdTable({ ads, onEdit, onDelete, loading }: any) {
+interface AdTableProps {
+  ads: any[];
+  onEdit: (ad: any) => void;
+  onDelete: (id: number) => void;
+  loading: boolean;
+}
+
+export default function AdTable({ ads, onEdit, onDelete, loading }: AdTableProps) {
   return (
-    <div className="overflow-hidden">
-      <style>{`.hide-scroll::-webkit-scrollbar { display: none; }`}</style>
-      <div className="overflow-x-auto hide-scroll">
-        <table className="w-full text-left text-sm min-w-[800px] border-separate border-spacing-0">
-          <thead className="sticky top-0 z-10">
-            <tr className="bg-gray-100">
-              <th className="px-4 py-3 font-bold text-gray-600 uppercase text-[10px] ">
+    <div className="bg-white rounded shadow-sm border border-gray-100 overflow-hidden flex flex-col lg:h-[70vh] h-[65vh]">
+      
+      {/* Scrollable Container with Hidden Scrollbar */}
+      <div className="overflow-auto scrollbar-hide flex-grow relative">
+        <table className="w-full text-left text-sm min-w-[850px] border-separate border-spacing-0">
+          <thead className="bg-gray-100 sticky top-0 z-10">
+            <tr>
+              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] border-b border-gray-200 bg-gray-100 w-24">
                 Preview
               </th>
-              <th className="px-4 py-3 font-bold text-gray-600 uppercase text-[10px] ">
+              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] border-b border-gray-200 bg-gray-100">
                 Ad Name
               </th>
-              <th className="px-4 py-3 font-bold text-gray-600 uppercase text-[10px] ">
+              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] border-b border-gray-200 bg-gray-100 w-40">
                 Position
               </th>
-              <th className="px-4 py-3 font-bold text-gray-600 uppercase text-[10px] ">
+              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] border-b border-gray-200 bg-gray-100 w-44">
                 Duration
               </th>
-              <th className="px-4 py-3 font-bold text-gray-600 uppercase text-[10px] ">
+              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] border-b border-gray-200 bg-gray-100 w-28 text-center">
                 Status
               </th>
-              <th className="px-4 py-3 font-bold text-gray-600 uppercase text-[10px]  text-end">
+              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] text-end border-b border-gray-200 bg-gray-100 w-28">
                 Action
               </th>
             </tr>
           </thead>
+
           <tbody className="divide-y divide-gray-50">
             {loading ? (
               <tr>
-                <td
-                  colSpan={6}
-                  className="px-4 py-10 text-center border-b border-gray-100"
-                >
-                  <Loader2
-                    className="animate-spin mx-auto text-gray-400"
-                    size={24}
-                  />
+                <td colSpan={6} className="px-4 py-16 text-center">
+                  <div className="flex flex-col items-center justify-center gap-3">
+                    <Loader2 className="animate-spin text-[#213a59]" size={32} />
+                    <span className="text-[10px] font-bold tracking-widest text-gray-400 uppercase">
+                      Loading Advertisements...
+                    </span>
+                  </div>
                 </td>
               </tr>
             ) : ads.length > 0 ? (
               ads.map((ad: any) => (
-                <tr
-                  key={ad.id}
-                  className="hover:bg-gray-50/50 transition-colors"
-                >
-                  <td className="p-1 border-b border-gray-100">
-                    <div className="h-10 w-20 bg-gray-100 rounded overflow-hidden ">
+                <tr key={ad.id} className="hover:bg-gray-50/80 transition-colors text-xs text-gray-600">
+                  <td className="p-2 border-b border-gray-50">
+                    <div className="h-10 w-20 bg-gray-100 rounded overflow-hidden shadow-sm ring-1 ring-gray-200">
                       {ad.file ? (
-                        <img
-                          src={ad.file}
-                          className="h-full w-full object-cover"
-                          alt="ad"
-                        />
+                        <img src={ad.file} className="h-full w-full object-cover" alt="ad" />
                       ) : (
-                        <div className="flex items-center justify-center h-full text-[8px]">
-                          No File
+                        <div className="flex items-center justify-center h-full text-[9px] text-gray-400">
+                          No Preview
                         </div>
                       )}
                     </div>
                   </td>
-                  <td className="p-1 border-b border-gray-100 font-medium text-gray-800">
+                  <td className="p-2 font-bold text-[#213a59] border-b border-gray-50">
                     {ad.name}
                   </td>
-                  <td className="p-1 border-b border-gray-100">
-                    <span className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase">
+                  <td className="p-2 border-b border-gray-50">
+                    <span className="bg-[#33b9d2]/10 text-[#213a59] px-2.5 py-1 rounded text-[10px] font-bold uppercase border border-[#33b9d2]/20">
                       {ad.position}
                     </span>
                   </td>
-                  <td className="p-1 border-b border-gray-100 text-gray-500 text-[11px]">
-                    <div className="flex flex-col">
-                      <span className="flex items-center gap-1 text-green-600">
-                        <Calendar size={10} /> {ad.start_date}
+                  <td className="p-2 border-b border-gray-50">
+                    <div className="flex flex-col gap-1">
+                      <span className="flex items-center gap-1.5 text-green-600 font-medium">
+                        <Calendar size={11} /> {ad.start_date}
                       </span>
-                      <span className="flex items-center gap-1 text-red-400">
-                        <Calendar size={10} /> {ad.end_date}
+                      <span className="flex items-center gap-1.5 text-red-400 font-medium">
+                        <Calendar size={11} /> {ad.end_date}
                       </span>
                     </div>
                   </td>
-                  <td className="p-1 border-b border-gray-100 text-center">
+                  <td className="p-2 border-b border-gray-50 text-center">
                     {ad.is_active ? (
-                      <span className="text-green-600 text-[10px] font-bold bg-green-50 px-2 py-0.5 rounded-full">
+                      <span className="inline-block text-green-600 text-[10px] font-bold bg-green-50 px-2.5 py-1 rounded-full border border-green-100">
                         ACTIVE
                       </span>
                     ) : (
-                      <span className="text-red-400 text-[10px] font-bold bg-red-50 px-2 py-0.5 rounded-full">
+                      <span className="inline-block text-red-400 text-[10px] font-bold bg-red-50 px-2.5 py-1 rounded-full border border-red-100">
                         INACTIVE
                       </span>
                     )}
                   </td>
-                  <td className="p-1 border-b border-gray-100 text-right">
-                    <div className="flex justify-end">
+                  <td className="p-2 text-end border-b border-gray-50">
+                    <div className="flex justify-end gap-1">
                       <button
                         onClick={() => onEdit(ad)}
-                        className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-full"
+                        className="px-1 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                        title="Edit Ad"
                       >
-                        <Edit2 size={14} />
+                        <Edit2 size={15} />
                       </button>
                       <button
                         onClick={() => onDelete(ad.id)}
-                        className="p-1.5 text-red-500 hover:bg-red-50 rounded-full"
+                        className="px-1 text-red-500 hover:bg-red-50 rounded-md transition-colors"
+                        title="Delete Ad"
                       >
-                        <Trash2 size={14} />
+                        <Trash2 size={15} />
                       </button>
                     </div>
                   </td>
@@ -111,10 +114,7 @@ export default function AdTable({ ads, onEdit, onDelete, loading }: any) {
               ))
             ) : (
               <tr>
-                <td
-                  colSpan={6}
-                  className="px-4 py-10 text-center text-gray-500 italic border-b border-gray-100"
-                >
+                <td colSpan={6} className="px-6 py-16 text-center text-gray-400 italic text-sm">
                   No advertisements found.
                 </td>
               </tr>
@@ -122,6 +122,16 @@ export default function AdTable({ ads, onEdit, onDelete, loading }: any) {
           </tbody>
         </table>
       </div>
+
+      <style>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </div>
   );
 }

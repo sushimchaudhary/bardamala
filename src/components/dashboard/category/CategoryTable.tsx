@@ -14,43 +14,39 @@ export default function CategoryTable({
   loading,
 }: CategoryTableProps) {
   return (
-    <div className="bg-white rounded shadow-sm border border-gray-100 overflow-hidden">
-      <style>{`.hide-scroll::-webkit-scrollbar { display: none; }`}</style>
-      <div
-        className="overflow-x-auto overflow-y-auto max-h-[450px] hide-scroll"
-        style={{ msOverflowStyle: "none", scrollbarWidth: "none" }}
-      >
-        <table className="w-full text-left text-sm min-w-[600px] ">
-          <thead className="sticky top-0 z-10">
-            <tr className="bg-gray-100">
-              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
+    <div className="bg-white rounded shadow-sm border border-gray-100 overflow-hidden flex flex-col lg:h-[70vh] h-[65vh]">
+      
+      {/* Scrollable Container with Hidden Scrollbar */}
+      <div className="overflow-auto scrollbar-hide flex-grow relative">
+        <table className="w-full text-left text-sm min-w-[600px] border-separate border-spacing-0">
+          <thead className="bg-gray-100 sticky top-0 z-10">
+            <tr>
+              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] w-16 border-b border-gray-200 bg-gray-100">
                 S.N.
               </th>
-              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
-                Name
+              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] border-b border-gray-200 bg-gray-100">
+                Category Name
               </th>
-              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
+              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] border-b border-gray-200 bg-gray-100">
                 Slug
               </th>
-              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px]  bg-gray-100">
+              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] border-b border-gray-200 bg-gray-100 w-32">
                 Status
               </th>
-              <th className="px-2 py-2 font-bold text-gray-600 uppercase text-[10px] text-end  bg-gray-100">
+              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] text-end border-b border-gray-200 bg-gray-100 w-28">
                 Action
               </th>
             </tr>
           </thead>
+
           <tbody className="divide-y divide-gray-50">
             {loading ? (
               <tr>
-                <td colSpan={5} className="px-2 py-10 text-center ">
-                  <div className="flex flex-col items-center justify-center gap-3">
-                    <Loader2
-                      className="animate-spin text-[#1e695e]"
-                      size={30}
-                    />
-                    <span className="text-[10px] font-bold  tracking-widest text-gray-400">
-                      Loading data...
+                <td colSpan={5} className="px-2 py-16 text-center">
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <Loader2 className="animate-spin text-[#213a59]" size={32} />
+                    <span className="text-[10px] font-bold tracking-widest text-gray-400 uppercase">
+                      Loading Categories...
                     </span>
                   </div>
                 </td>
@@ -59,41 +55,43 @@ export default function CategoryTable({
               categories.map((cat, index) => (
                 <tr
                   key={cat.id}
-                  className="hover:bg-gray-50/50 transition-colors"
+                  className="hover:bg-gray-50/80 transition-colors text-xs text-gray-600"
                 >
-                  <td className="p-1 text-gray-500 text-center border-b border-gray-100">
+                  <td className="px-3 py-2 text-gray-500 border-b border-gray-50">
                     {index + 1}.
                   </td>
-                  <td className="p-1 font-medium text-gray-800 whitespace-nowrap border-b border-gray-100">
+                  <td className="px-3 py-2 font-bold text-[#213a59] whitespace-nowrap border-b border-gray-50">
                     {cat.name}
                   </td>
-                  <td className="p-1 text-gray-500 whitespace-nowrap border-b border-gray-100">
-                    {cat.slug}
+                  <td className="px-2 py-2 text-gray-500 whitespace-nowrap border-b border-gray-50">
+                     {cat.slug}
                   </td>
-                  <td className="p-1 border-b border-gray-100">
+                  <td className="px py-2 border-b border-gray-50">
                     {cat.is_active ? (
-                      <span className="inline-flex items-center gap-1 text-green-600 text-[11px] font-bold bg-green-50 px-2 py-0.5 rounded-full">
-                        <CheckCircle2 size={12} /> ACTIVE
+                      <span className="inline-flex items-center gap-1 text-green-600 text-[10px] font-bold bg-green-50 px-2.5 py-1 rounded-full border border-green-100">
+                        <CheckCircle2 size={10} /> ACTIVE
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 text-red-400 text-[11px] font-bold bg-red-50 px-2 py-0.5 rounded-full">
+                      <span className="inline-flex items-center gap-1 text-red-400 text-[10px] font-bold bg-red-50 px-2.5 py-1 rounded-full border border-red-100">
                         <XCircle size={12} /> INACTIVE
                       </span>
                     )}
                   </td>
-                  <td className="p-1 text-end border-b border-gray-100">
-                    <div className="flex justify-end ">
+                  <td className="px-1 py-2 text-end border-b border-gray-50">
+                    <div className="flex justify-end gap-1">
                       <button
                         onClick={() => onEdit(cat)}
-                        className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-full"
+                        className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                        title="Edit Category"
                       >
-                        <Edit2 size={14} />
+                        <Edit2 size={15} />
                       </button>
                       <button
                         onClick={() => onDelete(cat.id)}
-                        className="p-1.5 text-red-500 hover:bg-red-50 rounded-full"
+                        className="p-1.5 text-red-500 hover:bg-red-50 rounded-md transition-colors"
+                        title="Delete Category"
                       >
-                        <Trash2 size={14} />
+                        <Trash2 size={15} />
                       </button>
                     </div>
                   </td>
@@ -101,17 +99,25 @@ export default function CategoryTable({
               ))
             ) : (
               <tr>
-                <td
-                  colSpan={5}
-                  className="px-6 py-10 text-center text-gray-500 italic  "
-                >
-                  data not found.
+                <td colSpan={5} className="px-6 py-16 text-center text-gray-400 italic text-sm">
+                  No categories found.
                 </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
+
+      {/* Persistence Style for Hidden Scrollbar */}
+      <style>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </div>
   );
 }

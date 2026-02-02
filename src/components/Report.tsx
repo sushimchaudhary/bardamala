@@ -56,7 +56,7 @@ useEffect(() => {
   if (loading)
     return (
       <div className="h-40 flex items-center justify-center">
-        <Loader2 className="animate-spin text-[#1e695e]" />
+        <Loader2 className="animate-spin text-[#213a59]" />
       </div>
     );
 
@@ -64,7 +64,7 @@ useEffect(() => {
     <div className="bg-gray-50 w-full font-sans">
       <div className="max-w-7xl mx-auto p-4">
         <div className="">
-          <span className="bg-[#1e695e] text-white px-4 py-2 font-bold text-sm border-l-[8px] border-[#e44d26] inline-block shadow-sm">
+          <span className="bg-[#213a59] text-white px-4 py-2 font-bold text-sm border-l-[8px] border-[#33b9d2] inline-block shadow-sm">
             रिपोर्ट 
           </span>
         </div>
@@ -100,7 +100,7 @@ useEffect(() => {
                 <div
                   key={i}
                   className={`h-1 transition-all duration-300 ${
-                    i === activeSlide ? "bg-[#e44d26] w-6" : "bg-white/40 w-3"
+                    i === activeSlide ? "bg-[#33b9d2] w-6" : "bg-white/40 w-3"
                   }`}
                 />
               ))}
@@ -112,7 +112,7 @@ useEffect(() => {
             {reportNews.map((item, index) => (
               <div key={index} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
                 <Link to={`/blog/${item.slug}`} className="block p-2.5 group">
-                  <h4 className="text-[12.5px] font-bold text-gray-800 group-hover:text-[#1e695e] leading-snug mb-2 line-clamp-2">
+                  <h4 className="text-[12.5px] font-bold text-gray-800 group-hover:text-[#213a59] leading-snug mb-2 line-clamp-2">
                     {item.title}
                   </h4>
 
@@ -125,15 +125,15 @@ useEffect(() => {
                       />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[10px] font-bold text-red-600 leading-none">
+                      <span className="text-[10px] font-bold text-[#33b9d2] leading-none">
                         {item.author_name || "शिक्षक टीम"}
                       </span>
                       <span className="text-[9px] text-gray-400 mt-0.5 flex items-center gap-1">
-                        <Calendar size={10} className="text-[#1e695e]" />
+                        <Calendar size={10} className="text-[#213a59]" />
                         {formatDate(item.created_at)}
                       </span>
                     </div>
-                    <ChevronRight className="ml-auto w-3 h-3 text-gray-300 group-hover:text-[#1e695e]" />
+                    <ChevronRight className="ml-auto w-3 h-3 text-gray-300 group-hover:text-[#213a59]" />
                   </div>
                 </Link>
               </div>
@@ -145,7 +145,7 @@ useEffect(() => {
       <style>{`
         .custom-scrollbar::-webkit-scrollbar { width: 3px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f9f9f9; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e695e; border-radius: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #213a59; border-radius: 5px; }
       `}</style>
     </div>
   );

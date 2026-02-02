@@ -62,25 +62,24 @@ export default function FooterBlog() {
   if (loading)
     return (
       <div className="flex justify-center py-20">
-        <Loader2 className="animate-spin text-[#1e695e]" size={32} />
+        <Loader2 className="animate-spin text-[#213a59]" size={32} />
       </div>
     );
 
   return (
     <div className="bg-gray-50 p-4 md:p-4">
-      {/* Grid structure ensures 3 columns on desktop */}
+
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {categoriesData.map((cat, index) => (
           <div key={index} className="relative flex flex-col w-full mt-7">
-            {/* Category Header */}
-            <div className="absolute -top-[45px] left-0 bg-[#1e695e] text-white px-5 py-2 text-lg font-bold border-l-[10px] border-[#e44d26] z-20 shadow-md">
+          
+            <div className="absolute -top-[45px] left-0 bg-[#213a59] text-white px-5 py-2 text-lg font-bold border-l-[10px] border-[#33b9d2] z-20 shadow-md">
               {cat.title}
             </div>
 
             <div className="bg-white shadow-md border border-gray-200 flex flex-col h-full transition-all hover:shadow-xl group/card">
-              <div className="h-[4px] bg-[#e44d26] w-full"></div>
+              <div className="h-[4px] bg-[#33b9d2] w-full"></div>
 
-              {/* Main Category Image */}
               <div className="overflow-hidden aspect-video border-b border-gray-100 bg-gray-50">
                 <Link to={`/blog/${cat.mainSlug}`}>
                   <img
@@ -98,9 +97,9 @@ export default function FooterBlog() {
                   <Link
                     to={`/blog/${link.slug}`}
                     key={i}
-                    className="border-t border-gray-50 px-5 py-4 hover:bg-gray-50 group transition-all"
+                    className="border-t border-gray-50 px-5 py-3 hover:bg-gray-50 group transition-all"
                   >
-                    <span className="text-gray-800 text-[16px] font-bold group-hover:text-[#1e695e] transition-colors leading-tight block line-clamp-2">
+                    <span className="hover:text-[#33b9d2] text-gray-700 text-[16px] font-bold group-hover:text-[#213a59] transition-colors leading-tight block line-clamp-2">
                       {link.title}
                     </span>
                   </Link>
@@ -109,7 +108,7 @@ export default function FooterBlog() {
 
               <div className="p-2 mt-auto border-t border-gray-50">
                 <Link to={`/category-list/${cat.categorySlug}`}>
-                  <button className="w-full bg-[#eeeeee] hover:bg-[#1e695e] hover:text-white text-gray-800 py-2 font-bold text-[16px] transition-all border border-gray-300 rounded shadow-sm cursor-pointer">
+                  <button className="w-full bg-[#eeeeee] hover:bg-[#213a59] hover:text-white text-gray-800 py-2 font-bold text-[16px] transition-all border border-gray-300 rounded shadow-sm cursor-pointer">
                     अन्य विषय
                   </button>
                 </Link>

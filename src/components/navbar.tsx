@@ -4,6 +4,7 @@ import NepaliDate from "nepali-date-converter";
 import api from "../api/axiosInstance";
 import { categoryService } from "../services/categoryServices";
 import { contentService } from "../services/contentServices";
+import DynamicAdsProvider from "./adds/dynamicAdsProvider";
 
 export default function Navbar() {
   const [dateStr, setDateStr] = useState("");
@@ -100,48 +101,45 @@ export default function Navbar() {
   return (
     <>
       <nav className="w-full bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-3 flex-shrink-0">
+        <div className="max-w-7xl mx-auto px-3">
+          <div className="flex flex-row items-center justify-between gap-4">
+            <div className="flex-1 flex justify-start">
+              <div className="text-[#33b9d2] font-bold text-[10px] md:text-sm whitespace-nowrap">
+                मिति: {dateStr}
+              </div>
+            </div>
+
+            <div className="flex-shrink-0">
               <Link to={"/"}>
                 {logo && (
                   <img
                     src={logo}
                     alt="Logo"
-                    className="h-9 sm:h-12 md:h-14 lg:h-20 w-auto object-contain flex-shrink-0"
+                    className="h-8 sm:h-12 md:h-14 lg:h-20 w-auto object-contain"
                   />
                 )}
               </Link>
-              <Link to="/register" className="flex-shrink-0">
-                <img
-                  src="/ads.jpg"
-                  alt="Advertisement"
-                  className="h-7 md:h-14 lg:h-20 w-auto object-contain flex-shrink-0"
-                />
-              </Link>
             </div>
-            <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center w-full md:w-auto gap-2">
+
+            <div className="flex-1 flex justify-end">
               <div className="flex gap-2">
                 <Link to={"/login"}>
-                  <button className="border border-teal-700 px-3 py-1 md:px-4 md:py-2 rounded text-teal-700 font-bold hover:bg-teal-700 hover:text-white transition-all text-[11px] md:text-xs lg:text-sm">
+                  <button className="border border-[#213a59] px-2 py-1 md:px-4 md:py-2 rounded text-[#213a59] font-bold hover:bg-[#213a59] hover:text-white transition-all text-[10px] md:text-xs lg:text-sm">
                     साइन इन
                   </button>
                 </Link>
-                <Link to={"/register"}>
-                  <button className="bg-teal-700 border border-teal-700 px-3 py-1 md:px-4 md:py-2 rounded text-white font-bold hover:bg-teal-800 transition-all text-[11px] md:text-xs lg:text-sm">
+                {/* <Link to={"/register"}>
+                  <button className="border border-[#213a59] px-2 py-1 md:px-4 md:py-2 rounded text-[#213a59] font-bold hover:bg-[#213a59] hover:text-white transition-all text-[10px] md:text-xs lg:text-sm">
                     साइन अप
                   </button>
-                </Link>
-              </div>
-              <div className="text-teal-900 font-bold text-[11px] md:text-sm whitespace-nowrap">
-                मिति: {dateStr}
+                </Link> */}
               </div>
             </div>
           </div>
         </div>
       </nav>
 
-      <div className="sticky top-0 z-50 bg-[#1e695e] text-white py-3 lg:px-2 px-4">
+      <div className="sticky top-0 z-50 bg-[#213a59] text-white py-3 lg:px-2 px-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between text-[15px] font-medium">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -168,7 +166,7 @@ export default function Navbar() {
           </button>
 
           <div
-            className={`absolute top-full left-0 w-full bg-[#1e695e] md:static md:w-auto md:flex lg:gap-8 gap-3 md:gap-4 lg:pl-13 pl-3 overflow-hidden transition-all duration-300 ease-out ${isMenuOpen ? "flex flex-col items-start p-2 opacity-100 max-h-[1000px] overflow-y-auto shadow-xl" : "pointer-events-none opacity-0 md:pointer-events-auto md:opacity-100 md:max-h-none md:flex"}`}
+            className={`absolute bg-[#213a59] top-full left-0 w-full  md:static md:w-auto md:flex lg:gap-8 gap-3 md:gap-4 lg:pl-13 pl-3 overflow-hidden transition-all duration-300 ease-out ${isMenuOpen ? "flex flex-col items-start p-2 opacity-100 max-h-[1000px] overflow-y-auto shadow-xl" : "pointer-events-none opacity-0 md:pointer-events-auto md:opacity-100 md:max-h-none md:flex"}`}
           >
             {staticLinks.concat(categories, footerLinks).map((link: any) => (
               <NavLink
@@ -184,7 +182,6 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* SEARCH SECTION WITH DROPDOWN - SAME UI */}
           <div className="relative" ref={dropdownRef}>
             <form onSubmit={handleSearch} className="flex items-center">
               <div
@@ -250,7 +247,7 @@ export default function Navbar() {
                 </div>
                 <button
                   onClick={handleSearch}
-                  className="w-full bg-gray-50 py-2 text-xs text-teal-700 font-bold border-t hover:bg-gray-100 transition-colors"
+                  className="w-full bg-gray-50 py-2 text-xs text-[#213a59] font-bold border-t hover:bg-gray-100 transition-colors"
                 >
                   सबै नतिजाहरू हेर्नुहोस् »
                 </button>

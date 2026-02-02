@@ -40,13 +40,16 @@ export default function Hero() {
 
   return (
     <div className="bg-gray-50 font-sans">
+      
       <main className="max-w-7xl mx-auto grid grid-cols-12 gap-4 p-4">
+
+        
         {/* Left Section: Main Blogs (Excluding "Manka Kura") */}
         <div className="col-span-12 lg:col-span-9 space-y-8">
           {latestBlogs.map((blog, index) => (
             <Link key={blog.id} to={`/blog/${blog.slug}`}>
               <div
-                className={`bg-white hover:text-teal-800 cursor-pointer border-gray-200 overflow-hidden group shadow-[4px_4px_10px_rgba(0,0,0,0.25)] ${
+                className={`bg-white hover:text-[#33b9d2] cursor-pointer border-gray-200 overflow-hidden group shadow-[4px_4px_10px_rgba(0,0,0,0.25)] ${
                   index > 0 ? "mt-10" : ""
                 }`}
               >
@@ -74,29 +77,27 @@ export default function Hero() {
 
         {/* Right Sidebar */}
         <aside className="col-span-12 lg:col-span-3 space-y-6">
-          <div className="top-24 space-y-6">
+          <div className="top-24 space-y-4">
             <section>
-              <div className="bg-[#1e695e] text-white p-2.5 font-bold text-center shadow-md">
+              <div className="bg-[#213a59] text-white p-2.5 font-bold text-center shadow-md">
                 शिक्षा खबर
               </div>
-              <div className="bg-white shadow-[4px_4px_10px_rgba(0,0,0,0.25),_-4px_4px_10px_rgba(0,0,0,0.25)] max-h-[600px] overflow-y-auto custom-scrollbar">
+              <div className="bg-white shadow-md max-h-[600px] overflow-y-auto custom-scrollbar">
                 <div className="flex flex-col">
                   {allTitles.length > 0 ? (
-                    allTitles
-                      .slice(0, 12) 
-                      .map((item) => (
-                        <Link
-                          key={item.id}
-                          to={`/blog/${item.slug}`}
-                          className="block group border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors"
-                        >
-                          <div className="p-3">
-                            <p className="text-sm font-medium text-gray-700 group-hover:text-[#1e695e] leading-snug line-clamp-2">
-                              {item.title}
-                            </p>
-                          </div>
-                        </Link>
-                      ))
+                    allTitles.slice(0, 12).map((item) => (
+                      <Link
+                        key={item.id}
+                        to={`/blog/${item.slug}`}
+                        className="block group border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors"
+                      >
+                        <div className="p-3">
+                          <p className="text-sm font-medium text-gray-700 group-hover:text-[#33b9d2] leading-snug line-clamp-2">
+                            {item.title}
+                          </p>
+                        </div>
+                      </Link>
+                    ))
                   ) : (
                     <p className="p-4 text-center text-gray-500 text-xs italic">
                       खबरहरू लोड हुँदैछन्...
@@ -105,14 +106,14 @@ export default function Hero() {
                 </div>
 
                 <Link to="/all-news">
-                  <button className="w-full text-xs text-teal-700 font-bold hover:underline py-3 bg-gray-50">
+                  <button className="w-full text-xs text-[#33b9d2] font-bold hover:underline py-3 bg-gray-50">
                     सबै खबर हेर्नुहोस् »
                   </button>
                 </Link>
               </div>
             </section>
 
- <section className="bg-white p-1 shadow-[4px_4px_10px_rgba(0,0,0,0.1)]">
+            <section className="bg-white p-1 shadow-[4px_4px_10px_rgba(0,0,0,0.1)]">
               <DynamicAdsProvider
                 position="homepage_sidebar_1"
                 className="h-[250px]  w-full"

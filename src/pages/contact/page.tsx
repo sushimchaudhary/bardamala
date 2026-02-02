@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Facebook, Twitter, Instagram, Linkedin, Loader2, Send } from "lucide-react";
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Loader2,
+  Send,
+} from "lucide-react";
 import api from "../../api/axiosInstance";
 import FrontendLayout from "../layout/frontendLayout";
 
@@ -7,7 +14,7 @@ export default function ContactSection() {
   const [company, setCompany] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [subscribeLoading, setSubscribeLoading] = useState(false);
-  
+
   const [statusMessage, setStatusMessage] = useState<{
     type: "success" | "error";
     text: string;
@@ -38,7 +45,18 @@ export default function ContactSection() {
     const separator = url.includes("?") ? "&" : "?";
     return `${baseUrl}${separator}output=embed`;
   };
-
+const XIcon = ({ className }: { className?: string }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    aria-hidden="true" 
+    className={className} 
+    fill="currentColor"
+    width="1.2em"
+    height="1.5em"
+  >
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+  </svg>
+);
   useEffect(() => {
     const fetchContactData = async () => {
       try {
@@ -76,9 +94,11 @@ export default function ContactSection() {
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubscribeLoading(true);
-    setSubscribeStatus(null); // पुरानो मेसेज हटाउने
+    setSubscribeStatus(null); 
     try {
-      await api.post("/api/communication/subscribers/", { email: subscribeEmail });
+      await api.post("/api/communication/subscribers/", {
+        email: subscribeEmail,
+      });
       setSubscribeStatus({
         type: "success",
         text: "सदस्यताका लागि धन्यवाद!",
@@ -88,50 +108,61 @@ export default function ContactSection() {
       const errorMsg = err.response?.data?.email?.[0] || "सदस्यता असफल भयो।";
       setSubscribeStatus({
         type: "error",
-        text: errorMsg === "subscriber with this email already exists." ? "यो इमेल पहिले नै दर्ता छ।" : "प्रयास असफल भयो।",
+        text:
+          errorMsg === "subscriber with this email already exists."
+            ? "यो इमेल पहिले नै दर्ता छ।"
+            : "प्रयास असफल भयो।",
       });
     } finally {
       setSubscribeLoading(false);
-      setTimeout(() => setSubscribeStatus(null), 5000); // ५ सेकेन्ड पछि मेसेज हराउने
+      setTimeout(() => setSubscribeStatus(null), 5000);
     }
   };
 
   return (
     <FrontendLayout>
-      <section className="max-w-7xl mx-auto px-4 py-8 bg-gray-50 font-sans text-gray-800">
+      <section className="max-w-7xl mx-auto px-4 py-8 font-sans text-gray-800">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-0  overflow-hidden ">
-          
-          {/* १. सम्पर्क फारम */}
           <div className="md:col-span-4 p-8 border-r border-gray-100">
-            <h2 className="text-xl font-bold mb-6">हामीलाई सन्देश पठाउनुहोस्</h2>
+            <h2 className="text-xl font-bold mb-6">
+              हामीलाई सन्देश पठाउनुहोस्
+            </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 type="text"
                 required
                 placeholder="पूरा नाम"
-                className="w-full p-1.5 border border-gray-300 rounded focus:border-[#1e695e] outline-none text-sm"
+                className="w-full p-1.5 border border-gray-300 rounded focus:border-[#213a59] outline-none text-sm"
                 value={formData.fullname}
-                onChange={(e) => setFormData({ ...formData, fullname: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, fullname: e.target.value })
+                }
               />
               <input
                 type="email"
                 required
                 placeholder="इमेल ठेगाना"
-                className="w-full p-1.5 border border-gray-300 rounded focus:border-[#1e695e] outline-none text-sm"
+                className="w-full p-1.5 border border-gray-300 rounded focus:border-[#213a59] outline-none text-sm"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
               />
               <textarea
                 required
                 placeholder="तपाईंको सन्देश यहाँ लेख्नुहोस्..."
                 rows={5}
-                className="w-full p-1.5 border border-gray-300 rounded focus:border-[#1e695e] outline-none text-sm"
+                className="w-full p-1.5 border border-gray-300 rounded focus:border-[#213a59] outline-none text-sm"
                 value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, message: e.target.value })
+                }
               ></textarea>
 
               {statusMessage && (
-                <div className={`text-xs font-bold p-3 rounded ${statusMessage.type === "success" ? "text-green-700 bg-green-50" : "text-red-700 bg-red-50"}`}>
+                <div
+                  className={`text-xs font-bold p-3 rounded ${statusMessage.type === "success" ? "text-green-700 bg-green-50" : "text-red-700 bg-red-50"}`}
+                >
                   {statusMessage.text}
                 </div>
               )}
@@ -139,19 +170,25 @@ export default function ContactSection() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#1e695e] text-white py-1.5 rounded font-bold hover:bg-[#164e46] transition-all flex items-center justify-center gap-2 shadow-sm"
+                className="w-full bg-[#213a59] text-white py-1.5  font-bold cursor-pointer transition-all flex items-center justify-center gap-2 shadow-sm"
               >
-                {loading ? <Loader2 className="animate-spin w-4 h-4" /> : "सन्देश पठाउनुहोस्"}
+                {loading ? (
+                  <Loader2 className="animate-spin w-4 h-4" />
+                ) : (
+                  "सन्देश पठाउनुहोस्"
+                )}
               </button>
             </form>
           </div>
 
-          {/* २. कार्यालय विवरण र सब्स्क्राइब */}
-          <div className="md:col-span-3 p-8 border-r border-gray-100 bg-gray-50/30">
+        
+          <div className="md:col-span-3 p-8 border-r border-gray-100/30">
             <h2 className="text-xl font-bold mb-6">हाम्रो कार्यालय</h2>
             <div className="space-y-2.5 text-[14px]">
               <div>
-                <p className="font-bold text-[#1e695e] mb-1 uppercase text-[11px] tracking-wider">ठेगाना</p>
+                <p className="font-bold text-[#213a59] mb-1 uppercase text-[11px] tracking-wider">
+                  ठेगाना
+                </p>
                 <p className="text-gray-600 leading-relaxed whitespace-pre-line">
                   {company?.address || "लोड हुँदै..."}
                 </p>
@@ -159,26 +196,45 @@ export default function ContactSection() {
 
               <div className="space-y-3">
                 <div className="text-gray-600">
-                  <p className="font-bold text-black text-[11px] uppercase tracking-wider">फोन नम्बर:</p>
-                  <a href={`tel:${company?.contact_no}`} className="text-[#1e695e] hover:underline block mt-1">{company?.contact_no}</a>
+                  <p className="font-bold text-black text-[11px] uppercase tracking-wider">
+                    फोन नम्बर:
+                  </p>
+                  <a
+                    href={`tel:${company?.contact_no}`}
+                    className="text-[#213a59] hover:underline block mt-1"
+                  >
+                    {company?.contact_no}
+                  </a>
                 </div>
                 <div className="text-gray-600">
-                  <p className="font-bold text-black text-[11px] uppercase tracking-wider">इमेल:</p>
-                  <a href={`mailto:${company?.email}`} className="text-[#1e695e] hover:underline block mt-1">{company?.email}</a>
+                  <p className="font-bold text-black text-[11px] uppercase tracking-wider">
+                    इमेल:
+                  </p>
+                  <a
+                    href={`mailto:${company?.email}`}
+                    className="text-[#213a59] hover:underline block mt-1"
+                  >
+                    {company?.email}
+                  </a>
                 </div>
               </div>
 
-              <hr className="border-gray-200" />
+              <hr className="border-gray-200 mt-5" />
 
-              {/* Newsletter Subscription Section */}
+{/*             
               <div className="">
-                <p className="font-bold text-black text-[11px] uppercase tracking-wider mb-2">न्यूजलेटर सदस्यता</p>
-                <form onSubmit={handleSubscribe} className="flex flex-col gap-2">
+                <p className="font-bold text-black text-[11px] uppercase tracking-wider mb-2">
+                  न्यूजलेटर सदस्यता
+                </p>
+                <form
+                  onSubmit={handleSubscribe}
+                  className="flex flex-col gap-2"
+                >
                   <input
                     type="email"
                     required
                     placeholder="तपाईंको इमेल..."
-                    className="w-full p-2 border border-gray-300 rounded text-xs outline-none focus:border-[#1e695e]"
+                    className="w-full p-2 border border-gray-300 rounded text-xs outline-none focus:border-[#213a59]"
                     value={subscribeEmail}
                     onChange={(e) => setSubscribeEmail(e.target.value)}
                   />
@@ -186,29 +242,61 @@ export default function ContactSection() {
                     disabled={subscribeLoading}
                     className="bg-black text-white px-4 py-2 rounded text-[12px] font-bold hover:bg-gray-800 transition-all flex items-center justify-center gap-2"
                   >
-                    {subscribeLoading ? <Loader2 className="animate-spin w-3 h-3" /> : <><Send size={12} /> SUBSCRIBE</>}
+                    {subscribeLoading ? (
+                      <Loader2 className="animate-spin w-3 h-3" />
+                    ) : (
+                      <>
+                        <Send size={12} /> SUBSCRIBE
+                      </>
+                    )}
                   </button>
 
-                 
                   {subscribeStatus && (
-                    <p className={`text-[10px] font-bold mt-1 ${subscribeStatus.type === "success" ? "text-green-600" : "text-red-600"}`}>
+                    <p
+                      className={`text-[10px] font-bold mt-1 ${subscribeStatus.type === "success" ? "text-green-600" : "text-red-600"}`}
+                    >
                       {subscribeStatus.text}
                     </p>
                   )}
                 </form>
-              </div>
+              </div> */}
 
               <div className="flex gap-2 pt-2">
                 {[
-                  { icon: Facebook, link: company?.fb_link, className: "text-[#1877F2] hover:bg-[#1877F2]/10" },
-                  { icon: Twitter, link: company?.x_link, className: "text-[#1DA1F2] hover:bg-[#1DA1F2]/10" },
-                  { icon: Instagram, link: company?.insta_link, className: "text-[#E4405F] hover:bg-[#E4405F]/10" },
-                  { icon: Linkedin, link: company?.linkedin_link, className: "text-[#0A66C2] hover:bg-[#0A66C2]/10" },
-                ].map((social, idx) => social.link && (
-                  <a key={idx} href={social.link} target="_blank" rel="noreferrer" className={`p-2 rounded transition-all ${social.className}`}>
-                    <social.icon size={18} />
-                  </a>
-                ))}
+                  {
+                    icon: Facebook,
+                    link: company?.fb_link,
+                    className: "text-[#213a59] hover:bg-[#49c0d7]/10",
+                  },
+                  {
+                    icon: XIcon,
+                    link: company?.x_link,
+                    className: "text-[#213a59] hover:bg-[#49c0d7]/10",
+                  },
+                  {
+                    icon: Instagram,
+                    link: company?.insta_link,
+                    className: "text-[#213a59]  hover:bg-[#49c0d7]/10",
+                  },
+                  {
+                    icon: Linkedin,
+                    link: company?.linkedin_link,
+                    className: "text-[#213a59]  hover:bg-[#49c0d7]/10",
+                  },
+                ].map(
+                  (social, idx) =>
+                    social.link && (
+                      <a
+                        key={idx}
+                        href={social.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={`p-2 rounded transition-all ${social.className}`}
+                      >
+                        <social.icon size={18} />
+                      </a>
+                    ),
+                )}
               </div>
             </div>
           </div>
@@ -227,7 +315,9 @@ export default function ContactSection() {
                   title="Location"
                 ></iframe>
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-400">म्याप उपलब्ध छैन</div>
+                <div className="w-full h-full flex items-center justify-center text-gray-400">
+                  म्याप उपलब्ध छैन
+                </div>
               )}
             </div>
           </div>

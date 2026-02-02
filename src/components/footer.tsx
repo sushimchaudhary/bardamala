@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Facebook, Twitter, Instagram, Loader2, Send } from "lucide-react";
+
+import { Facebook, Instagram, Linkedin, Loader2, Send } from "lucide-react";
 import { Link } from "react-router-dom";
 import api from "../api/axiosInstance";
 import { categoryService } from "../services/categoryServices";
@@ -15,6 +16,19 @@ export default function Footer() {
     type: "success" | "error";
     text: string;
   } | null>(null);
+
+  const XIcon = ({ className }: { className?: string }) => (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className={className}
+      fill="currentColor"
+      width="1em"
+      height="1em"
+    >
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+    </svg>
+  );
 
   useEffect(() => {
     const fetchFooterData = async () => {
@@ -43,8 +57,6 @@ export default function Footer() {
     .filter((c) => c.name.trim() !== "रिपोर्ट" && c.name.trim() !== "मनका कुरा")
     .slice(0, 5);
 
-  
-
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubscribeLoading(true);
@@ -71,25 +83,28 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full font-sans border-t border-teal-800">
-      <div className="bg-[#217367] text-white py-10 px-6 md:px-10">
+    <footer className="w-full font-sans border-t border-[#33b9d2]">
+      <div className="bg-[#476c98] text-white py-10 px-6 md:px-10">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
-          {/* १. लोगो र सोसल */}
           <div className="space-y-3">
-            <Link to="/">
-              <img
-                src={company?.logo}
-                alt="Logo"
-                className="h-28 object-contain brightness-110"
-              />
+            <Link to="/" className="relative block group">
+              <div className="absolute inset-0 bg-white/20 blur-3xl rounded-full scale-75 pointer-events-none"></div>
+
+              <div className="relative bg-white/15 backdrop-blur-sm rounded-xl p-2 border border-white/10 hover:border-[#33b9d2]/50 transition-all duration-500">
+                <img
+                  src={company?.logo}
+                  alt="Logo"
+                  className="h-24 md:h-28 w-full object-contain brightness-110 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]"
+                />
+              </div>
             </Link>
-            <div className="flex gap-4">
+            <div className="flex gap-2 text-white">
               {company?.fb_link && (
                 <a
                   href={company.fb_link}
                   target="_blank"
                   rel="noreferrer"
-                  className="p-2 rounded-full bg-teal-800/50 hover:bg-blue-600 transition-all"
+                  className="p-2 rounded-full hover:text-[#33b9d2] transition-all border border-transparent hover:border-[#33b9d2]"
                 >
                   <Facebook className="w-5 h-5" />
                 </a>
@@ -99,9 +114,9 @@ export default function Footer() {
                   href={company.x_link}
                   target="_blank"
                   rel="noreferrer"
-                  className="p-2 rounded-full bg-teal-800/50 hover:bg-sky-500 transition-all"
+                  className="p-2 rounded-full hover:text-[#33b9d2] transition-all border border-transparent hover:border-[#33b9d2]"
                 >
-                  <Twitter className="w-5 h-5" />
+                  <XIcon className="w-5 h-5" />
                 </a>
               )}
               {company?.insta_link && (
@@ -109,44 +124,60 @@ export default function Footer() {
                   href={company.insta_link}
                   target="_blank"
                   rel="noreferrer"
-                  className="p-2 rounded-full bg-teal-800/50 hover:bg-pink-600 transition-all"
+                  className="p-2 rounded-full hover:text-[#33b9d2] transition-all border border-transparent hover:border-[#33b9d2]"
                 >
                   <Instagram className="w-5 h-5" />
+                </a>
+              )}
+              {company?.linkedin_link && (
+                <a
+                  href={company.linkedin_link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-2 rounded-full hover:text-[#33b9d2] transition-all border border-transparent hover:border-[#33b9d2]"
+                >
+                  <Linkedin className="w-5 h-5" />
                 </a>
               )}
             </div>
           </div>
 
-          {/* २. सम्पर्क */}
-          <div className="space-y-5">
-            <h3 className="text-lg font-bold uppercase tracking-wider border-b-2 border-teal-500/30 pb-2">
+          <div className="space-y-3 text-white border-r border-[#33b9d2]/30 ">
+            <h3 className="text-lg font-bold uppercase tracking-wider pb-2 border-b border-[#33b9d2]/30 inline-block">
               सम्पर्क
             </h3>
-            <div className="text-[14px] space-y-3 text-teal-50/90">
-              <p className="font-semibold text-white">{company?.name}</p>
-              <p className="opacity-80">{company?.address}</p>
-              <p className="opacity-80">
+            <div className="text-[14px] space-y-2">
+              <p className="font-semibold ">{company?.name}</p>
+              <p className="opacity-90">{company?.address}</p>
+              <p className="opacity-90">
                 फोन:{" "}
-                <a href={`tel:${company?.contact_no}`}>{company?.contact_no}</a>
+                <a
+                  href={`tel:${company?.contact_no}`}
+                  className="hover:text-[#33b9d2]"
+                >
+                  {company?.contact_no}
+                </a>
               </p>
-              <p className="opacity-80">
-                इमेल: <a href={`mailto:${company?.email}`}>{company?.email}</a>
+              <p className="opacity-90">
+                इमेल:{" "}
+                <a
+                  href={`mailto:${company?.email}`}
+                  className="hover:text-[#33b9d2]"
+                >
+                  {company?.email}
+                </a>
               </p>
             </div>
           </div>
 
-          {/* ३. नेभिगेसन */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold uppercase tracking-wider border-b-2 border-teal-500/30 pb-2">
-              नेभिगेसन
-            </h3>
-            <ul className="space-y-2 text-[14px]">
+          <div className=" border-r border-[#33b9d2]/30 ">
+            <ul className="space-y-1 text-[14px]">
               {navigationCats.map((cat) => (
                 <li key={cat.id} className="group flex items-center gap-2">
-                  <span className="h-[1px] w-0 bg-[#ff3c02] transition-all duration-300 group-hover:w-3"></span>
+                  <span className="h-[1px] w-0 bg-[#33b9d2] transition-all duration-300 group-hover:w-3"></span>
                   <Link
                     to={`/category/${cat.slug}`}
-                    className="group-hover:text-[#ff3c02] transition-colors"
+                    className="group-hover:text-[#33b9d2] transition-colors"
                   >
                     {cat.name}
                   </Link>
@@ -155,64 +186,57 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold uppercase tracking-wider border-b-2 border-teal-500/30 pb-2">
-              थप जानकारी
-            </h3>
-            <ul className="space-y-2 text-[14px]">
-              <li className="group flex items-center gap-2 pt-2 border-t border-white/10">
-                <span className="h-[1px] w-0 bg-[#ff3c02] transition-all duration-300 group-hover:w-3"></span>
-                <Link to="/" className="group-hover:text-[#ff3c02]">
+          <div className=" border-r border-[#33b9d2]/30 ">
+            <ul className="space-y-1 text-[14px]">
+              <li className="group flex items-center gap-2">
+                <span className="h-[1px] w-0 bg-[#33b9d2] transition-all duration-300 group-hover:w-3"></span>
+                <Link to="/" className="group-hover:text-[#33b9d2]">
                   गृह पृष्ठ
                 </Link>
               </li>
               <li className="group flex items-center gap-2">
-                <span className="h-[1px] w-0 bg-[#ff3c02] transition-all duration-300 group-hover:w-3"></span>
-                <Link to="/about-us" className="group-hover:text-[#ff3c02]">
+                <span className="h-[1px] w-0 bg-[#33b9d2] transition-all duration-300 group-hover:w-3"></span>
+                <Link to="/about-us" className="group-hover:text-[#33b9d2]">
                   हाम्रा बारे
                 </Link>
               </li>
               <li className="group flex items-center gap-2">
-                <span className="h-[1px] w-0 bg-[#ff3c02] transition-all duration-300 group-hover:w-3"></span>
-
-                <Link to="/contact" className="group-hover:text-[#ff3c02]">
+                <span className="h-[1px] w-0 bg-[#33b9d2] transition-all duration-300 group-hover:w-3"></span>
+                <Link to="/contact" className="group-hover:text-[#33b9d2]">
                   सम्पर्क
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* ५. एप र न्यूजलेटर (eSewa को ठाउँमा) */}
           <div className="flex flex-col space-y-8">
             <div className="space-y-3">
-              <p className="text-xs font-bold uppercase tracking-widest text-teal-200">
+              <p className="text-xs font-bold uppercase tracking-widest">
                 Download Our App
               </p>
               <img
                 src="/google.png"
                 alt="Play Store"
-                className="h-10 border border-teal-700 rounded-md p-1 cursor-pointer"
+                className="h-10 border border-[#33b9d2]/30 rounded-md p-1 cursor-pointer hover:border-[#33b9d2] transition-colors"
               />
             </div>
 
             <div className="space-y-3">
-              <p className="text-xs font-bold uppercase tracking-widest text-teal-200">
+              <p className="text-xs font-bold uppercase tracking-widest">
                 न्यूजलेटर सदस्यता
               </p>
               <form onSubmit={handleSubscribe} className="space-y-2">
-                <div className="relative">
-                  <input
-                    type="email"
-                    required
-                    placeholder="तपाईंको इमेल..."
-                    className="w-full bg-teal-800/40 border border-teal-700 rounded px-3 py-2 text-xs outline-none focus:border-teal-400 placeholder:text-teal-300/50"
-                    value={subscribeEmail}
-                    onChange={(e) => setSubscribeEmail(e.target.value)}
-                  />
-                </div>
+                <input
+                  type="email"
+                  required
+                  placeholder="तपाईंको इमेल..."
+                  className="w-full bg-[#1a2e47] border border-[#33b9d2]/30 rounded px-3 py-2 text-xs outline-none focus:border-[#33b9d2] text-white placeholder:text-gray-400"
+                  value={subscribeEmail}
+                  onChange={(e) => setSubscribeEmail(e.target.value)}
+                />
                 <button
                   disabled={subscribeLoading}
-                  className="w-full bg-[#131515] hover:bg-black text-white px-4 py-2 rounded text-[11px] font-bold transition-all flex items-center justify-center gap-2"
+                  className="w-full bg-[#33b9d2] hover:bg-[#289eb4] text-[#213a59] px-4 py-2 rounded text-[11px] font-bold transition-all flex items-center justify-center gap-2"
                 >
                   {subscribeLoading ? (
                     <Loader2 className="animate-spin w-3 h-3" />
@@ -224,7 +248,7 @@ export default function Footer() {
                 </button>
                 {subscribeStatus && (
                   <p
-                    className={`text-[10px] font-bold text-center ${subscribeStatus.type === "success" ? "text-teal-300" : "text-red-400"}`}
+                    className={`text-[10px] font-bold text-center ${subscribeStatus.type === "success" ? "text-green-400" : "text-red-400"}`}
                   >
                     {subscribeStatus.text}
                   </p>
@@ -235,7 +259,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="bg-[#131515] text-gray-400 py-6 px-4">
+      <div className="bg-[#1a2e47] text-gray-400 py-6 px-4 border-t border-white/5">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs md:text-sm">
             © {currentYear} <span className="text-white">{company?.name}</span>.
@@ -243,7 +267,7 @@ export default function Footer() {
           </p>
           <div className="text-xs md:text-sm">
             Developed by:{" "}
-            <span className="text-[#217367] font-bold">Shempa Tech</span>
+            <span className="text-[#33b9d2] font-bold">Shempa Tech</span>
           </div>
         </div>
       </div>

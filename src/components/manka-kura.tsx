@@ -41,13 +41,13 @@ export default function MankaKura() {
 
   if (loading) return (
     <div className="flex justify-center py-10">
-      <Loader2 className="animate-spin text-[#1e695e]" size={24} />
+      <Loader2 className="animate-spin text-[#213a59]" size={24} />
     </div>
   );
 
   return (
-    <section className="bg-white shadow-[0px_4px_15px_rgba(0,0,0,0.1)] flex flex-col h-[850px] border border-gray-100">
-      <div className="bg-[#1e695e] text-white p-2.5 font-bold text-center text-sm tracking-wide">
+    <section className="bg-white shadow-[0px_4px_15px_rgba(0,0,0,0.1)] flex flex-col h-[505px] border border-gray-100">
+      <div className="bg-[#213a59] text-white p-2.5 font-bold text-center text-sm tracking-wide">
         मनका कुरा
       </div>
 
@@ -59,7 +59,7 @@ export default function MankaKura() {
           >
             {/* Title */}
             <Link to={`/blog/${item.slug}`}>
-              <h4 className="font-bold text-[15px] leading-tight text-gray-900 group-hover:text-[#1e695e] cursor-pointer mb-2 transition-colors line-clamp-2">
+              <h4 className="font-bold text-[15px] leading-tight text-gray-900 group-hover:text-[#213a59] cursor-pointer mb-2 transition-colors line-clamp-2">
                 {item.title}
               </h4>
             </Link>
@@ -75,7 +75,7 @@ export default function MankaKura() {
               </div>
 
               <div>
-                <p className="text-[13px] font-bold text-red-600 leading-none">
+                <p className="text-[13px] font-bold text-[#33b9d2] leading-none">
                   {item.author_name || "शिक्षक टीम"}
                 </p>
                 {/* Calendar Icon added here */}
@@ -102,7 +102,7 @@ export default function MankaKura() {
 
       <div className="bg-gray-50 p-2 text-center border-t border-gray-100">
         <Link to="/manka-kura-list">
-          <button className="text-[12px] font-bold text-[#1e695e] hover:text-red-600 transition-colors w-full cursor-pointer">
+          <button className="text-[12px] font-bold text-[#33b9d2] hover:underline transition-colors w-full cursor-pointer">
             अन्य विषय
           </button>
         </Link>
@@ -116,7 +116,7 @@ export default function MankaKura() {
           margin: 0 !important;
         }
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e695e; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #213a59; border-radius: 10px; }
       `}</style>
     </section>
   );

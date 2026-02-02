@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Loader2,
@@ -6,10 +6,12 @@ import {
   User,
   ArrowRight,
   LayoutList,
+  Eye,
 } from "lucide-react";
 import { contentService } from "../../services/contentServices";
 import DynamicAdsProvider from "../../components/adds/dynamicAdsProvider";
 import FrontendLayout from "../layout/frontendLayout";
+import NepaliDate from "nepali-date-converter";
 
 interface BlogPost {
   id: number;
@@ -20,6 +22,7 @@ interface BlogPost {
   category_name: string;
   author_name: string;
   created_at: string;
+  view_count?: number;
 }
 
 export default function AllBlogs() {
@@ -32,7 +35,6 @@ export default function AllBlogs() {
         const res = await contentService.getPosts();
         const allPosts = Array.isArray(res) ? res : res?.data?.data || [];
 
-        // सबै पोस्टहरूलाई नयाँ देखि पुरानो क्रममा मिलाउने
         const sorted = [...allPosts].sort(
           (a: any, b: any) =>
             new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
@@ -47,57 +49,71 @@ export default function AllBlogs() {
     fetchAllNews();
   }, []);
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("ne-NP", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+  const toNepaliNumber = (num: number | string) => {
+    const nepaliDigits = ["०", "१", "२", "३", "४", "५", "६", "७", "८", "९"];
+    return num
+      .toString()
+      .split("")
+      .map((d) => (/[0-9]/.test(d) ? nepaliDigits[parseInt(d)] : d))
+      .join("");
+  };
+
+  const formatNepaliDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      return new NepaliDate(date).format("MMMM DD, YYYY", "np");
+    } catch (e) {
+      return dateString;
+    }
   };
 
   if (loading) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center gap-4">
-        <Loader2 className="animate-spin text-[#1e695e]" size={48} />
-        <p className="text-gray-500 font-medium animate-pulse">
-          खबरहरू लोड हुँदैछन्...
-        </p>
+        <Loader2 className="animate-spin text-[#213a59]" size={48} />
+        <p className="text-gray-500 font-medium">लोड हुँदैछ...</p>
       </div>
     );
   }
 
   return (
     <FrontendLayout>
-      <div className="bg-[#f4f7f6] font-sans min-h-screen">
+      <div className="font-sans min-h-screen">
         <div className="max-w-7xl mx-auto p-4">
-          <div className="grid grid-cols-12 gap-8">
+          <div className="grid grid-cols-12 gap-8 items-start">
             {/* LEFT: News List */}
             <div className="col-span-12 lg:col-span-9 space-y-6">
-              <div className="bg-white p-4 rounded shadow-sm border border-gray-100 mb-6 flex items-center justify-between">
+              <div className="bg-white p-4 shadow-sm border-l-4 border-[#213a59] flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="bg-[#1e695e]/10 p-2 rounded">
-                    <LayoutList size={22} className="text-[#1e695e]" />
+                  <div className="bg-[#49c0d7]/10 p-2">
+                    <LayoutList size={22} className="text-[#213a59]" />
                   </div>
                   <div>
                     <h2 className="text-sm text-gray-500 font-medium leading-none mb-1">
                       समाचार संकलन
                     </h2>
                     <p className="text-lg font-bold text-gray-800">
-                      कुल <span className="text-[#e44d26]">{news.length}</span> सामग्रीहरू फेला परे
+                      कुल{" "}
+                      <span className="text-[#49c0d7]">
+                        {toNepaliNumber(news.length)}
+                      </span>{" "}
+                      सामग्रीहरू
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {news.map((item) => (
                   <article
                     key={item.id}
-                    className="bg-white rounded overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col md:flex-row group h-full md:h-52"
+                    className="bg-white overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col md:flex-row group min-h-[200px]"
                   >
-                    
-                    <div className="md:w-80 w-full h-52 md:h-full overflow-hidden relative shrink-0 bg-gray-100">
-                      <Link to={`/blog/${item.slug}`} className="block w-full h-full">
+                    <div className="md:w-72 w-full aspect-video md:aspect-auto md:h-52 overflow-hidden relative shrink-0 bg-gray-100">
+                      <Link
+                        to={`/blog/${item.slug}`}
+                        className="block w-full h-full"
+                      >
                         <img
                           src={item.photo || "/placeholder.jpg"}
                           alt={item.title}
@@ -105,31 +121,38 @@ export default function AllBlogs() {
                           loading="lazy"
                         />
                       </Link>
-                      <div className="absolute top-3 left-3 bg-[#1e695e] text-white text-[10px] font-bold px-2 py-1 rounded shadow-md z-10">
+                      <div className="absolute top-2 left-2 bg-[#213a59] text-white text-[10px] font-bold px-2 py-1 z-10">
                         {item.category_name}
                       </div>
                     </div>
 
                     {/* Content Section */}
-                    <div className="p-5 flex flex-col justify-between flex-1 overflow-hidden">
+                    <div className="p-5 pr-8 flex flex-col justify-between flex-1 overflow-hidden">
+
                       <div>
-                        <div className="flex items-center gap-4 text-gray-400 text-[11px] mb-2 font-medium">
+                        <div className="flex flex-wrap items-center gap-4 text-gray-400 text-[11px] mb-2 font-medium">
                           <span className="flex items-center gap-1">
-                            <Calendar size={13} className="text-[#1e695e]" /> {formatDate(item.created_at)}
+                            <Calendar size={13} className="text-[#49c0d7]" />
+                            {formatNepaliDate(item.created_at)}
                           </span>
                           <span className="flex items-center gap-1">
-                            <User size={13} className="text-[#1e695e]" /> {item.author_name }
+                            <User size={13} className="text-[#49c0d7]" />
+                            {item.author_name}
+                          </span>
+                          <span className="flex items-center gap-1 bg-gray-100 px-2 py-0.5 rounded text-[#213a59]">
+                            <Eye size={13} />{" "}
+                            {toNepaliNumber(item.view_count || 0)}
                           </span>
                         </div>
 
                         <Link to={`/blog/${item.slug}`}>
-                          <h2 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#1e695e] transition-colors line-clamp-2 leading-tight">
+                          <h2 className="text-xl font-bold text-[#213a59] mb-2 group-hover:text-[#49c0d7] transition-colors line-clamp-2 leading-tight">
                             {item.title}
                           </h2>
                         </Link>
 
                         <div
-                          className="text-gray-500 text-sm line-clamp-2 italic leading-relaxed quill-content"
+                          className="text-gray-500 text-sm line-clamp-3 leading-relaxed italic quill-content"
                           dangerouslySetInnerHTML={{ __html: item.description }}
                         />
                       </div>
@@ -137,7 +160,7 @@ export default function AllBlogs() {
                       <div className="mt-4">
                         <Link
                           to={`/blog/${item.slug}`}
-                          className="inline-flex items-center gap-1 text-[#e44d26] font-bold text-xs hover:gap-2 transition-all uppercase tracking-wider"
+                          className="inline-flex items-center gap-1 text-[#49c0d7] font-bold text-xs hover:gap-2 transition-all uppercase tracking-wider"
                         >
                           थप पढ्नुहोस् <ArrowRight size={14} />
                         </Link>
@@ -146,33 +169,50 @@ export default function AllBlogs() {
                   </article>
                 ))}
               </div>
-
-              {news.length === 0 && (
-                <div className="text-center py-20 bg-white rounded border italic text-gray-400">
-                  कुनै खबरहरू फेला परेनन्।
-                </div>
-              )}
             </div>
 
             {/* RIGHT: Sidebar */}
-            <aside className="col-span-12 lg:col-span-3">
-              <div className="sticky top-24 space-y-6">
-                <div className="bg-white p-2 rounded shadow-sm border border-gray-100">
-                  <span className="text-[10px] text-gray-400 uppercase block mb-2 text-center font-bold">
-                    Advertisement
+            <aside className="col-span-12 lg:col-span-3 space-y-4">
+              <section>
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                    Sponsored
                   </span>
-                  <DynamicAdsProvider position="sidebar" className="w-full h-auto" />
+                  <span className="h-px bg-gray-200 flex-1"></span>
                 </div>
+                <DynamicAdsProvider
+                  position="post_sidebar_1"
+                  className="w-full h-[250px]"
+                />
+              </section>
 
-                <div className="bg-[#1e695e]/5 p-5 rounded-lg border border-[#1e695e]/10">
-                  <h4 className="font-bold text-[#1e695e] mb-3 border-b border-[#1e695e]/20 pb-2 text-center">
-                    हामीसँग जोडिनुहोस्
-                  </h4>
-                  <div className="bg-white h-48 rounded flex items-center justify-center text-gray-400 text-sm italic border border-dashed border-gray-300">
-                    Facebook Plugin
-                  </div>
+             <div className="p-6 bg-[#49c0d7] text-white shadow-lg relative overflow-hidden group">
+                <div className="relative z-10">
+                  <h3 className="font-bold text-lg mb-2 text-white">हाम्रो अभियान</h3>
+                  <p className="text-sm text-gray-100 mb-4 font-light leading-relaxed">
+                    सही सूचना र निष्पक्ष समाचारका लागि हामी सधैं क्रियाशील छौं।
+                  </p>
+                  <Link to="/contact">
+                    <button className="w-full py-1.5 bg-white text-[#213a59] text-sm font-bold hover:bg-gray-100 transition-colors shadow-md">
+                      हामीलाई लेख्नुहोस्
+                    </button>
+                  </Link>
                 </div>
               </div>
+
+              <section>
+                <DynamicAdsProvider
+                  position="post_sidebar_2"
+                  className="w-full h-[250px]"
+                />
+              </section>
+
+              <section>
+                <DynamicAdsProvider
+                  position="post_sidebar_3"
+                  className="w-full h-[250px]"
+                />
+              </section>
             </aside>
           </div>
         </div>

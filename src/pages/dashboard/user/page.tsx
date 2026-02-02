@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import { 
-  Loader2,  Trash2, UserPlus, Search, AlertCircle, 
-   X 
+  Loader2,  Trash2, UserPlus, Search, 
+   X, 
+   ShieldAlert,
+   UserCheck,
+   User
 } from "lucide-react";
 import api from "../../../api/axiosInstance";
 import RegisterForm from "../../../components/auth/RegisterForm";
+import { showError } from "../../../utils/toastUtils";
 
 export default function DashboardUsers() {
   const [users, setUsers] = useState<any[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -22,7 +26,7 @@ export default function DashboardUsers() {
       setUsers(res.data);
       setFilteredUsers(res.data);
     } catch (err: any) {
-      setError("Failed to load user data.");
+      showError("Failed to load user data.");
     } finally {
       setLoading(false);
     }
@@ -80,73 +84,101 @@ export default function DashboardUsers() {
         </div>
       </div>
 
-      {error && (
-        <div className="flex items-center gap-1 p-2 mb-4 text-red-500 bg-red-50 rounded border border-red-100 text-[12px]">
-          <AlertCircle size={14} />
-          <p className="font-medium">{error}</p>
-        </div>
-      )}
+     
 
-      {/* Table UI */}
-      <div className="bg-white rounded shadow-sm border border-gray-100 overflow-hidden">
-        <div className="overflow-x-auto overflow-y-auto max-h-[450px]">
-          <table className="w-full text-left text-sm min-w-[700px]">
-            <thead className="sticky top-0 z-10 bg-gray-100">
+      <div className="bg-white rounded shadow-sm border border-gray-100 overflow-hidden flex flex-col lg:h-[70vh] h-[65vh]">
+      {/* Hidden Scrollbar Style */}
+      <style>{`
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
+
+      <div className="overflow-auto scrollbar-hide flex-grow relative">
+        <table className="w-full text-left text-sm min-w-[850px] border-separate border-spacing-0">
+          <thead className="sticky top-0 z-10">
+            <tr className="bg-gray-100">
+              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100 border-b border-gray-200 w-16">S.N.</th>
+              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100 border-b border-gray-200">Full Name & Email</th>
+              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100 border-b border-gray-200">Username</th>
+              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100 border-b border-gray-200">Role</th>
+              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] bg-gray-100 border-b border-gray-200 text-center">Status</th>
+              <th className="p-2 font-bold text-gray-600 uppercase text-[10px] text-end bg-gray-100 border-b border-gray-200 w-24">Action</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-50">
+            {loading ? (
               <tr>
-                <th className="px-3 py-3 font-bold text-gray-600 uppercase text-[10px]">S.N.</th>
-                <th className="px-3 py-3 font-bold text-gray-600 uppercase text-[10px]">Full Name</th>
-                <th className="px-3 py-3 font-bold text-gray-600 uppercase text-[10px]">Username</th>
-                <th className="px-3 py-3 font-bold text-gray-600 uppercase text-[10px]">Role</th>
-                <th className="px-3 py-3 font-bold text-gray-600 uppercase text-[10px]">Status</th>
-                <th className="px-3 py-3 font-bold text-gray-600 uppercase text-[10px] text-end">Action</th>
+                <td colSpan={6} className="px-2 py-16 text-center">
+                  <div className="flex flex-col items-center justify-center gap-3">
+                    <Loader2 className="animate-spin text-[#213a59]" size={32} />
+                    <span className="text-[10px] font-bold tracking-widest text-gray-400 uppercase">Loading Users...</span>
+                  </div>
+                </td>
               </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {loading ? (
-                <tr>
-                  <td colSpan={6} className="px-2 py-10 text-center">
-                    <Loader2 className="animate-spin mx-auto text-[#1e695e]" size={30} />
-                  </td>
-                </tr>
-              ) : filteredUsers.map((user, index) => (
-                <tr key={user.id} className="hover:bg-gray-50/50 transition-colors group">
-                  <td className="p-3 text-gray-500">{index + 1}.</td>
-                  <td className="p-3">
-                    <div className="flex flex-col">
-                      <span className="font-bold text-gray-800 text-[13px]">{user.first_name} {user.last_name}</span>
+            ) : filteredUsers.length > 0 ? (
+              filteredUsers.map((user, index) => (
+                <tr key={user.id} className="hover:bg-gray-50/80 transition-colors group text-xs text-gray-600">
+                  <td className="p-2 text-gray-500 border-b border-gray-50">{index + 1}.</td>
+                  <td className="p-2 border-b border-gray-50">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="font-bold text-[#213a59] text-[13px]">{user.first_name} {user.last_name}</span>
                       <span className="text-[11px] text-gray-400">{user.email}</span>
                     </div>
                   </td>
-                  <td className="p-3">
-                    <span className="text-gray-600 font-mono text-[11px] bg-gray-50 px-2 py-0.5 rounded border border-gray-100">@{user.username}</span>
+                  <td className="p-2 border-b border-gray-50">
+                    <span className="text-[#33b9d2] font-mono text-[11px] bg-[#33b9d2]/5 px-2 py-0.5 rounded border border-[#33b9d2]/10">
+                      @{user.username}
+                    </span>
                   </td>
-                  <td className="p-3">
+                  <td className="p-2 border-b border-gray-50">
                     {user.is_superuser ? (
-                      <span className="text-purple-600 text-[10px] font-black bg-purple-50 px-2 py-0.5 rounded">SUPER ADMIN</span>
+                      <span className="inline-flex items-center gap-1 text-purple-600 text-[9px] font-black bg-purple-50 px-2 py-0.5 rounded border border-purple-100">
+                        <ShieldAlert size={10} /> SUPER ADMIN
+                      </span>
                     ) : user.is_staff ? (
-                      <span className="text-blue-600 text-[10px] font-black bg-blue-50 px-2 py-0.5 rounded">EDITOR</span>
+                      <span className="inline-flex items-center gap-1 text-blue-600 text-[9px] font-black bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
+                        <UserCheck size={10} /> EDITOR
+                      </span>
                     ) : (
-                      <span className="text-gray-500 text-[10px] font-black bg-gray-50 px-2 py-0.5 rounded">REGULAR</span>
+                      <span className="inline-flex items-center gap-1 text-gray-500 text-[9px] font-black bg-gray-50 px-2 py-0.5 rounded border border-gray-200">
+                        <User size={10} /> REGULAR
+                      </span>
                     )}
                   </td>
-                  <td className="p-3">
-                    <span className={`text-[10px] font-bold ${user.is_active ? 'text-green-600' : 'text-red-400'}`}>
+                  <td className="p-2 border-b border-gray-50 text-center">
+                    <span className={`inline-block text-[10px] font-bold px-2.5 py-1 rounded-full border ${
+                      user.is_active 
+                        ? 'text-green-600 bg-green-50 border-green-100' 
+                        : 'text-red-400 bg-red-50 border-red-100'
+                    }`}>
                       {user.is_active ? 'ACTIVE' : 'INACTIVE'}
                     </span>
                   </td>
-                  <td className="p-3 text-end">
-                    <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => handleDelete(user.id)} className="p-1.5 text-red-500 hover:bg-red-50 rounded-full">
-                        <Trash2 size={14} />
+                  <td className="p-2 text-end border-b border-gray-50">
+                    <div className="flex justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button 
+                        onClick={() => handleDelete(user.id)} 
+                        className="px-1 text-red-500 hover:bg-red-50 rounded-lg transition-all cursor-pointer"
+                        title="Delete User"
+                      >
+                        <Trash2 size={15} />
                       </button>
                     </div>
                   </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={6} className="px-6 py-16 text-center text-gray-400 italic text-sm">
+                  No users found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
+    </div>
+        
 
       {/* --- REGISTER MODAL --- */}
       {isModalOpen && (
