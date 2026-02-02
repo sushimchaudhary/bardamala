@@ -4,7 +4,6 @@ import NepaliDate from "nepali-date-converter";
 import api from "../api/axiosInstance";
 import { categoryService } from "../services/categoryServices";
 import { contentService } from "../services/contentServices";
-import DynamicAdsProvider from "./adds/dynamicAdsProvider";
 
 export default function Navbar() {
   const [dateStr, setDateStr] = useState("");

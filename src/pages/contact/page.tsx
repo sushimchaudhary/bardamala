@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import {
   Facebook,
-  Twitter,
+  
   Instagram,
   Linkedin,
   Loader2,
-  Send,
+ 
 } from "lucide-react";
 import api from "../../api/axiosInstance";
 import FrontendLayout from "../layout/frontendLayout";
@@ -13,18 +13,13 @@ import FrontendLayout from "../layout/frontendLayout";
 export default function ContactSection() {
   const [company, setCompany] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-  const [subscribeLoading, setSubscribeLoading] = useState(false);
-
+ 
   const [statusMessage, setStatusMessage] = useState<{
     type: "success" | "error";
     text: string;
   } | null>(null);
 
-  // सब्स्क्राइबरको लागि छुट्टै मेसेज स्टेट
-  const [subscribeStatus, setSubscribeStatus] = useState<{
-    type: "success" | "error";
-    text: string;
-  } | null>(null);
+ 
 
   const [formData, setFormData] = useState({
     fullname: "",
@@ -32,7 +27,6 @@ export default function ContactSection() {
     message: "",
   });
 
-  const [subscribeEmail, setSubscribeEmail] = useState("");
 
   const getEmbedUrl = (url: string) => {
     if (!url) return "";
@@ -91,33 +85,7 @@ const XIcon = ({ className }: { className?: string }) => (
     }
   };
 
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubscribeLoading(true);
-    setSubscribeStatus(null); 
-    try {
-      await api.post("/api/communication/subscribers/", {
-        email: subscribeEmail,
-      });
-      setSubscribeStatus({
-        type: "success",
-        text: "सदस्यताका लागि धन्यवाद!",
-      });
-      setSubscribeEmail("");
-    } catch (err: any) {
-      const errorMsg = err.response?.data?.email?.[0] || "सदस्यता असफल भयो।";
-      setSubscribeStatus({
-        type: "error",
-        text:
-          errorMsg === "subscriber with this email already exists."
-            ? "यो इमेल पहिले नै दर्ता छ।"
-            : "प्रयास असफल भयो।",
-      });
-    } finally {
-      setSubscribeLoading(false);
-      setTimeout(() => setSubscribeStatus(null), 5000);
-    }
-  };
+  
 
   return (
     <FrontendLayout>
